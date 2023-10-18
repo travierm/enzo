@@ -1,0 +1,28 @@
+{
+  "name": "bun-htmx",
+  "module": "index.tsx",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"bun run --hot src/main.ts\" \"bun run tailwind:dev\"",
+    "dev-inspect": "concurrently \"bun run --inspect --watch src/main.ts\" \"bun run tailwind:dev\"",
+    "tailwind": "bunx tailwindcss -i ./src/app.css -o ./public/app.css",
+    "tailwind:dev": "bunx tailwindcss -i ./src/app.css -o ./public/app.css --watch",
+    "client:build": "bun build ./src/client/index.tsx --outdir ./public --watch"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "bun-types": "latest",
+    "tailwindcss": "^3.3.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/web": "^0.0.99",
+    "hono": "^3.5.4",
+    "preact": "^10.18.1",
+    "preact-render-to-string": "^6.2.2",
+    "uuid": "^9.0.0",
+    "zod": "^3.22.2"
+  }
+}
