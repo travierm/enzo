@@ -1,5 +1,4 @@
 import { ErrorBag } from '../../framework/globalProps';
-import { useHydration } from '../../framework/useHydration';
 import { BaseButton } from '../components/BaseButton';
 import { Counter } from '../components/Counter';
 import { FormInput } from '../components/form/Input';
@@ -44,7 +43,6 @@ export function Login(props: Props) {
 
         <div>
           <h1>Test</h1>
-          {useHydration(<Counter />, {})}
         </div>
       </div>
     </Layout>

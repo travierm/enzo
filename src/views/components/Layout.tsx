@@ -1,9 +1,10 @@
 import { JSX } from "solid-js";
 
 import { Navbar } from "../pages/Navbar";
+import { VNode } from "preact";
 
 type Props = {
-  children: JSX.Element;
+  children: VNode|VNode[];
 };
 
 export function Layout(props: Props) {

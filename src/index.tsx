@@ -8,7 +8,7 @@ export function Index(props: Props) {
   return (
     <html lang="en">
       <head>
-        <title>Test</title>
+        <title>Enzo</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="/public/app.css" rel="stylesheet" />

@@ -253,6 +253,9 @@ var B = function(u, t, i) {
   var o, r, f, e;
   l.__ && l.__(u, t), r = (o = typeof i == "function") ? null : i && i.__k || t.__k, f = [], e = [], z(t, u = (!o && i || t).__k = y(k, null, [u]), r || c, c, t.ownerSVGElement !== undefined, !o && i ? [i] : r ? null : t.firstChild ? n.call(t.childNodes) : null, f, !o && i ? i : r ? r.__e : t.firstChild, o, e), L(f, u, e);
 };
+var E = function(n, l) {
+  B(n, l, E);
+};
 var n;
 var l;
 var u;
@@ -409,27 +412,34 @@ l.__b = function(n2) {
 };
 var g2 = typeof requestAnimationFrame == "function";
 
-// src/views/components/Counter.tsx
-function Counter() {
-  const [value, setValue] = h2(0);
-  return o3(k, {
-    children: [
-      o3("div", {
-        children: [
-          "Counter: ",
-          value
-        ]
-      }, undefined, true, undefined, this),
-      o3("button", {
-        onClick: () => setValue(value + 1),
-        children: "Increment"
-      }, undefined, false, undefined, this),
-      o3("button", {
-        onClick: () => setValue(value - 1),
-        children: "Decrement"
-      }, undefined, false, undefined, this)
-    ]
-  }, undefined, true, undefined, this);
+// src/framework/applyHydration.tsx
+var isClientSide = function() {
+  return typeof window !== "undefined";
+};
+function applyHydration(uniqueName, component) {
+  const formatName = uniqueName.replace(/([a-z])([A-Z])/g, "$1-$2");
+  const elementName = `component-${formatName.toLowerCase()}`;
+  if (isClientSide()) {
+    const root = document?.querySelector(elementName);
+    const data = root?.querySelector('[type="application/json"]');
+    return E(y(component, JSON.parse(data?.innerHTML)), root);
+  }
+  return (props) => y(elementName, {}, [
+    y("script", {
+      type: "application/json",
+      dangerouslySetInnerHTML: { __html: JSON.stringify(props) }
+    }),
+    y(component, props)
+  ]);
+}
+
+// src/views/components/BaseButton.tsx
+function BaseButton(props) {
+  return o3("button", {
+    onClick: props.onClick,
+    class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800",
+    children: props.children
+  }, undefined, false, undefined, this);
 }
 
 // node_modules/preact/jsx-runtime/dist/jsxRuntime.module.js
@@ -445,18 +455,26 @@ var o3 = function(o4, e3, n2, t3, f3, l3) {
 };
 var _ = 0;
 
-// src/client/index.tsx
-document.querySelectorAll("[data-hydrate]").forEach((el) => {
-  const componentName = el.getAttribute("data-hydrate");
-  const props = JSON.parse(el.getAttribute("data-props") || "{}");
-  let Component;
-  switch (componentName) {
-    case "Counter":
-      Component = Counter;
-      break;
-    default:
-      console.warn(`Component ${componentName} not found for hydration.`);
-      return;
-  }
-  B(y(Component, props), el, el.firstChild);
-});
+// src/views/components/Counter.tsx
+var Component = function(props) {
+  const [value, setValue] = h2(props.initCount);
+  return o3("div", {
+    children: [
+      o3("div", {
+        children: [
+          "Counter: ",
+          value
+        ]
+      }, undefined, true, undefined, this),
+      o3(BaseButton, {
+        onClick: () => setValue(props.incrementor(value)),
+        children: "Increment"
+      }, undefined, false, undefined, this),
+      o3(BaseButton, {
+        onClick: () => setValue(value - 1),
+        children: "Decrement"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+};
+var Counter = applyHydration("Counter", Component);

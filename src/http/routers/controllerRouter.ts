@@ -34,6 +34,7 @@ export function initControllerRoutes(app: Hono) {
   // });
 
   app.get("/", controllers.AppController.getIndex);
+  app.get("/sandbox", controllers.AppController.getSandbox);
   app.get("/transaction/create", controllers.TransactionController.getCreate);
   app.get("/login", controllers.AuthController.getLogin);
   app.post(
