@@ -1,3 +1,5 @@
-Travier:
-    ☐ Remove user details from RequestContext
+
+Features:
+    ☐ slim down codebase and move core functions into a library
+    
     
