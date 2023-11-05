@@ -1,4 +1,4 @@
-# enzo
+# Enzo
 
 ### Tech Stack
 - Hono for routing
