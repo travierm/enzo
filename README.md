@@ -1,6 +1,20 @@
-# bun-htmx
+# Enzo
 
-To install dependencies:
+### Tech Stack
+- Hono for routing
+- Preact as a JSX templating engine
+- HTMX for frontend interactivity
+- Tailwind for styling
+- Running on Bun
+
+### Features
+- JSX templating
+- Preact component hydration
+- MVC folder structuse
+
+
+### How to use
+Install deps:
 
 ```bash
 bun install
@@ -9,11 +23,5 @@ bun install
 To run:
 
 ```bash
-bun run index.ts
+bun dev
 ```
-
-This project was created using `bun init` in bun v0.5.3. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
-
-
-
-"react-dom/server": "react-dom/server"
