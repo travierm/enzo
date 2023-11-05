@@ -1,4 +1,4 @@
-# Enzo
+# enzo
 
 ### Tech Stack
 - Hono for routing
@@ -10,7 +10,7 @@
 ### Features
 - JSX templating
 - Preact component hydration
-- MVC folder structuse
+- MVC folder structure
 
 
 ### How to use
