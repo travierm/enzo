@@ -2,22 +2,16 @@ import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
 
-import { authGuard, User } from "./http/middleware/authGuard";
-import { initAssetRoutes } from "./http/routers/assetRouter";
-import { initControllerRoutes } from "./http/routers/controllerRouter";
+import { authGuard } from "./http/middleware/authGuard";
+import { BaseRouter } from "./http/routers/BaseRouter";
 
-type Variables = {
-  user?: User;
-};
-
-const app = new Hono<{ Variables: Variables }>();
+const app = new Hono();
 
 app.get("*", secureHeaders());
 app.use("*", logger());
 app.use("*", authGuard());
 
-initControllerRoutes(app);
-initAssetRoutes(app);
+BaseRouter(app);
 
 //console.log(`bun-htmx running at http://${ENV_HOSTNAME}:${ENV_PORT}`);
 export default app;

@@ -9,18 +9,10 @@ export type User = {
   username: string;
 };
 
-// declare global {
-//   interface Request {
-//     user: User | null;
-//   }
-// }
-
 const unAuthedPaths = ["/login", "/ping", "/public/app.css"];
 
 export const authGuard = (): MiddlewareHandler => {
   return async (c, next) => {
-    return next();
-
     // Unauthed route we should let the request continue without changes
     if (c.req.path && unAuthedPaths.includes(c.req.path)) {
       return next();

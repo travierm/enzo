@@ -1,5 +1,10 @@
 
 Features:
     ☐ slim down codebase and move core functions into a library
+    ☐ Copy some techniques from https://github.com/mikestefanello/pagoda like the idea of a defined container with types that gets passed around with the context
+
+Core Concepts:
+    ☐ Never fully rely on bun functions and allow the app to run on node, deno or bun
+
     
     

@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { AppController } from "../controllers/AppController";
 import { AuthController } from "../controllers/AuthController";
 import { TransactionController } from "../controllers/TransactionController";
+import { serveStatic } from "hono/bun";
 
 const controllers = {
   AppController: new AppController(),
@@ -12,7 +13,7 @@ const controllers = {
 
 //await htmlParser.parse("./public/index.html");
 
-export function initControllerRoutes(app: Hono) {
+export function BaseRouter(app: Hono) {
   // app.use("*", async (c, next) => {
   //   await next();
 
@@ -32,6 +33,9 @@ export function initControllerRoutes(app: Hono) {
   //     }
   //   }
   // });
+
+  app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
+  app.use("/public/index.js", serveStatic({ path: "./public/index.js" }));
 
   app.get("/", controllers.AppController.getIndex);
   app.get("/sandbox", controllers.AppController.getSandbox);
