@@ -6,7 +6,9 @@ import { Sandbox } from "../../views/pages/Sandbox";
 
 export class AppController {
   public async getIndex(c: Context) {
-    return renderComponent(c, <Navbar isAuthed={false} />);
+    
+
+    return renderComponent(c, <Navbar isAuthed={true} />);
   }
 
   public async getSandbox(c: Context) {
