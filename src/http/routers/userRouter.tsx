@@ -12,8 +12,18 @@ app.get("/user/create", (c: Context) => {
   return renderComponent(c, <CreateUser />);
 });
 
+app.post("/user/create", async (c: Context) => {
+  const body = await c.req.parseBody();
+  console.log(body);
+
+  return renderComponent(c, <CreateUser />);
+});
+
+
 app.get("/users", (c: Context) => {
   return renderComponent(c, <CreateUser />);
 });
+
+
 
 export const userRouter = app;
