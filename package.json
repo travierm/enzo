@@ -7,11 +7,14 @@
     "dev-inspect": "concurrently \"bun run --inspect --watch src/main.ts\" \"bun run tailwind:dev\"",
     "tailwind": "bunx tailwindcss -i ./src/app.css -o ./public/app.css",
     "tailwind:dev": "bunx tailwindcss -i ./src/app.css -o ./public/app.css --watch",
-    "client:build": "bun build ./src/client/index.tsx --outdir ./public --watch"
+    "client:build": "bun build ./src/client/index.tsx --outdir ./public --watch",
+    "db:types": "kysely-codegen",
+    "migrate:create": "bun ./src/framework/cmd/createMigration createMigration.ts"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0",
+    "@types/pg": "^8.10.9",
     "bun-types": "latest",
+    "concurrently": "^8.2.0",
     "tailwindcss": "^3.3.3"
   },
   "peerDependencies": {
@@ -20,6 +23,9 @@
   "dependencies": {
     "@types/web": "^0.0.99",
     "hono": "^3.5.4",
+    "kysely": "^0.26.3",
+    "kysely-codegen": "^0.11.0",
+    "pg": "^8.11.3",
     "pino": "^8.16.2",
     "preact": "^10.18.1",
     "preact-render-to-string": "^6.2.2",
