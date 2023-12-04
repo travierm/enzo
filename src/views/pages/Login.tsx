@@ -1,7 +1,7 @@
 import { ErrorBag } from '../../framework/globalProps';
 import { BaseButton } from '../components/BaseButton';
 import { FormInput } from '../components/form/Input';
-import { Layout } from '../components/Layout';
+import { Layout } from './Layout';
 
 type Props = {
   errors?: ErrorBag;

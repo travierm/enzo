@@ -4,6 +4,8 @@ import { getCookie } from "hono/cookie";
 import { UserService } from "../../services/userService";
 import { resolve } from "../../framework/serviceContainer";
 
+const userService = resolve<UserService>("UserService");
+
 export type User = {
   id: number;
   username: string;
@@ -24,7 +26,6 @@ export const authGuard = (): MiddlewareHandler => {
       return c.redirect("/login");
     }
 
-    const userService = resolve<UserService>("UserService");
     const user = userService.getUserByToken(token);
     if (!user) {
       // no token data in-memory

@@ -1,5 +1,5 @@
 import { useContext } from "preact/hooks";
-import { Navbar } from "../pages/Navbar";
+import { Navbar } from "./Navbar";
 import { VNode } from "preact";
 import { RequestContext } from "../../framework/renderer/renderComponent";
 
