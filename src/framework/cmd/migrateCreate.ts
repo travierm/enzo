@@ -14,7 +14,5 @@ const filename = `${migrationName}_${date}_${time}.ts`;
 
 const srcPath = path.join("src/database/migrations", filename);
 
-console.log(srcPath);
-
 fs.copyFileSync("src/framework/stubs/migration.stub.ts", srcPath);
 console.log(`Migration created: ${srcPath}`);

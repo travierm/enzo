@@ -9,7 +9,10 @@
     "tailwind:dev": "bunx tailwindcss -i ./src/app.css -o ./public/app.css --watch",
     "client:build": "bun build ./src/client/index.tsx --outdir ./public --watch",
     "db:types": "kysely-codegen",
-    "migrate:create": "bun ./src/framework/cmd/createMigration createMigration.ts"
+    "migrate:create": "bun ./src/framework/cmd/migrateCreate createMigration.ts",
+    "migrate:latest": "bun ./src/framework/cmd/migrateLatest",
+    "migrate:down": "bun ./src/framework/cmd/migrateDown",
+    "migrate:fresh": "bun ./src/framework/cmd/migrateReset && bun migrate:latest"
   },
   "devDependencies": {
     "@types/pg": "^8.10.9",
