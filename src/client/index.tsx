@@ -1,2 +1,0 @@
-import '../views/components/Counter';
-

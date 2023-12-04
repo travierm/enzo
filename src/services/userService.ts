@@ -13,7 +13,7 @@ const users: User[] = [];
 const tokenStore = new Map<string, User>();
 
 @Injectable()
-export default class UserService {
+export class UserService {
   constructor() {}
 
   public clearToken(token: string | undefined): void {

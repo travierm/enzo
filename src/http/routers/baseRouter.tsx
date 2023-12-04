@@ -6,8 +6,6 @@ import { Login } from "../../views/pages/Login";
 
 const app = new Hono();
 
-//await htmlParser.parse("./public/index.html");
-
 app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
 app.use("/public/index.js", serveStatic({ path: "./public/index.js" }));
 
