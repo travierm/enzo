@@ -27,7 +27,10 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
-    "declaration": true
+    "declaration": true,
+    "paths": {
+      "@/": ["./"] // Map "@" to the root directory
+    }
   },
   "exclude": ["node_modules"]
 }

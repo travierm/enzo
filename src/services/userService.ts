@@ -1,3 +1,5 @@
+import { Injectable } from "../framework/serviceContainer";
+
 const { v4: uuidv4 } = require("uuid");
 type User = {
   id: number;
@@ -10,7 +12,8 @@ type User = {
 const users: User[] = [];
 const tokenStore = new Map<string, User>();
 
-export class UserService {
+@Injectable()
+export default class UserService {
   constructor() {}
 
   public clearToken(token: string | undefined): void {

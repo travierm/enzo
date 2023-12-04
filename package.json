@@ -20,8 +20,10 @@
   "dependencies": {
     "@types/web": "^0.0.99",
     "hono": "^3.5.4",
+    "pino": "^8.16.2",
     "preact": "^10.18.1",
     "preact-render-to-string": "^6.2.2",
+    "reflect-metadata": "^0.1.13",
     "uuid": "^9.0.0",
     "zod": "^3.22.2"
   }

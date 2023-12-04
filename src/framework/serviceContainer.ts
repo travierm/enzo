@@ -1,38 +1,60 @@
-type ServiceStore<T> = {
-  [key: string]: () => T;
-};
+import { logger } from "../logger";
 
-export class ServiceContainer {
-  private services: ServiceStore<any> = {};
+type Constructor<T> = { new (...args: any[]): T };
+type DependencyProvider<T> = Constructor<T> | (() => T);
 
-  public register<T>(name: string, callback: () => T): void {
-    this.services[name] = callback;
-  }
+const dependencies: Map<string, any> = new Map();
+const providers: Map<string, DependencyProvider<any>> = new Map();
 
-  public resolve<T>(
-    target: { new (...args: any[]): T } | ((...args: any[]) => T)
-  ): T;
-  public resolve<T>(name: string): T;
-  public resolve<T>(arg: any): T {
-    let name: string;
+// Type guard to check if a provider is a constructor
+function isConstructor<T>(
+  provider: DependencyProvider<T>
+): provider is Constructor<T> {
+  return provider.prototype !== undefined;
+}
 
-    if (typeof arg === "string") {
-      name = arg;
-    } else {
-      name = arg.name;
-    }
+function register<T>(token: string, provider: DependencyProvider<T>): void {
+  console.log(`registered container service: ${token}`);
 
-    if (!name) {
-      throw new Error("No service name provided");
-    }
+  providers.set(token, provider);
 
-    const callback = this.services[name];
-    const service = callback();
-
-    if (!service) {
-      throw new Error(`Service ${name} not found`);
-    }
-
-    return service as T;
+  // Use the type guard to check if 'provider' is a constructor
+  if (isConstructor(provider)) {
+    dependencies.set(token, new provider());
   }
 }
+
+function resolve<T>(token: string): T {
+  if (!dependencies.has(token) && providers.has(token)) {
+    const provider = providers.get(token);
+    if (provider) {
+      if (isConstructor(provider)) {
+        // Instantiate if it's a constructor
+        dependencies.set(token, new provider());
+      } else if (typeof provider === "function") {
+        // Call if it's a factory function
+        dependencies.set(token, provider());
+      }
+    }
+  }
+
+  const dependency = dependencies.get(token);
+  if (!dependency) {
+    throw new Error(`Dependency not found: ${token}`);
+  }
+  return dependency as T;
+}
+
+function replaceDependency<T>(token: string, newDependency: T): void {
+  dependencies.set(token, newDependency);
+}
+
+// Injectable decorator
+function Injectable<T>(token?: string) {
+  return function (constructor: Constructor<T>) {
+    const resolvedToken = token || constructor.name;
+    register(resolvedToken, constructor);
+  };
+}
+
+export { register, resolve, replaceDependency, Injectable };

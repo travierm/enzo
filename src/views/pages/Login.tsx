@@ -1,6 +1,5 @@
 import { ErrorBag } from '../../framework/globalProps';
 import { BaseButton } from '../components/BaseButton';
-import { Counter } from '../components/Counter';
 import { FormInput } from '../components/form/Input';
 import { Layout } from '../components/Layout';
 
