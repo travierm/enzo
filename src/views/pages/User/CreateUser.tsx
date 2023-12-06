@@ -1,13 +1,22 @@
+import { ErrorBag } from "../../../framework/globalProps";
 import { CoreButton } from "../../components/core/CoreButton";
 import { CoreHeading } from "../../components/core/CoreHeading";
 import { CoreInputBlock } from "../../components/core/CoreInputBlock";
 import { Layout } from "../Layout";
 
-export function CreateUser() {
+type Props = {
+  error?: string
+};
+
+export function CreateUser(props: Props) {
   return (
     <Layout>
       <div class="flex items-center justify-center">
         <CoreHeading size="2xl">Create User</CoreHeading>
+      </div>
+
+      <div class="text-red-500">
+        {props.error}
       </div>
 
       <div class="flex items-center justify-center">

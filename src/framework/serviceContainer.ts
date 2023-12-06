@@ -1,5 +1,3 @@
-import { logger } from "../logger";
-
 type Constructor<T> = { new (...args: any[]): T };
 type DependencyProvider<T> = Constructor<T> | (() => T);
 

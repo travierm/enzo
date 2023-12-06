@@ -24,6 +24,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@hono/zod-validator": "^0.1.11",
     "@types/web": "^0.0.99",
     "hono": "^3.5.4",
     "kysely": "^0.26.3",
