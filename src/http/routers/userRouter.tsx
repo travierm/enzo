@@ -5,7 +5,7 @@ import { CreateUser } from "../../views/pages/User/CreateUser";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { ErrorBag, TemplateMessage } from "../../framework/globalProps";
-import { createTemplateMessage, handleErrorBag } from "../../framework/validators/handleErrors";
+import { createTemplateMessage, handleZodErrors } from "../../framework/validators/handleErrors";
 import { CoreButton } from "../../views/components/core/CoreButton";
 
 const app = new Hono();
@@ -23,7 +23,7 @@ app.post(
       password: z.string(),
     }),
     (result, c) => {
-      return handleErrorBag(c, result, CreateUser)
+      return handleZodErrors(c, result, CreateUser)
     }
   ),
   (c) => {

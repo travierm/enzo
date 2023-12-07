@@ -45,9 +45,8 @@ app.post(
     }),
     // hook to handle when validation fails
     (result, c) => {
-
-      // Let page component handle its errorBag
-      return handleErrorBag(c, result, CreateUser)
+      // let page component display errors to the user
+      return handleZodErrors(c, result, CreateUser)
     }
   ),
   async (c) => {
@@ -61,7 +60,7 @@ app.post(
 
 ```jsx
 type Props = {
-  errorBag?: ErrorBag;
+  templateMessage?: TemplateMessage;
 };
 
 export function CreateUser(props: Props) {
@@ -72,7 +71,7 @@ export function CreateUser(props: Props) {
       </div>
 
       <div class="flex flex-col items-center justify-center">
-        <CoreFormErrors errorBag={props.errorBag} />
+         { props.templateMessage && <CoreTemplateMessage templateMessage={props.templateMessage} /> }
 
         <form action="/user/create" method="POST">
           <CoreInputBlock label="Email" name="email" />

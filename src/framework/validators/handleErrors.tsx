@@ -4,7 +4,7 @@ import { ErrorBag, TemplateMessage } from "../globalProps";
 import { ComponentType } from "preact";
 import { renderComponent } from "../renderer/renderComponent";
 
-export function createTemplateMessage(type: 'error' | 'success' | 'warning' | 'info' = 'info', message: string, listItems: string[] = []) {
+export function createTemplateMessage(type: 'error' | 'success' | 'warning' | 'info' = 'info', message: string,listItems: string[] = []) {
   return {
     type,
     message,
@@ -36,7 +36,7 @@ export function createTemplateMessageFromResult<T>(
   return;
 }
 
-export function handleErrorBag<T, E extends Env, P extends string, O = {}>(
+export function handleZodErrors<T, E extends Env, P extends string, O = {}>(
   context: Context<E, P>,
   result:
     | { success: true; data: T }
