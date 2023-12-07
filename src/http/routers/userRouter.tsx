@@ -4,8 +4,8 @@ import { renderComponent } from "../../framework/renderer/renderComponent";
 import { CreateUser } from "../../views/pages/User/CreateUser";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { ErrorBag } from "../../framework/globalProps";
-import { createErrorBag, handleErrorBag } from "../../framework/validators/handleErrors";
+import { ErrorBag, TemplateMessage } from "../../framework/globalProps";
+import { createTemplateMessage, handleErrorBag } from "../../framework/validators/handleErrors";
 import { CoreButton } from "../../views/components/core/CoreButton";
 
 const app = new Hono();
@@ -30,10 +30,16 @@ app.post(
     const body  = c.req.valid('form')
 
     if(body.email === 'admin') {
-      const errorBag = createErrorBag({}, "Email can not be admin");
-      return renderComponent(c, <CreateUser errorBag={errorBag} />);  
+      return renderComponent(
+        c,
+        <CreateUser
+          templateMessage={createTemplateMessage(
+            "info",
+            "Admin can not be used as email"
+          )}
+        />
+      );  
     }
-
 
     return renderComponent(c, <CreateUser />);
   }

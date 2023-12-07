@@ -85,3 +85,23 @@ export function CreateUser(props: Props) {
   );
 }
 ```
+
+### Cavets
+
+You must fully write out tailwind classes in order for Tailwind to pick them up on scan
+```ts
+// this works
+export function Example() {
+  const colorMap = {
+    info: "bg-blue-600",
+  };
+
+  const color = colorMap["info"];
+
+  return <div class={`${color}`}></div>
+}
+
+// this will fail to have classes generated for it
+const color = 'blue';
+return <div class={`bg-${color}-500`}> 
+```

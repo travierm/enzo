@@ -1,12 +1,13 @@
-import { ErrorBag } from "../../../framework/globalProps";
+import { ErrorBag, TemplateMessage } from "../../../framework/globalProps";
 import { CoreButton } from "../../components/core/CoreButton";
 import { CoreFormErrors } from "../../components/core/CoreFormErrors";
 import { CoreHeading } from "../../components/core/CoreHeading";
 import { CoreInputBlock } from "../../components/core/CoreInputBlock";
+import { CoreTemplateMessage } from "../../components/core/CoreTemplateMessages";
 import { Layout } from "../Layout";
 
 type Props = {
-  errorBag?: ErrorBag;
+  templateMessage?: TemplateMessage;
 };
 
 export function CreateUser(props: Props) {
@@ -17,7 +18,7 @@ export function CreateUser(props: Props) {
       </div>
 
       <div class="flex flex-col items-center justify-center">
-        { props.errorBag && <CoreFormErrors errorBag={props.errorBag} />}
+        { props.templateMessage && <CoreTemplateMessage templateMessage={props.templateMessage} /> }
 
         <form action="/user/create" method="POST">
           <CoreInputBlock label="Email" name="email" />

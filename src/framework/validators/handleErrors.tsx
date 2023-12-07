@@ -1,42 +1,36 @@
 import { Context, Env } from "hono";
 import { ZodError } from "zod";
-import { ErrorBag } from "../globalProps";
+import { ErrorBag, TemplateMessage } from "../globalProps";
 import { ComponentType } from "preact";
 import { renderComponent } from "../renderer/renderComponent";
 
-
-export function createErrorBag(keyMap: { [key: string]: string }, message: string = "Validation failed") {
-  let errorBag: ErrorBag = {
-    message: message,
-    inputErrors: {},
-  };
-
-  for (const key in keyMap) {
-    errorBag.inputErrors[key] = keyMap[key];
-  }
-
-  return errorBag;
+export function createTemplateMessage(type: 'error' | 'success' | 'warning' | 'info' = 'info', message: string, listItems: string[] = []) {
+  return {
+    type,
+    message,
+    listItems,
+  } as TemplateMessage
 }
 
-export function createErrorBagFromResult<T>(
+export function createTemplateMessageFromResult<T>(
   result:
     | { success: true; data: T }
     | { success: false; error: ZodError; data: T }
 ) {
+  if (Object.hasOwn(result, "success")) {
+    if (!result.success) {
+      const templateMessage: TemplateMessage = {
+        type: "error",
+        message: "Validation failed",
+        listItems: [],
+      };
 
-  if(Object.hasOwn(result, 'success')) {
-      if (!result.success) {
-        let errorBag: ErrorBag = {
-          message: "Validation failed",
-          inputErrors: {},
-        };
-
-        for (const err of result.error.errors) {
-          errorBag.inputErrors[err.path.join(".")] = err.message;
-        }
-
-        return errorBag;
+      for (const err of result.error.errors) {
+        templateMessage.listItems.push(`${err.path.join(".")} ${err.message}`);
       }
+
+      return templateMessage;
+    }
   }
 
   return;
@@ -47,14 +41,14 @@ export function handleErrorBag<T, E extends Env, P extends string, O = {}>(
   result:
     | { success: true; data: T }
     | { success: false; error: ZodError; data: T },
-  Component: ComponentType<{ errorBag: ErrorBag }>
+  Component: ComponentType<{ templateMessage: TemplateMessage }>
 ) {
-  const errorBag = createErrorBagFromResult(result);
+  const templateMessage = createTemplateMessageFromResult(result);
 
-  if (errorBag) {
+  if (templateMessage) {
     return renderComponent(
       context,
-      <Component errorBag={errorBag} />
+      <Component templateMessage={templateMessage} />
     );
   }
 
