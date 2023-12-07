@@ -1,5 +1,8 @@
 import { Context } from "hono";
 
 export type ErrorBag = {
-  [key: string]: string;
+  message: string;
+  inputErrors: {
+    [key: string]: string;
+  };
 };

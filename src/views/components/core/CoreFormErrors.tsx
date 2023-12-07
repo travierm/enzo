@@ -2,12 +2,10 @@ import { VNode } from "preact";
 import { ErrorBag } from "../../../framework/globalProps";
 
 type Props = {
-  errorBag?: ErrorBag;
+  errorBag: ErrorBag;
 };
 
-export function CoreFormErrors({
-  errorBag
-}: Props) {
+export function CoreFormErrors({ errorBag }: Props) {
   return (
     <div
       class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
@@ -24,12 +22,15 @@ export function CoreFormErrors({
       </svg>
       <span class="sr-only">Danger</span>
       <div>
-        <span class="font-medium">Failed to save form:</span>
-        <ul class="mt-1.5 list-disc list-inside">
-         {errorBag && Object.keys(errorBag).map((key) => {
-            return (<li>{errorBag[key]}</li>)
-         })}
-        </ul>
+        <span class="font-medium">{errorBag.message}</span>
+        {errorBag.inputErrors && (
+          <ul class="mt-1.5 list-disc list-inside">
+            {errorBag &&
+              Object.keys(errorBag.inputErrors).map((key) => {
+                return <li>{errorBag.inputErrors[key]}</li>;
+              })}
+          </ul>
+        )}
       </div>
     </div>
   );

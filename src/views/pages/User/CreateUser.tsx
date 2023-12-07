@@ -17,7 +17,7 @@ export function CreateUser(props: Props) {
       </div>
 
       <div class="flex flex-col items-center justify-center">
-        <CoreFormErrors errorBag={props.errorBag} />
+        { props.errorBag && <CoreFormErrors errorBag={props.errorBag} />}
 
         <form action="/user/create" method="POST">
           <CoreInputBlock label="Email" name="email" />

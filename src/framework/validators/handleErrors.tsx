@@ -4,18 +4,39 @@ import { ErrorBag } from "../globalProps";
 import { ComponentType } from "preact";
 import { renderComponent } from "../renderer/renderComponent";
 
-export function createErrorBag<T>(
+
+export function createErrorBag(keyMap: { [key: string]: string }, message: string = "Validation failed") {
+  let errorBag: ErrorBag = {
+    message: message,
+    inputErrors: {},
+  };
+
+  for (const key in keyMap) {
+    errorBag.inputErrors[key] = keyMap[key];
+  }
+
+  return errorBag;
+}
+
+export function createErrorBagFromResult<T>(
   result:
     | { success: true; data: T }
     | { success: false; error: ZodError; data: T }
 ) {
-  if (!result.success) {
-    let errorBag: ErrorBag = {};
-    for (const err of result.error.errors) {
-      errorBag[err.path.join(".")] = err.message;
-    }
 
-    return errorBag;
+  if(Object.hasOwn(result, 'success')) {
+      if (!result.success) {
+        let errorBag: ErrorBag = {
+          message: "Validation failed",
+          inputErrors: {},
+        };
+
+        for (const err of result.error.errors) {
+          errorBag.inputErrors[err.path.join(".")] = err.message;
+        }
+
+        return errorBag;
+      }
   }
 
   return;
@@ -28,7 +49,7 @@ export function handleErrorBag<T, E extends Env, P extends string, O = {}>(
     | { success: false; error: ZodError; data: T },
   Component: ComponentType<{ errorBag: ErrorBag }>
 ) {
-  const errorBag = createErrorBag(result);
+  const errorBag = createErrorBagFromResult(result);
 
   if (errorBag) {
     return renderComponent(

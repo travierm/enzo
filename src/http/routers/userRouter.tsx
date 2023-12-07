@@ -5,7 +5,7 @@ import { CreateUser } from "../../views/pages/User/CreateUser";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { ErrorBag } from "../../framework/globalProps";
-import { handleErrorBag } from "../../framework/validators/handleErrors";
+import { createErrorBag, handleErrorBag } from "../../framework/validators/handleErrors";
 import { CoreButton } from "../../views/components/core/CoreButton";
 
 const app = new Hono();
@@ -19,15 +19,21 @@ app.post(
   zValidator(
     "form",
     z.object({
-      email: z.string().min(100),
-      password: z.string().max(1),
+      email: z.string(),
+      password: z.string(),
     }),
     (result, c) => {
       return handleErrorBag(c, result, CreateUser)
     }
   ),
-  async (c) => {
+  (c) => {
     const body  = c.req.valid('form')
+
+    if(body.email === 'admin') {
+      const errorBag = createErrorBag({}, "Email can not be admin");
+      return renderComponent(c, <CreateUser errorBag={errorBag} />);  
+    }
+
 
     return renderComponent(c, <CreateUser />);
   }
