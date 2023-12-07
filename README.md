@@ -24,3 +24,64 @@ To run:
 ```bash
 bun dev
 ```
+
+
+## Framework Documentation
+
+### Request Validation
+
+```ts
+import { Context, Hono } from "hono";
+
+const app = new Hono();
+
+app.post(
+  "/user/create",
+  zValidator(
+    "form", // set the data type to validate
+    z.object({ // define the Zod type contraints
+      email: z.string().min(100),
+      password: z.string().max(1),
+    }),
+    // hook to handle when validation fails
+    (result, c) => {
+
+      // Let page component handle its errorBag
+      return handleErrorBag(c, result, CreateUser)
+    }
+  ),
+  async (c) => {
+    const body  = c.req.valid('form')
+
+    return renderComponent(c, <CreateUser />);
+  }
+);
+```
+
+
+```jsx
+type Props = {
+  errorBag?: ErrorBag;
+};
+
+export function CreateUser(props: Props) {
+  return (
+    <Layout>
+      <div class="flex items-center justify-center">
+        <CoreHeading size="2xl">Create User</CoreHeading>
+      </div>
+
+      <div class="flex flex-col items-center justify-center">
+        <CoreFormErrors errorBag={props.errorBag} />
+
+        <form action="/user/create" method="POST">
+          <CoreInputBlock label="Email" name="email" />
+          <CoreInputBlock label="Password" name="password" type="password" />
+
+          <CoreButton className="mt-2">Create User</CoreButton>
+        </form>
+      </div>
+    </Layout>
+  );
+}
+```

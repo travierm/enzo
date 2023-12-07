@@ -4,6 +4,9 @@ import { renderComponent } from "../../framework/renderer/renderComponent";
 import { CreateUser } from "../../views/pages/User/CreateUser";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
+import { ErrorBag } from "../../framework/globalProps";
+import { handleErrorBag } from "../../framework/validators/handleErrors";
+import { CoreButton } from "../../views/components/core/CoreButton";
 
 const app = new Hono();
 
@@ -17,13 +20,10 @@ app.post(
     "form",
     z.object({
       email: z.string().min(100),
-      password: z.string(),
+      password: z.string().max(1),
     }),
     (result, c) => {
-      if(!result.success) {
-        const errorMessage = result.error.errors.map((e) => e.message).join(", ");
-        return renderComponent(c, <CreateUser error={errorMessage} />);
-      }
+      return handleErrorBag(c, result, CreateUser)
     }
   ),
   async (c) => {
