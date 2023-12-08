@@ -9,17 +9,17 @@ export function CoreTemplateMessage({ templateMessage }: Props) {
   const { type, message, listItems } = templateMessage;
 
   const colorMap = {
-    error: "bg-red-600",
-    success: "bg-green-600",
-    warning: "bg-yellow-600",
-    info: "bg-blue-600",
+    error: "bg-red-200",
+    success: "bg-green-200",
+    warning: "bg-yellow-200",
+    info: "bg-blue-200",
   };
 
   const color = colorMap[type];
 
   return (
     <div
-      class={`${color} flex p-4 mb-4 text-sm text-${color}-800 rounded-lg `}
+      class={`${color} flex p-3 mb-4 text-sm text-${color}-500 rounded-lg`}
       role="alert"
     >
       <svg

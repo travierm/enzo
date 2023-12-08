@@ -18,7 +18,9 @@ export function CreateUser(props: Props) {
       </div>
 
       <div class="flex flex-col items-center justify-center">
-        { props.templateMessage && <CoreTemplateMessage templateMessage={props.templateMessage} /> }
+        {props.templateMessage && (
+          <CoreTemplateMessage templateMessage={props.templateMessage} />
+        )}
 
         <form action="/user/create" method="POST">
           <CoreInputBlock label="Email" name="email" />

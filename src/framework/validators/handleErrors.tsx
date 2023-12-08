@@ -4,12 +4,16 @@ import { ErrorBag, TemplateMessage } from "../globalProps";
 import { ComponentType } from "preact";
 import { renderComponent } from "../renderer/renderComponent";
 
-export function createTemplateMessage(type: 'error' | 'success' | 'warning' | 'info' = 'info', message: string,listItems: string[] = []) {
+export function createTemplateMessage(
+  type: "error" | "success" | "warning" | "info" = "info",
+  message: string,
+  listItems: string[] = []
+) {
   return {
     type,
     message,
     listItems,
-  } as TemplateMessage
+  } as TemplateMessage;
 }
 
 export function createTemplateMessageFromResult<T>(
