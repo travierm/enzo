@@ -1,17 +1,18 @@
 import { Context, Hono } from "hono";
 
-import { renderComponent } from "../../framework/renderer/renderComponent";
+import { render } from "../../framework/renderer/renderComponent";
 import { CreateUser } from "../../views/pages/User/CreateUser";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { ErrorBag, TemplateMessage } from "../../framework/globalProps";
-import { createTemplateMessage, handleZodErrors } from "../../framework/validators/handleErrors";
-import { CoreButton } from "../../views/components/core/CoreButton";
+import {
+  createTemplateMessage,
+  handleZodErrors,
+} from "../../framework/validators/handleErrors";
 
 const app = new Hono();
 
 app.get("/user/create", (c: Context) => {
-  return renderComponent(c, <CreateUser />);
+  return render(c, <CreateUser />);
 });
 
 app.post(
@@ -23,14 +24,14 @@ app.post(
       password: z.string(),
     }),
     (result, c) => {
-      return handleZodErrors(c, result, CreateUser)
+      return handleZodErrors(c, result, CreateUser);
     }
   ),
   (c) => {
-    const body  = c.req.valid('form')
+    const body = c.req.valid("form");
 
-    if(body.email === 'admin') {
-      return renderComponent(
+    if (body.email === "admin") {
+      return render(
         c,
         <CreateUser
           templateMessage={createTemplateMessage(
@@ -38,15 +39,15 @@ app.post(
             "Admin can not be used as email"
           )}
         />
-      );  
+      );
     }
 
-    return renderComponent(c, <CreateUser />);
+    return render(c, <CreateUser />);
   }
 );
 
 app.get("/users", (c: Context) => {
-  return renderComponent(c, <CreateUser />);
+  return render(c, <CreateUser />);
 });
 
 export const userRouter = app;

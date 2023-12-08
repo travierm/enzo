@@ -2,7 +2,7 @@ import { Context, Env } from "hono";
 import { ZodError } from "zod";
 import { ErrorBag, TemplateMessage } from "../globalProps";
 import { ComponentType } from "preact";
-import { renderComponent } from "../renderer/renderComponent";
+import { render } from "../renderer/renderComponent";
 
 export function createTemplateMessage(
   type: "error" | "success" | "warning" | "info" = "info",
@@ -50,10 +50,7 @@ export function handleZodErrors<T, E extends Env, P extends string, O = {}>(
   const templateMessage = createTemplateMessageFromResult(result);
 
   if (templateMessage) {
-    return renderComponent(
-      context,
-      <Component templateMessage={templateMessage} />
-    );
+    return render(context, <Component templateMessage={templateMessage} />);
   }
 
   return;

@@ -22,7 +22,7 @@ export function applyContext(c: Context, component: VNode) {
   return <RequestProvider data={c}>{component}</RequestProvider>;
 }
 
-export async function renderComponent(c: Context, component: VNode) {
+export async function render(c: Context, component: VNode) {
   const stringComponent = renderToString(<Index>{component}</Index>);
 
   return new Response(stringComponent, {

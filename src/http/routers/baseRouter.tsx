@@ -1,7 +1,7 @@
 import { Context, Hono } from "hono";
 
 import { serveStatic } from "hono/bun";
-import { renderComponent } from "../../framework/renderer/renderComponent";
+import { render } from "../../framework/renderer/renderComponent";
 import { Login } from "../../views/pages/Login";
 import { Home } from "../../views/pages/Home";
 
@@ -11,11 +11,11 @@ app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
 app.use("/public/index.js", serveStatic({ path: "./public/index.js" }));
 
 app.get("/", (c: Context) => {
-  return renderComponent(c, <Home />)
+  return render(c, <Home />);
 });
 
 app.get("/login", (c: Context) => {
-  return renderComponent(c, <Login />);
+  return render(c, <Login />);
 });
 
 app.get("/ping", async (req) => {
@@ -23,4 +23,3 @@ app.get("/ping", async (req) => {
 });
 
 export const baseRouter = app;
-
