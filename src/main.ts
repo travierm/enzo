@@ -10,11 +10,11 @@ import { userRouter } from "./http/routers/userRouter";
 const app = new Hono();
 
 // bootlogger
-importAllFromPath("src/services/**/*.ts");
+await importAllFromPath("src/services/**/*.ts");
 
 app.get("*", secureHeaders());
 //app.use("*", logger());
-//app.use("*", authGuard());
+app.use("*", authGuard());
 
 app.route("/", baseRouter);
 app.route("/", userRouter);

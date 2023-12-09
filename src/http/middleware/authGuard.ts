@@ -4,8 +4,6 @@ import { getCookie } from "hono/cookie";
 import { UserService } from "../../services/userService";
 import { resolve } from "../../framework/serviceContainer";
 
-const userService = resolve<UserService>("UserService");
-
 export type User = {
   id: number;
   username: string;
@@ -14,6 +12,8 @@ export type User = {
 const unAuthedPaths = ["/login", "/ping", "/public/app.css"];
 
 export const authGuard = (): MiddlewareHandler => {
+  const userService = resolve<UserService>("UserService");
+
   return async (c, next) => {
     // Unauthed route we should let the request continue without changes
     if (c.req.path && unAuthedPaths.includes(c.req.path)) {

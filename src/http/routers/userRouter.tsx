@@ -8,6 +8,10 @@ import {
   createTemplateMessage,
   handleZodErrors,
 } from "../../framework/validators/handleErrors";
+import { UserService } from "../../services/userService";
+import { resolve } from "../../framework/serviceContainer";
+
+const userService = resolve<UserService>("UserService");
 
 const app = new Hono();
 
@@ -20,8 +24,8 @@ app.post(
   zValidator(
     "form",
     z.object({
-      email: z.string(),
-      password: z.string(),
+      email: z.string().email(),
+      password: z.string().min(5),
     }),
     (result, c) => {
       return handleZodErrors(c, result, CreateUser);

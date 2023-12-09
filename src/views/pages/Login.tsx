@@ -1,10 +1,12 @@
-import { ErrorBag } from '../../framework/globalProps';
-import { BaseButton } from '../components/BaseButton';
-import { FormInput } from '../components/form/Input';
-import { Layout } from './Layout';
+import { TemplateMessage } from "../../framework/globalProps";
+import { CoreButton } from "../components/core/CoreButton";
+import { CoreFormInput } from "../components/core/CoreFormInput";
+import { CoreHeading } from "../components/core/CoreHeading";
+import { CoreTemplateMessage } from "../components/core/CoreTemplateMessages";
+import { Layout } from "./Layout";
 
 type Props = {
-  errors?: ErrorBag;
+  templateMessage?: TemplateMessage;
 };
 
 export function Login(props: Props) {
@@ -12,37 +14,19 @@ export function Login(props: Props) {
     <Layout>
       <div class="flex items-center justify-center">
         <form method="POST">
-          <h1 class="text-2xl font-bold mb-4">Login</h1>
+          <CoreHeading>Login</CoreHeading>
 
-          {props.errors && (
-            <div>
-              <h1>Bad Login</h1>
-            </div>
+          {props.templateMessage && (
+            <CoreTemplateMessage templateMessage={props.templateMessage} />
           )}
 
-          <FormInput
-            name="email"
-            type="text"
-            label="Email"
-            placeholder="Email"
-            required
-          />
+          <CoreFormInput name="email" label="Email" />
+          <CoreFormInput name="password" label="Password" type="password" />
 
-          <FormInput
-            name="password"
-            type="password"
-            label="Password"
-            placeholder="Password"
-            required
-          />
           <div class="flex justify-end">
-            <BaseButton>Login</BaseButton>
+            <CoreButton>Login</CoreButton>
           </div>
         </form>
-
-        <div>
-          <h1>Test</h1>
-        </div>
       </div>
     </Layout>
   );

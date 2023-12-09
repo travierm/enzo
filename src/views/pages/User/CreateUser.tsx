@@ -1,8 +1,7 @@
-import { ErrorBag, TemplateMessage } from "../../../framework/globalProps";
+import { TemplateMessage } from "../../../framework/globalProps";
 import { CoreButton } from "../../components/core/CoreButton";
-import { CoreFormErrors } from "../../components/core/CoreFormErrors";
 import { CoreHeading } from "../../components/core/CoreHeading";
-import { CoreInputBlock } from "../../components/core/CoreInputBlock";
+import { CoreFormInput } from "../../components/core/CoreFormInput";
 import { CoreTemplateMessage } from "../../components/core/CoreTemplateMessages";
 import { Layout } from "../Layout";
 
@@ -23,8 +22,8 @@ export function CreateUser(props: Props) {
         )}
 
         <form action="/user/create" method="POST">
-          <CoreInputBlock label="Email" name="email" />
-          <CoreInputBlock label="Password" name="password" type="password" />
+          <CoreFormInput label="Email" name="email" />
+          <CoreFormInput label="Password" name="password" type="password" />
 
           <CoreButton className="mt-2">Create User</CoreButton>
         </form>
