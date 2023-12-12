@@ -8,10 +8,6 @@ import {
   createTemplateMessage,
   handleZodErrors,
 } from "../../framework/validators/handleErrors";
-import { UserService } from "../../services/userService";
-import { resolve } from "../../framework/serviceContainer";
-
-const userService = resolve<UserService>("UserService");
 
 const app = new Hono();
 

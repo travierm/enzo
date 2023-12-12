@@ -6,10 +6,10 @@ Features:
 Core Concepts:
     ☐ Never fully rely on bun functions and allow the app to run on node, deno or bun
 
-
 Todo:
     ☐ SPA Routing
     ☐ Interactive Components
+    ☐ Live Input Validation
 
     
     

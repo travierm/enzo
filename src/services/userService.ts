@@ -1,4 +1,4 @@
-import { Injectable } from "../framework/serviceContainer";
+import { Service } from "typedi";
 
 const { v4: uuidv4 } = require("uuid");
 type User = {
@@ -12,7 +12,7 @@ type User = {
 const users: User[] = [];
 const tokenStore = new Map<string, User>();
 
-@Injectable()
+@Service()
 export class UserService {
   constructor() {}
 

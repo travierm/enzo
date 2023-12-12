@@ -2,7 +2,7 @@ import { MiddlewareHandler } from "hono";
 import { getCookie } from "hono/cookie";
 
 import { UserService } from "../../services/userService";
-import { resolve } from "../../framework/serviceContainer";
+import Container from "typedi";
 
 export type User = {
   id: number;
@@ -12,7 +12,7 @@ export type User = {
 const unAuthedPaths = ["/login", "/ping", "/public/app.css"];
 
 export const authGuard = (): MiddlewareHandler => {
-  const userService = resolve<UserService>("UserService");
+  const userService = Container.get(UserService);
 
   return async (c, next) => {
     // Unauthed route we should let the request continue without changes
