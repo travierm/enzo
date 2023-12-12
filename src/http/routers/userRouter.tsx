@@ -8,11 +8,6 @@ import {
   createTemplateMessage,
   handleZodErrors,
 } from "../../framework/validators/handleErrors";
-import { UserService } from "../../services/userService";
-import { resolve } from "../../framework/serviceContainer";
-import Container from "typedi";
-
-const userService = Container.get(UserService);
 
 const app = new Hono();
 
