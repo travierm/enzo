@@ -1,4 +1,4 @@
-import { migrateToLatest } from "../migrationCommands";
+import { migrateToLatest } from "../../../_archive/migrationCommands";
 
 async function main() {
   await migrateToLatest("./src/database/migrations");
