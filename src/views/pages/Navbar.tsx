@@ -13,20 +13,14 @@ export function Navbar(props: Props) {
 
   return (
     <nav class="bg-blue-700 flex p-2 text-white text-xl">
-      <div class="mr-4">Bun+Preact</div>
+      <div class="mr-4">Enzo</div>
 
-      {/* {isAuthed && (
+      {isAuthed && (
         <div class="flex gap-2 mr-2">
-          <a href="/transaction/create">New</a>
           <a href="/dashboard">Dashboard</a>
-          <a href="/profile">Profile</a>
+          <a href="/dashboard">Transactions</a>
         </div>
-      )} */}
-
-      <div class="flex gap-2 mr-2">
-        <a href="/users">Users</a>
-        <a href="/user/create">Create User</a>
-      </div>
+      )}
 
       <div class="flex ml-auto">{loginButton}</div>
     </nav>

@@ -1,5 +1,5 @@
 import { VNode } from "preact";
-import { TemplateMessage } from "../../../framework/globalProps";
+import { TemplateMessage } from "../../../core/globalProps";
 
 type Props = {
   templateMessage: TemplateMessage;

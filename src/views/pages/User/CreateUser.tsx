@@ -1,4 +1,4 @@
-import { TemplateMessage } from "../../../framework/globalProps";
+import { TemplateMessage } from "../../../core/globalProps";
 import { CoreButton } from "../../components/core/CoreButton";
 import { CoreHeading } from "../../components/core/CoreHeading";
 import { CoreFormInput } from "../../components/core/CoreFormInput";

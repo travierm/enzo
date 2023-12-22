@@ -1,13 +1,9 @@
 import { Context, Hono } from "hono";
 
-import { render } from "../../framework/renderer/renderComponent";
 import { CreateUser } from "../../views/pages/User/CreateUser";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import {
-  createTemplateMessage,
-  handleZodErrors,
-} from "../../framework/validators/handleErrors";
+import { createTemplateMessage, handleZodErrors, render } from "enzo/core";
 
 const app = new Hono();
 

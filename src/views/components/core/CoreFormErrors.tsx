@@ -1,5 +1,5 @@
 import { VNode } from "preact";
-import { ErrorBag } from "../../../framework/globalProps";
+import { ErrorBag } from "../../../core/globalProps";
 
 type Props = {
   errorBag: ErrorBag;

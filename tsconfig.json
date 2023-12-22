@@ -29,7 +29,7 @@
     "jsxImportSource": "preact",
     "declaration": true,
     "paths": {
-      "@/": ["./"] // Map "@" to the root directory
+      "enzo/core": ["./src/core/core.tsx"] // Map "@" to the root directory
     }
   },
   "exclude": ["node_modules"]

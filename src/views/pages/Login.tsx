@@ -1,4 +1,4 @@
-import { TemplateMessage } from "../../framework/globalProps";
+import { TemplateMessage } from "enzo/core";
 import { CoreButton } from "../components/core/CoreButton";
 import { CoreFormInput } from "../components/core/CoreFormInput";
 import { CoreHeading } from "../components/core/CoreHeading";

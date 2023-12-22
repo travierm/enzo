@@ -1,7 +1,7 @@
 import { Context, Hono } from "hono";
 
 import { serveStatic } from "hono/bun";
-import { render } from "../../framework/renderer/renderComponent";
+import { render } from "enzo/core";
 import { Login } from "../../views/pages/Login";
 import { Home } from "../../views/pages/Home";
 

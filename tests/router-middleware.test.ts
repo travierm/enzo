@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test";
 
-import Router from "../src/framework/server/router";
-import { Middleware } from "../src/framework/server/routerMiddlewareMixin";
+import Router from "../_archive/server/router";
+import { Middleware } from "../_archive/server/routerMiddlewareMixin";
 
 const router = new Router();
 test("can run global middleware", async () => {

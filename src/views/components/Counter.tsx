@@ -1,11 +1,11 @@
-import { useState } from 'preact/hooks';
-import { applyHydration } from '../../framework/applyHydration';
-import { BaseButton } from './BaseButton';
+import { useState } from "preact/hooks";
+import { applyHydration } from "../../core/applyHydration";
+import { BaseButton } from "./BaseButton";
 
 type Props = {
-  initCount: number
-  incrementor: (num: number) => number
-}
+  initCount: number;
+  incrementor: (num: number) => number;
+};
 
 function Component(props: Props) {
   const [value, setValue] = useState(props.initCount);
