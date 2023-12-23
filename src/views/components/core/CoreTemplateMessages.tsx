@@ -1,12 +1,11 @@
-import { VNode } from "preact";
-import { TemplateMessage } from "../../../core/globalProps";
+import { AlertMessage } from "enzo/core";
 
 type Props = {
-  templateMessage: TemplateMessage;
+  alertMessage: AlertMessage;
 };
 
-export function CoreTemplateMessage({ templateMessage }: Props) {
-  const { type, message, listItems } = templateMessage;
+export function CoreAlertMessage({ alertMessage }: Props) {
+  const { type, message, listItems } = alertMessage;
 
   const colorMap = {
     error: "bg-red-200",

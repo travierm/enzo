@@ -3,7 +3,7 @@ import { Context, Hono } from "hono";
 import { CreateUser } from "../../views/pages/User/CreateUser";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { createTemplateMessage, handleZodErrors, render } from "enzo/core";
+import { createAlertMessage, handleZodErrors, render } from "enzo/core";
 
 const app = new Hono();
 
@@ -30,7 +30,7 @@ app.post(
       return render(
         c,
         <CreateUser
-          templateMessage={createTemplateMessage(
+          alertMessage={createAlertMessage(
             "info",
             "Admin can not be used as email"
           )}

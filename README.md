@@ -60,7 +60,7 @@ app.post(
 
 ```jsx
 type Props = {
-  templateMessage?: TemplateMessage;
+  alertMessage?: AlertMessage;
 };
 
 export function CreateUser(props: Props) {

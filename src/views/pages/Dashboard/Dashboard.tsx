@@ -1,32 +1,44 @@
-import { TemplateMessage } from "enzo/core";
-import { CoreButton } from "../../components/core/CoreButton";
+import { AlertMessage } from "enzo/core";
 import { CoreHeading } from "../../components/core/CoreHeading";
-import { CoreFormInput } from "../../components/core/CoreFormInput";
-import { CoreTemplateMessage } from "../../components/core/CoreTemplateMessages";
 import { Layout } from "../Layout";
+import { Expense, ExpensesTable } from "./ExpensesTable";
+import { Income, IncomeTable } from "./IncomeTable";
 
 type Props = {
-  templateMessage?: TemplateMessage;
+  alertMessage?: AlertMessage;
 };
+
+const expenses: Expense[] = [
+  { name: "Rent", amount: 1000 },
+  { name: "Car", amount: 500 },
+  { name: "Food", amount: 300 },
+];
+
+const income: Income[] = [
+  { name: "Job", amount: 7000 },
+  { name: "Side Hustle", amount: 500 },
+];
 
 export function Dashboard(props: Props) {
   return (
     <Layout>
-      <div class="flex items-center justify-center">
+      <div class="flex items-center">
         <CoreHeading size="2xl">Dashboard</CoreHeading>
       </div>
 
-      <div class="flex flex-col items-center justify-center">
-        {props.templateMessage && (
-          <CoreTemplateMessage templateMessage={props.templateMessage} />
-        )}
+      <div class="grid grid-cols-4 gap-4 mx-4">
+        {/* Expenses */}
+        <div>
+          <h1>Expenses</h1>
 
-        <form action="/user/create" method="POST">
-          <CoreFormInput label="Email" name="email" />
-          <CoreFormInput label="Password" name="password" type="password" />
+          <ExpensesTable expenses={expenses} />
+        </div>
 
-          <CoreButton className="mt-2">Create User</CoreButton>
-        </form>
+        <div>
+          <h1>Income</h1>
+
+          <IncomeTable income={income} />
+        </div>
       </div>
     </Layout>
   );

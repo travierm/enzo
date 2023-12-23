@@ -1,12 +1,12 @@
-import { TemplateMessage } from "enzo/core";
+import { AlertMessage } from "enzo/core";
 import { CoreButton } from "../components/core/CoreButton";
 import { CoreFormInput } from "../components/core/CoreFormInput";
 import { CoreHeading } from "../components/core/CoreHeading";
-import { CoreTemplateMessage } from "../components/core/CoreTemplateMessages";
+import { CoreAlertMessage } from "../components/core/CoreTemplateMessages";
 import { Layout } from "./Layout";
 
 type Props = {
-  templateMessage?: TemplateMessage;
+  templateMessage?: AlertMessage;
 };
 
 export function Login(props: Props) {
@@ -17,7 +17,7 @@ export function Login(props: Props) {
           <CoreHeading>Login</CoreHeading>
 
           {props.templateMessage && (
-            <CoreTemplateMessage templateMessage={props.templateMessage} />
+            <CoreAlertMessage templateMessage={props.templateMessage} />
           )}
 
           <CoreFormInput name="email" label="Email" />

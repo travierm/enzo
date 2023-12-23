@@ -12,13 +12,13 @@ export type ErrorBag = {
   };
 };
 
-export type TemplateMessage = {
+export type AlertMessage = {
   type: "error" | "success" | "warning" | "info";
   message: string;
   listItems: string[];
 };
 
-export function createTemplateMessage(
+export function createAlertMessage(
   type: "error" | "success" | "warning" | "info" = "info",
   message: string,
   listItems: string[] = []
@@ -27,7 +27,7 @@ export function createTemplateMessage(
     type,
     message,
     listItems,
-  } as TemplateMessage;
+  } as AlertMessage;
 }
 
 export const RequestContext = createContext<Context | undefined>(undefined);
@@ -63,7 +63,7 @@ export function createTemplateMessageFromResult<T>(
 ) {
   if (Object.hasOwn(result, "success")) {
     if (!result.success) {
-      const templateMessage: TemplateMessage = {
+      const templateMessage: AlertMessage = {
         type: "error",
         message: "Validation failed",
         listItems: [],
@@ -85,7 +85,7 @@ export function handleZodErrors<T, E extends Env, P extends string, O = {}>(
   result:
     | { success: true; data: T }
     | { success: false; error: ZodError; data: T },
-  Component: ComponentType<{ templateMessage: TemplateMessage }>
+  Component: ComponentType<{ templateMessage: AlertMessage }>
 ) {
   const templateMessage = createTemplateMessageFromResult(result);
 

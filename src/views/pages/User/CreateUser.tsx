@@ -1,12 +1,12 @@
-import { TemplateMessage } from "../../../core/globalProps";
+import { AlertMessage } from "enzo/core";
 import { CoreButton } from "../../components/core/CoreButton";
 import { CoreHeading } from "../../components/core/CoreHeading";
 import { CoreFormInput } from "../../components/core/CoreFormInput";
-import { CoreTemplateMessage } from "../../components/core/CoreTemplateMessages";
+import { CoreAlertMessage } from "../../components/core/CoreTemplateMessages";
 import { Layout } from "../Layout";
 
 type Props = {
-  templateMessage?: TemplateMessage;
+  alertMessage?: AlertMessage;
 };
 
 export function CreateUser(props: Props) {
@@ -17,8 +17,8 @@ export function CreateUser(props: Props) {
       </div>
 
       <div class="flex flex-col items-center justify-center">
-        {props.templateMessage && (
-          <CoreTemplateMessage templateMessage={props.templateMessage} />
+        {props.alertMessage && (
+          <CoreAlertMessage alertMessage={props.alertMessage} />
         )}
 
         <form action="/user/create" method="POST">
