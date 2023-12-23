@@ -28,6 +28,8 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "declaration": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
       "enzo/core": ["./src/core/core.tsx"] // Map "@" to the root directory
     }

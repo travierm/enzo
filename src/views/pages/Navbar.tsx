@@ -3,7 +3,8 @@ type Props = {
 };
 
 export function Navbar(props: Props) {
-  const { isAuthed = false } = props;
+  // const { isAuthed = true } = props;
+  let isAuthed = true;
 
   const loginButton = isAuthed ? (
     <a href="/logout">Logout</a>
