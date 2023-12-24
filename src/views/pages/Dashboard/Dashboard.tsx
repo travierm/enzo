@@ -6,17 +6,13 @@ import { Income, IncomeTable } from "./IncomeTable";
 
 type Props = {
   alertMessage?: AlertMessage;
+  income: Income[];
 };
 
 const expenses: Expense[] = [
   { name: "Rent", amount: 1000 },
   { name: "Car", amount: 500 },
   { name: "Food", amount: 300 },
-];
-
-const income: Income[] = [
-  { name: "Job", amount: 7000 },
-  { name: "Side Hustle", amount: 500 },
 ];
 
 export function Dashboard(props: Props) {
@@ -29,15 +25,11 @@ export function Dashboard(props: Props) {
       <div class="grid grid-cols-4 gap-4 mx-4">
         {/* Expenses */}
         <div>
-          <h1>Expenses</h1>
-
           <ExpensesTable expenses={expenses} />
         </div>
 
         <div>
-          <h1>Income</h1>
-
-          <IncomeTable income={income} />
+          <IncomeTable income={props.income} />
         </div>
       </div>
     </Layout>

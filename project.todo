@@ -1,3 +1,5 @@
+Current Tasks
+    ☐ When hx-request: true in header then only return component in render()
 
 Features:
     ☐ slim down codebase and move core functions into a library

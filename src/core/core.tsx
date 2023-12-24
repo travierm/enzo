@@ -49,11 +49,18 @@ export function applyContext(c: Context, component: VNode) {
 }
 
 export async function render(c: Context, component: VNode) {
-  const stringComponent = renderToString(<Index>{component}</Index>);
+  const isHxRequest = c.req.header("Hx-Request");
 
-  return new Response(stringComponent, {
-    headers: { "Content-Type": "text/html" },
-  });
+  // append component to index.html unless hx request
+  const stringComponent = isHxRequest
+    ? renderToString(component)
+    : renderToString(<Index>{component}</Index>);
+
+  // return new Response(stringComponent, {
+  //   headers: { "Content-Type": "text/html; charset=utf-8" },
+  // });
+
+  return c.html(stringComponent);
 }
 
 export function createTemplateMessageFromResult<T>(

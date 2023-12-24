@@ -13,7 +13,7 @@ export function ExpensesTable(props: Props) {
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-orange-500">
           <tr>
-            <th class="pl-2">Name</th>
+            <th class="pl-2">Expense</th>
             <th>Cost</th>
           </tr>
         </thead>
