@@ -1,5 +1,7 @@
 Current Tasks
-    ☐ When hx-request: true in header then only return component in render()
+    ✔ When hx-request: true in header then only return component in render() @done(23-12-24 21:01)
+    ☐ Autoload .router files in pages/
+    ☐ Catch errors when building and display on website
 
 Features:
     ☐ slim down codebase and move core functions into a library

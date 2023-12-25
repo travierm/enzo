@@ -1,6 +1,6 @@
 import { Context, Hono } from "hono";
 
-import { CreateUser } from "../../views/pages/User/CreateUser";
+import { CreateUser } from "../pages/User/CreateUser";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { createAlertMessage, handleZodErrors, render } from "enzo/core";

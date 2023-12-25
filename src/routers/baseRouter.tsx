@@ -2,8 +2,8 @@ import { Context, Hono } from "hono";
 
 import { serveStatic } from "hono/bun";
 import { render } from "enzo/core";
-import { Login } from "../../views/pages/Login";
-import { Home } from "../../views/pages/Home";
+import { Login } from "../pages/Login";
+import { Home } from "../pages/Home";
 
 const app = new Hono();
 

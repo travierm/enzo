@@ -1,17 +1,17 @@
 import { Context, Hono } from "hono";
 
 import { render } from "enzo/core";
-import { Dashboard } from "../../views/pages/Dashboard/Dashboard";
-import { Income, IncomeTable } from "../../views/pages/Dashboard/IncomeTable";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
+import { Income, IncomeTable } from "./IncomeTable";
+import { Dashboard } from "./Dashboard";
 
 const app = new Hono();
 
 let income: Income[] = [
-  { name: "Rent", amount: 1000 },
-  { name: "Car", amount: 500 },
-  { name: "Food", amount: 300 },
+  { id: 1, name: "Rent", amount: 1000 },
+  { id: 2, name: "Car", amount: 500 },
+  { id: 3, name: "Food", amount: 300 },
 ];
 
 app.get("/dashboard", (c: Context) => {
@@ -30,10 +30,19 @@ app.post(
   (c) => {
     const { name, amount } = c.req.valid("form");
 
-    income.push({ name, amount: Number(amount) });
+    const id = income.length + 1;
+    income.push({ id, name, amount: Number(amount) });
 
     return render(c, <IncomeTable income={income} />);
   }
 );
+
+app.delete("/dashboard/income/:id", (c) => {
+  const id = Number(c.req.param("id"));
+
+  income = income.filter((income) => income.id !== id);
+
+  return render(c, <IncomeTable income={income} />);
+});
 
 export const dashboardRouter = app;

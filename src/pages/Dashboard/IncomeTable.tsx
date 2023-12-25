@@ -3,6 +3,7 @@ type Props = {
 };
 
 export type Income = {
+  id: number;
   name: string;
   amount: number;
 };
@@ -21,7 +22,7 @@ export function IncomeTable(props: Props) {
             <tr>
               <th class="pl-2">Income</th>
               <th>Cost</th>
-              <th>Action</th>
+              <th class="pr-2">Action</th>
             </tr>
           </thead>
 
@@ -32,7 +33,7 @@ export function IncomeTable(props: Props) {
                 <td>{income.amount}</td>
                 <td>
                   <a
-                    href="#"
+                    hx-delete={`/dashboard/income/${income.id}`}
                     class="font-medium text-red-600 dark:text-red-500 hover:underline"
                   >
                     Delete
@@ -46,7 +47,7 @@ export function IncomeTable(props: Props) {
                 <input
                   name="name"
                   type="text"
-                  class="pl-2 form-input shadow-sm mt-1 block w-full"
+                  class="pl-2 mt-1 block w-full"
                   placeholder="Income"
                 />
               </td>
@@ -54,7 +55,7 @@ export function IncomeTable(props: Props) {
                 <input
                   name="amount"
                   type="text"
-                  class="form-input shadow-sm mt-1 block w-full"
+                  class="form-input mt-1 block w-full"
                   placeholder="Cost"
                 />
               </td>

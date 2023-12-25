@@ -1,7 +1,7 @@
 import { MiddlewareHandler } from "hono";
 import { getCookie } from "hono/cookie";
 
-import { UserService } from "../../services/userService";
+import { UserService } from "../services/userService";
 import Container from "typedi";
 
 export type User = {
