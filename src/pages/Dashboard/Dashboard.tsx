@@ -3,6 +3,7 @@ import { CoreHeading } from "../../components/core/CoreHeading";
 import { Layout } from "../Layout";
 import { Expense, ExpensesTable } from "./ExpensesTable";
 import { Income, IncomeTable } from "./IncomeTable";
+import { Stats } from "./Stats";
 
 type Props = {
   alertMessage?: AlertMessage;
@@ -23,13 +24,16 @@ export function Dashboard(props: Props) {
       </div>
 
       <div class="grid grid-cols-4 gap-4 mx-4">
-        {/* Expenses */}
         <div>
           <ExpensesTable expenses={expenses} />
         </div>
 
         <div>
           <IncomeTable income={props.income} />
+        </div>
+
+        <div>
+          <Stats income={props.income} />
         </div>
       </div>
     </Layout>

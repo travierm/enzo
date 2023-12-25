@@ -5,6 +5,7 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { Income, IncomeTable } from "./IncomeTable";
 import { Dashboard } from "./Dashboard";
+import { Stats } from "./Stats";
 
 const app = new Hono();
 
@@ -33,6 +34,7 @@ app.post(
     const id = income.length + 1;
     income.push({ id, name, amount: Number(amount) });
 
+    c.header("HX-Trigger", "incomeUpdated");
     return render(c, <IncomeTable income={income} />);
   }
 );
@@ -42,7 +44,12 @@ app.delete("/dashboard/income/:id", (c) => {
 
   income = income.filter((income) => income.id !== id);
 
+  c.header("HX-Trigger", "incomeUpdated");
   return render(c, <IncomeTable income={income} />);
+});
+
+app.get("/dashboard/stats", (c) => {
+  return render(c, <Stats income={income} />);
 });
 
 export const dashboardRouter = app;
