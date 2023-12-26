@@ -48,7 +48,7 @@ export function IncomeTable(props: Props) {
                   name="name"
                   type="text"
                   class="pl-2 mt-1 block w-full"
-                  placeholder="Income"
+                  placeholder="Add Income"
                 />
               </td>
               <td class="whitespace-nowrap">

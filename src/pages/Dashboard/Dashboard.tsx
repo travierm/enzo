@@ -8,6 +8,7 @@ import { Stats } from "./Stats";
 type Props = {
   alertMessage?: AlertMessage;
   income: Income[];
+  expenses: Expense[];
 };
 
 const expenses: Expense[] = [
@@ -33,7 +34,7 @@ export function Dashboard(props: Props) {
         </div>
 
         <div>
-          <Stats income={props.income} />
+          <Stats income={props.income} expenses={expenses} />
         </div>
       </div>
     </Layout>

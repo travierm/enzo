@@ -3,30 +3,74 @@ type Props = {
 };
 
 export type Expense = {
+  id: number;
   name: string;
   amount: number;
 };
 
 export function ExpensesTable(props: Props) {
   return (
-    <div class="relative overflow-x-auto shadow-md sm:rounded">
-      <table class="w-full text-sm text-left text-gray-500">
-        <thead class="text-xs text-gray-700 uppercase bg-orange-500">
-          <tr>
-            <th class="pl-2">Expense</th>
-            <th>Cost</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {props.expenses.map((expense) => (
+    <div
+      id="expenseTable"
+      class="relative overflow-x-auto shadow-md sm:rounded"
+    >
+      <form
+        id="expenseTableForm"
+        hx-post="/dashboard/expense"
+        hx-target="#expenseTable"
+        hx-swap="outerHTML"
+      >
+        <table class="w-full text-sm text-left text-gray-500">
+          <thead class="text-xs text-gray-700 uppercase bg-orange-500">
             <tr>
-              <td class="pl-2">{expense.name}</td>
-              <td>{expense.amount}</td>
+              <th class="pl-2">expense</th>
+              <th>Cost</th>
+              <th class="pr-2">Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {props.expenses.map((expense) => (
+              <tr>
+                <td class="pl-2">{expense.name}</td>
+                <td>{expense.amount}</td>
+                <td>
+                  <a
+                    hx-delete={`/dashboard/expense/${expense.id}`}
+                    class="font-medium text-red-600 dark:text-red-500 hover:underline"
+                  >
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            ))}
+
+            <tr>
+              <td class="whitespace-nowrap">
+                <input
+                  name="name"
+                  type="text"
+                  class="pl-2 mt-1 block w-full"
+                  placeholder="Add Expense"
+                />
+              </td>
+              <td class="whitespace-nowrap">
+                <input
+                  name="amount"
+                  type="text"
+                  class="form-input mt-1 block w-full"
+                  placeholder="Cost"
+                />
+              </td>
+              <td>
+                <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                  Add
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
     </div>
   );
 }

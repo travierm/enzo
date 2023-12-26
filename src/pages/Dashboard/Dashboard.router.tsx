@@ -6,17 +6,20 @@ import { z } from "zod";
 import { Income, IncomeTable } from "./IncomeTable";
 import { Dashboard } from "./Dashboard";
 import { Stats } from "./Stats";
+import { Expense, ExpensesTable } from "./ExpensesTable";
 
 const app = new Hono();
 
-let income: Income[] = [
+let expenses: Expense[] = [
   { id: 1, name: "Rent", amount: 1000 },
   { id: 2, name: "Car", amount: 500 },
   { id: 3, name: "Food", amount: 300 },
 ];
 
+let income: Income[] = [{ id: 1, name: "Work", amount: 4900 }];
+
 app.get("/dashboard", (c: Context) => {
-  return render(c, <Dashboard income={income} />);
+  return render(c, <Dashboard income={income} expenses={expenses} />);
 });
 
 app.post(
@@ -39,6 +42,35 @@ app.post(
   }
 );
 
+app.post(
+  "/dashboard/expense",
+  zValidator(
+    "form",
+    z.object({
+      name: z.string(),
+      amount: z.string(),
+    })
+  ),
+  (c) => {
+    const { name, amount } = c.req.valid("form");
+
+    const id = expenses.length + 1;
+    expenses.push({ id, name, amount: Number(amount) });
+
+    c.header("HX-Trigger", "expenseUpdated");
+    return render(c, <ExpensesTable expenses={expenses} />);
+  }
+);
+
+app.delete("/dashboard/expense/:id", (c) => {
+  const id = Number(c.req.param("id"));
+
+  expenses = expenses.filter((i) => i.id !== id);
+
+  c.header("HX-Trigger", "expenseUpdated");
+  return render(c, <ExpensesTable expenses={expenses} />);
+});
+
 app.delete("/dashboard/income/:id", (c) => {
   const id = Number(c.req.param("id"));
 
@@ -49,7 +81,7 @@ app.delete("/dashboard/income/:id", (c) => {
 });
 
 app.get("/dashboard/stats", (c) => {
-  return render(c, <Stats income={income} />);
+  return render(c, <Stats income={income} expenses={expenses} />);
 });
 
 export const dashboardRouter = app;
