@@ -2,6 +2,7 @@ import { Expense } from "./ExpensesTable";
 import { Income } from "./IncomeTable";
 
 type Props = {
+  currentBalance: number;
   income: Income[];
   expenses: Expense[];
 };
@@ -20,6 +21,23 @@ export function Stats(props: Props) {
   const incomeRatio = Math.round((totalExpense / totalIncome) * 100);
   const monthyNetProfit = totalIncome - totalExpense;
 
+  const oneMonthProjection = monthyNetProfit + props.currentBalance;
+  const twoMonthProjection = oneMonthProjection + monthyNetProfit;
+  const threeMonthProjection = twoMonthProjection + monthyNetProfit;
+
+  let monthlyProjections: number[] = [];
+
+  let previousProjection;
+  for (let i = 0; i < 12; i++) {
+    if (i === 0) {
+      previousProjection = props.currentBalance;
+    } else {
+      previousProjection = monthlyProjections[i - 1];
+    }
+
+    monthlyProjections.push(previousProjection + monthyNetProfit);
+  }
+
   return (
     <div
       class="relative overflow-x-auto shadow-md sm:rounded"
@@ -32,6 +50,11 @@ export function Stats(props: Props) {
         <li>Total Expenses: {totalExpense}</li>
         <li>Monthly Net Profit: {monthyNetProfit}</li>
         <li>Expense to Income Ration: {incomeRatio}%</li>
+        {monthlyProjections.map((projection, index) => (
+          <li>
+            {index + 1} Month Projection: {projection}
+          </li>
+        ))}
       </ul>
     </div>
   );

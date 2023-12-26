@@ -7,6 +7,7 @@ import { Income, IncomeTable } from "./IncomeTable";
 import { Dashboard } from "./Dashboard";
 import { Stats } from "./Stats";
 import { Expense, ExpensesTable } from "./ExpensesTable";
+import { AccountBalance } from "./AccountBalance";
 
 const app = new Hono();
 
@@ -16,11 +17,38 @@ let expenses: Expense[] = [
   { id: 3, name: "Food", amount: 300 },
 ];
 
+let currentBalance = 0;
+
 let income: Income[] = [{ id: 1, name: "Work", amount: 4900 }];
 
 app.get("/dashboard", (c: Context) => {
-  return render(c, <Dashboard income={income} expenses={expenses} />);
+  return render(
+    c,
+    <Dashboard
+      currentBalance={currentBalance}
+      income={income}
+      expenses={expenses}
+    />
+  );
 });
+
+app.post(
+  "/dashboard/account-balance",
+  zValidator(
+    "form",
+    z.object({
+      balance: z.string(),
+    })
+  ),
+  (c) => {
+    const { balance } = c.req.valid("form");
+
+    currentBalance = Number(balance);
+
+    c.header("HX-Trigger", "incomeUpdated");
+    return render(c, <AccountBalance currentBalance={currentBalance} />);
+  }
+);
 
 app.post(
   "/dashboard/income",
@@ -81,7 +109,14 @@ app.delete("/dashboard/income/:id", (c) => {
 });
 
 app.get("/dashboard/stats", (c) => {
-  return render(c, <Stats income={income} expenses={expenses} />);
+  return render(
+    c,
+    <Stats
+      currentBalance={currentBalance}
+      income={income}
+      expenses={expenses}
+    />
+  );
 });
 
 export const dashboardRouter = app;

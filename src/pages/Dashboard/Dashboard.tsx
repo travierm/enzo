@@ -4,17 +4,19 @@ import { Layout } from "../Layout";
 import { Expense, ExpensesTable } from "./ExpensesTable";
 import { Income, IncomeTable } from "./IncomeTable";
 import { Stats } from "./Stats";
+import { AccountBalance } from "./AccountBalance";
 
 type Props = {
   alertMessage?: AlertMessage;
   income: Income[];
   expenses: Expense[];
+  currentBalance: number;
 };
 
 const expenses: Expense[] = [
-  { name: "Rent", amount: 1000 },
-  { name: "Car", amount: 500 },
-  { name: "Food", amount: 300 },
+  { id: 1, name: "Rent", amount: 1000 },
+  { id: 2, name: "Car", amount: 500 },
+  { id: 3, name: "Food", amount: 300 },
 ];
 
 export function Dashboard(props: Props) {
@@ -34,7 +36,12 @@ export function Dashboard(props: Props) {
         </div>
 
         <div>
-          <Stats income={props.income} expenses={expenses} />
+          <AccountBalance currentBalance={props.currentBalance} />
+          <Stats
+            currentBalance={props.currentBalance}
+            income={props.income}
+            expenses={expenses}
+          />
         </div>
       </div>
     </Layout>
