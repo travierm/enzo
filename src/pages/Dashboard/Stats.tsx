@@ -21,10 +21,6 @@ export function Stats(props: Props) {
   const incomeRatio = Math.round((totalExpense / totalIncome) * 100);
   const monthyNetProfit = totalIncome - totalExpense;
 
-  const oneMonthProjection = monthyNetProfit + props.currentBalance;
-  const twoMonthProjection = oneMonthProjection + monthyNetProfit;
-  const threeMonthProjection = twoMonthProjection + monthyNetProfit;
-
   let monthlyProjections: number[] = [];
 
   let previousProjection;

@@ -8,7 +8,7 @@ type Props = {
 export function AccountBalance(props: Props) {
   return (
     <div id="accountBalance" class="shadow-md sm:rounded max-w-xl">
-      <div>Account Balance: {props.currentBalance}</div>
+      <div>Current Balance: {props.currentBalance}</div>
       <form
         hx-post="/dashboard/account-balance"
         hx-target="#accountBalance"
@@ -16,7 +16,7 @@ export function AccountBalance(props: Props) {
         class="p-2"
       >
         <CoreFormInput
-          label="Account Balance"
+          label="Current Balance"
           name="balance"
           type="number"
           placeholder="$"
