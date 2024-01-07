@@ -74,6 +74,8 @@ app.post(
     });
 
     c.header("HX-Trigger", "incomeUpdated");
+
+    const income = await getRecordsByType("income");
     return render(c, <IncomeTable income={income} />);
   }
 );
