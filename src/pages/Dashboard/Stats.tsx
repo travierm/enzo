@@ -1,4 +1,5 @@
 import { Record } from "@/database/models/record/record.model";
+import { formatNumberToUSD } from "@/database/utils/formatter";
 type Props = {
   currentBalance: number;
   income: Record[];
@@ -40,13 +41,13 @@ export function Stats(props: Props) {
       hx-trigger="incomeUpdated from:body, expenseUpdated from:body"
     >
       <ul class="w-full text-sm text-left text-gray-500 p-2">
-        <li>Total Income: {totalIncome}</li>
-        <li>Total Expenses: {totalExpense}</li>
-        <li>Monthly Net Profit: {monthyNetProfit}</li>
+        <li>Total Income: {formatNumberToUSD(totalIncome)}</li>
+        <li>Total Expenses: {formatNumberToUSD(totalExpense)}</li>
+        <li>Monthly Net Profit: {formatNumberToUSD(monthyNetProfit)}</li>
         <li>Expense to Income Ration: {incomeRatio}%</li>
         {monthlyProjections.map((projection, index) => (
           <li>
-            {index + 1} Month Projection: {projection}
+            {index + 1} Month Projection: {formatNumberToUSD(projection)}
           </li>
         ))}
       </ul>
