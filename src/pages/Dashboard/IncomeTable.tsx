@@ -1,7 +1,7 @@
-import { Record } from "@/database/models/record/record.model";
+import { TransformedRecord } from "@/database/models/record/record.model";
 
 type Props = {
-  income: Record[];
+  income: TransformedRecord[];
 };
 
 export type Income = {
@@ -32,7 +32,7 @@ export function IncomeTable(props: Props) {
             {props.income.map((income) => (
               <tr>
                 <td class="pl-2">{income.name}</td>
-                <td>{income.amount}</td>
+                <td>{income.amountUSD}</td>
                 <td>
                   <a
                     hx-delete={`/dashboard/income/${income.id}`}

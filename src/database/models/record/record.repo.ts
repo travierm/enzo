@@ -1,5 +1,15 @@
 import { db } from "../../db";
-import { NewRecord, RecordType } from "./record.model";
+import {
+  NewRecord,
+  RecordType,
+  Record,
+  TransformedRecord,
+} from "./record.model";
+
+const USDollar = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
 
 export function createRecord(record: NewRecord) {
   return db.insertInto("records").values(record).execute();
@@ -35,4 +45,23 @@ export async function getCurrentBalance() {
   }
 
   return currentBalance;
+}
+
+export async function getCurrentBalanceUSD() {
+  return USDollar.format(await getCurrentBalance());
+}
+
+// Transformers
+export function transformRecords(
+  records: Record[] | Record
+): TransformedRecord[] {
+  if (!Array.isArray(records)) {
+    records = [records];
+  }
+
+  return records.map((record) => {
+    const amountUSD = USDollar.format(record.amount);
+
+    return { ...record, amountUSD };
+  });
 }

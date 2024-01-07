@@ -13,13 +13,14 @@ import {
   deleteRecord,
   getCurrentBalance,
   getRecordsByType,
+  transformRecords,
 } from "@/database/models/record/record.repo";
 
 const app = new Hono();
 
 app.get("/dashboard", async (c: Context) => {
-  const expenses = await getRecordsByType("expense");
-  const income = await getRecordsByType("income");
+  const expenses = transformRecords(await getRecordsByType("expense"));
+  const income = transformRecords(await getRecordsByType("income"));
   const currentBalance = await getCurrentBalance();
 
   return render(
@@ -75,7 +76,7 @@ app.post(
 
     c.header("HX-Trigger", "incomeUpdated");
 
-    const income = await getRecordsByType("income");
+    const income = transformRecords(await getRecordsByType("income"));
     return render(c, <IncomeTable income={income} />);
   }
 );
@@ -98,7 +99,7 @@ app.post(
       type: "expense",
     });
 
-    const expenses = await getRecordsByType("expense");
+    const expenses = transformRecords(await getRecordsByType("expense"));
 
     c.header("HX-Trigger", "expenseUpdated");
     return render(c, <ExpensesTable expenses={expenses} />);
@@ -109,7 +110,7 @@ app.delete("/dashboard/expense/:id", async (c) => {
   const id = Number(c.req.param("id"));
 
   await deleteRecord(id);
-  const expenses = await getRecordsByType("expense");
+  const expenses = transformRecords(await getRecordsByType("expense"));
 
   c.header("HX-Trigger", "expenseUpdated");
   return render(c, <ExpensesTable expenses={expenses} />);
@@ -122,7 +123,7 @@ app.delete("/dashboard/income/:id", async (c) => {
 
   c.header("HX-Trigger", "incomeUpdated");
 
-  const income = await getRecordsByType("income");
+  const income = transformRecords(await getRecordsByType("income"));
   return render(c, <IncomeTable income={income} />);
 });
 

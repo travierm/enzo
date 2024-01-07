@@ -10,6 +10,10 @@ export type RecordTable = {
   type: RecordType;
 };
 
+export type TransformedRecord = Record & {
+  amountUSD: string;
+};
+
 export type Record = Selectable<RecordTable>;
 export type NewRecord = Insertable<
   Omit<RecordTable, "updatedAt" | "createdAt">
