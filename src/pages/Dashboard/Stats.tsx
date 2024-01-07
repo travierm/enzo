@@ -1,21 +1,19 @@
-import { Expense } from "./ExpensesTable";
-import { Income } from "./IncomeTable";
-
+import { Record } from "@/database/models/record/record.model";
 type Props = {
   currentBalance: number;
-  income: Income[];
-  expenses: Expense[];
+  income: Record[];
+  expenses: Record[];
 };
 
 export function Stats(props: Props) {
   let totalIncome = 0;
   for (let i = 0; i < props.income.length; i++) {
-    totalIncome += props.income[i].amount;
+    totalIncome += Number(props.income[i].amount);
   }
 
   let totalExpense = 0;
   for (let k = 0; k < props.expenses.length; k++) {
-    totalExpense += props.expenses[k].amount;
+    totalExpense += Number(props.expenses[k].amount);
   }
 
   const incomeRatio = Math.round((totalExpense / totalIncome) * 100);

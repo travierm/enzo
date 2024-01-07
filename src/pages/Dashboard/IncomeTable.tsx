@@ -1,5 +1,7 @@
+import { Record } from "@/database/models/record/record.model";
+
 type Props = {
-  income: Income[];
+  income: Record[];
 };
 
 export type Income = {

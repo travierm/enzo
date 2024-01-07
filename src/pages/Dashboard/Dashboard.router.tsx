@@ -3,25 +3,25 @@ import { Context, Hono } from "hono";
 import { render } from "enzo/core";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { Income, IncomeTable } from "./IncomeTable";
+import { IncomeTable } from "./IncomeTable";
 import { Dashboard } from "./Dashboard";
 import { Stats } from "./Stats";
-import { Expense, ExpensesTable } from "./ExpensesTable";
+import { ExpensesTable } from "./ExpensesTable";
 import { AccountBalance } from "./AccountBalance";
+import {
+  createRecord,
+  deleteRecord,
+  getCurrentBalance,
+  getRecordsByType,
+} from "@/database/models/record/record.repo";
 
 const app = new Hono();
 
-let expenses: Expense[] = [
-  { id: 1, name: "Rent", amount: 1000 },
-  { id: 2, name: "Car", amount: 500 },
-  { id: 3, name: "Food", amount: 300 },
-];
+app.get("/dashboard", async (c: Context) => {
+  const expenses = await getRecordsByType("expense");
+  const income = await getRecordsByType("income");
+  const currentBalance = await getCurrentBalance();
 
-let currentBalance = 0;
-
-let income: Income[] = [{ id: 1, name: "Work", amount: 4900 }];
-
-app.get("/dashboard", (c: Context) => {
   return render(
     c,
     <Dashboard
@@ -40,13 +40,18 @@ app.post(
       balance: z.string(),
     })
   ),
-  (c) => {
+  async (c) => {
     const { balance } = c.req.valid("form");
 
-    currentBalance = Number(balance);
+    await createRecord({
+      name: "Account Balance",
+      amount: Number(balance),
+      type: "currentBalance",
+    });
 
     c.header("HX-Trigger", "incomeUpdated");
-    return render(c, <AccountBalance currentBalance={currentBalance} />);
+
+    return render(c, <AccountBalance currentBalance={balance} />);
   }
 );
 
@@ -59,11 +64,14 @@ app.post(
       amount: z.string(),
     })
   ),
-  (c) => {
+  async (c) => {
     const { name, amount } = c.req.valid("form");
 
-    const id = income.length + 1;
-    income.push({ id, name, amount: Number(amount) });
+    await createRecord({
+      name,
+      amount: Number(amount),
+      type: "income",
+    });
 
     c.header("HX-Trigger", "incomeUpdated");
     return render(c, <IncomeTable income={income} />);
@@ -79,36 +87,48 @@ app.post(
       amount: z.string(),
     })
   ),
-  (c) => {
+  async (c) => {
     const { name, amount } = c.req.valid("form");
 
-    const id = expenses.length + 1;
-    expenses.push({ id, name, amount: Number(amount) });
+    await createRecord({
+      name,
+      amount: Number(amount),
+      type: "expense",
+    });
+
+    const expenses = await getRecordsByType("expense");
 
     c.header("HX-Trigger", "expenseUpdated");
     return render(c, <ExpensesTable expenses={expenses} />);
   }
 );
 
-app.delete("/dashboard/expense/:id", (c) => {
+app.delete("/dashboard/expense/:id", async (c) => {
   const id = Number(c.req.param("id"));
 
-  expenses = expenses.filter((i) => i.id !== id);
+  await deleteRecord(id);
+  const expenses = await getRecordsByType("expense");
 
   c.header("HX-Trigger", "expenseUpdated");
   return render(c, <ExpensesTable expenses={expenses} />);
 });
 
-app.delete("/dashboard/income/:id", (c) => {
+app.delete("/dashboard/income/:id", async (c) => {
   const id = Number(c.req.param("id"));
 
-  income = income.filter((income) => income.id !== id);
+  await deleteRecord(id);
 
   c.header("HX-Trigger", "incomeUpdated");
+
+  const income = await getRecordsByType("income");
   return render(c, <IncomeTable income={income} />);
 });
 
-app.get("/dashboard/stats", (c) => {
+app.get("/dashboard/stats", async (c) => {
+  const expenses = await getRecordsByType("expense");
+  const income = await getRecordsByType("income");
+  const currentBalance = await getCurrentBalance();
+
   return render(
     c,
     <Stats

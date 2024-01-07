@@ -1,5 +1,5 @@
-import { CoreButton } from "../../components/core/CoreButton";
-import { CoreFormInput } from "../../components/core/CoreFormInput";
+import { CoreButton } from "@/components/core/CoreButton";
+import { CoreFormInput } from "@/components/core/CoreFormInput";
 
 type Props = {
   currentBalance: number;

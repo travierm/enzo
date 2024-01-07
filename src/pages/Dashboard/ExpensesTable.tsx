@@ -1,11 +1,7 @@
-type Props = {
-  expenses: Expense[];
-};
+import { Record } from "@/database/models/record/record.model";
 
-export type Expense = {
-  id: number;
-  name: string;
-  amount: number;
+type Props = {
+  expenses: Record[];
 };
 
 export function ExpensesTable(props: Props) {

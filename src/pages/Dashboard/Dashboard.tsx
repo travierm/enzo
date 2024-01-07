@@ -1,23 +1,18 @@
 import { AlertMessage } from "enzo/core";
 import { CoreHeading } from "../../components/core/CoreHeading";
 import { Layout } from "../Layout";
-import { Expense, ExpensesTable } from "./ExpensesTable";
-import { Income, IncomeTable } from "./IncomeTable";
+import { ExpensesTable } from "./ExpensesTable";
+import { IncomeTable } from "./IncomeTable";
 import { Stats } from "./Stats";
 import { AccountBalance } from "./AccountBalance";
+import { Record } from "../../database/models/record/record.model";
 
 type Props = {
   alertMessage?: AlertMessage;
-  income: Income[];
-  expenses: Expense[];
+  income: Record[];
+  expenses: Record[];
   currentBalance: number;
 };
-
-const expenses: Expense[] = [
-  { id: 1, name: "Rent", amount: 1000 },
-  { id: 2, name: "Car", amount: 500 },
-  { id: 3, name: "Food", amount: 300 },
-];
 
 export function Dashboard(props: Props) {
   return (
@@ -28,7 +23,7 @@ export function Dashboard(props: Props) {
 
       <div class="grid grid-cols-4 gap-4 mx-4">
         <div>
-          <ExpensesTable expenses={expenses} />
+          <ExpensesTable expenses={props.expenses} />
         </div>
 
         <div>
@@ -40,7 +35,7 @@ export function Dashboard(props: Props) {
           <Stats
             currentBalance={props.currentBalance}
             income={props.income}
-            expenses={expenses}
+            expenses={props.expenses}
           />
         </div>
       </div>

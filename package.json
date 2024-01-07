@@ -24,11 +24,10 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "hono": "3.12.0",
     "@hono/zod-validator": "^0.1.11",
     "@types/web": "^0.0.99",
-    "hono": "^3.5.4",
     "kysely": "^0.26.3",
-    "kysely-codegen": "^0.11.0",
     "pg": "^8.11.3",
     "pino": "^8.16.2",
     "preact": "^10.18.1",
