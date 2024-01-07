@@ -1,5 +1,5 @@
 import { Context, Env } from "hono";
-import { ZodError } from "zod";
+import { ZodError, ZodSchema } from "zod";
 import { ComponentType, VNode, createContext } from "preact";
 
 import renderToString from "preact-render-to-string";
@@ -100,4 +100,9 @@ export function handleZodErrors<T, E extends Env, P extends string, O = {}>(
   }
 
   return;
+}
+
+export async function validateForm<T extends ZodSchema>(c: Context, schema: T) {
+  const body = await c.req.parseBody();
+  return await schema.safeParseAsync(body);
 }

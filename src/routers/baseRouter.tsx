@@ -1,6 +1,8 @@
+import { zValidator } from "@hono/zod-validator";
 import { Context, Hono } from "hono";
 
 import { serveStatic } from "hono/bun";
+import { z } from "zod";
 
 const app = new Hono();
 

@@ -1,7 +1,6 @@
 import { Context, Hono } from "hono";
 
-import { render } from "enzo/core";
-import { zValidator } from "@hono/zod-validator";
+import { render, validateForm } from "enzo/core";
 import { z } from "zod";
 import { IncomeTable } from "./IncomeTable";
 import { Dashboard } from "./Dashboard";
@@ -33,18 +32,17 @@ app.get("/dashboard", async (c: Context) => {
   );
 });
 
-app.post(
-  "/dashboard/account-balance",
-  zValidator(
-    "form",
+app.post("/dashboard/account-balance", async (c) => {
+  const result = await validateForm(
+    c,
     z.object({
       balance: z.string(),
     })
-  ),
-  async (c) => {
-    let { balance } = c.req.valid("form");
+  );
 
-    balance = Number(balance.replace(/[\D\s\._\-]+/g, ""));
+  let balance = 0;
+  if (result.success) {
+    balance = Number(result.data.balance.replace(/[\D\s\._\-]+/g, ""));
 
     await createRecord({
       name: "Account Balance",
@@ -53,22 +51,22 @@ app.post(
     });
 
     c.header("HX-Trigger", "incomeUpdated");
-
-    return render(c, <AccountBalance currentBalance={balance} />);
   }
-);
 
-app.post(
-  "/dashboard/income",
-  zValidator(
-    "form",
+  return render(c, <AccountBalance currentBalance={balance} />);
+});
+
+app.post("/dashboard/income", async (c) => {
+  const result = await validateForm(
+    c,
     z.object({
       name: z.string(),
       amount: z.string(),
     })
-  ),
-  async (c) => {
-    const { name, amount } = c.req.valid("form");
+  );
+
+  if (result.success) {
+    const { name, amount } = result.data;
 
     await createRecord({
       name,
@@ -77,36 +75,36 @@ app.post(
     });
 
     c.header("HX-Trigger", "incomeUpdated");
-
-    const income = transformRecords(await getRecordsByType("income"));
-    return render(c, <IncomeTable income={income} />);
   }
-);
 
-app.post(
-  "/dashboard/expense",
-  zValidator(
-    "form",
+  const income = transformRecords(await getRecordsByType("income"));
+  return render(c, <IncomeTable income={income} />);
+});
+
+app.post("/dashboard/expense", async (c) => {
+  const result = await validateForm(
+    c,
     z.object({
       name: z.string(),
       amount: z.string(),
     })
-  ),
-  async (c) => {
-    const { name, amount } = c.req.valid("form");
+  );
+
+  if (result.success) {
+    const { name, amount } = result.data;
 
     await createRecord({
       name,
       amount: Number(amount),
       type: "expense",
     });
-
-    const expenses = transformRecords(await getRecordsByType("expense"));
-
-    c.header("HX-Trigger", "expenseUpdated");
-    return render(c, <ExpensesTable expenses={expenses} />);
   }
-);
+
+  const expenses = transformRecords(await getRecordsByType("expense"));
+
+  c.header("HX-Trigger", "expenseUpdated");
+  return render(c, <ExpensesTable expenses={expenses} />);
+});
 
 app.delete("/dashboard/expense/:id", async (c) => {
   const id = Number(c.req.param("id"));
