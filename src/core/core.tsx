@@ -30,7 +30,7 @@ export function createAlertMessage(
   } as AlertMessage;
 }
 
-export const RequestContext = createContext<Context | undefined>(undefined);
+export const RequestContext = createContext<Context | null>(null);
 
 function RequestProvider({
   data,
@@ -51,14 +51,13 @@ export function applyContext(c: Context, component: VNode) {
 export async function render(c: Context, component: VNode) {
   const isHxRequest = c.req.header("Hx-Request");
 
-  // append component to index.html unless hx request
-  const stringComponent = isHxRequest
-    ? renderToString(component)
-    : renderToString(<Index>{component}</Index>);
+  // apply reqest context to component
+  const componentWithContext = applyContext(c, component);
 
-  // return new Response(stringComponent, {
-  //   headers: { "Content-Type": "text/html; charset=utf-8" },
-  // });
+  // append component to index.html unless hx request header is present
+  const stringComponent = isHxRequest
+    ? renderToString(componentWithContext)
+    : renderToString(<Index>{componentWithContext}</Index>);
 
   return c.html(stringComponent);
 }
