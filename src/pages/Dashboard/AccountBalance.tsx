@@ -7,9 +7,11 @@ type Props = {
 };
 
 export function AccountBalance(props: Props) {
+  const currentBalance = formatNumberToUSD(props.currentBalance);
+
   return (
     <div id="accountBalance" class="shadow-md sm:rounded max-w-xl">
-      <div>Current Balance: {formatNumberToUSD(props.currentBalance)}</div>
+      <div>Current Balance: {currentBalance}</div>
       <form
         hx-post="/dashboard/account-balance"
         hx-target="#accountBalance"
@@ -22,6 +24,7 @@ export function AccountBalance(props: Props) {
           type="text"
           placeholder="$"
           className="mask-usd"
+          value={currentBalance}
         />
 
         <CoreButton>Update</CoreButton>

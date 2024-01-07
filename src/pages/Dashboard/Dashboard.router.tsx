@@ -40,20 +40,26 @@ app.post("/dashboard/account-balance", async (c) => {
     })
   );
 
-  let balance = 0;
+  let numericBalance = 0;
   if (result.success) {
-    balance = Number(result.data.balance.replace(/[\D\s\._\-]+/g, ""));
+    let balance = result.data.balance.replace(/[^\d.]/g, "");
+    numericBalance = Number(balance);
+
+    numericBalance =
+      numericBalance < 0
+        ? Math.ceil(numericBalance)
+        : Math.floor(numericBalance);
 
     await createRecord({
       name: "Account Balance",
-      amount: balance,
+      amount: numericBalance,
       type: "currentBalance",
     });
 
     c.header("HX-Trigger", "incomeUpdated");
   }
 
-  return render(c, <AccountBalance currentBalance={balance} />);
+  return render(c, <AccountBalance currentBalance={numericBalance} />);
 });
 
 app.post("/dashboard/income", async (c) => {
