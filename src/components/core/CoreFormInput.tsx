@@ -3,6 +3,7 @@ type Props = {
   name: string;
   type?: "text" | "password" | "email" | "number";
   placeholder?: string;
+  className?: string;
 };
 
 export function CoreFormInput({
@@ -10,6 +11,7 @@ export function CoreFormInput({
   name,
   type = "text",
   placeholder = "",
+  className = "",
 }: Props) {
   return (
     <div class="mb-4">
@@ -22,7 +24,7 @@ export function CoreFormInput({
         id={"id_" + name}
         name={name}
         placeholder={placeholder}
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${className}`}
       />
     </div>
   );

@@ -42,11 +42,13 @@ app.post(
     })
   ),
   async (c) => {
-    const { balance } = c.req.valid("form");
+    let { balance } = c.req.valid("form");
+
+    balance = Number(balance.replace(/[\D\s\._\-]+/g, ""));
 
     await createRecord({
       name: "Account Balance",
-      amount: Number(balance),
+      amount: balance,
       type: "currentBalance",
     });
 

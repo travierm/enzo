@@ -18,6 +18,7 @@ export function Index(props: Props) {
           crossorigin="anonymous"
         ></script>
         <script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>
+        <script src="/public/app.js"></script>
       </head>
       <body>
         <div id="root"></div>

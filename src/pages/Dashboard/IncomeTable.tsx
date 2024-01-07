@@ -57,7 +57,7 @@ export function IncomeTable(props: Props) {
                 <input
                   name="amount"
                   type="text"
-                  class="form-input mt-1 block w-full"
+                  class="form-input mt-1 block w-full mask-usd"
                   placeholder="Cost"
                 />
               </td>

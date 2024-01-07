@@ -19,8 +19,9 @@ export function AccountBalance(props: Props) {
         <CoreFormInput
           label="Current Balance"
           name="balance"
-          type="number"
+          type="text"
           placeholder="$"
+          className="mask-usd"
         />
 
         <CoreButton>Update</CoreButton>

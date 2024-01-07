@@ -5,7 +5,7 @@ import { serveStatic } from "hono/bun";
 const app = new Hono();
 
 app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
-app.use("/public/index.js", serveStatic({ path: "./public/index.js" }));
+app.use("/public/app.js", serveStatic({ path: "./public/app.js" }));
 
 app.get("/", (c: Context) => {
   return c.redirect("/dashboard");

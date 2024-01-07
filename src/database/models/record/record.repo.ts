@@ -21,6 +21,7 @@ export function getFirstRecordByType(type: RecordType) {
     .where("type", "=", type)
     .selectAll("records")
     .limit(1)
+    .orderBy("createdAt", "desc")
     .executeTakeFirst();
 }
 
