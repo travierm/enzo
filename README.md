@@ -7,6 +7,7 @@ Server side app framework running on bun with HTMX
 - [HTMX](https://htmx.org/) for frontend interactivity
 - [Tailwind](https://tailwindcss.com/docs/utility-first) for styling
 - [Kysely](https://kysely.dev/docs/getting-started) for Migrations and data layer
+- [Zod](https://zod.dev/) for form validation
 - Running on [Bun](https://bun.sh/)
 
 ### How to use
