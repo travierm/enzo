@@ -10,18 +10,21 @@ Server side app framework running on bun with HTMX
 - Running on [Bun](https://bun.sh/)
 
 ### How to use
-Install deps:
 
+Clone repo
 ```bash
-bun install
+git clone https://github.com/travierm/enzo.git enzo
 ```
 
-To run:
+Install deps:
+```bash
+cd enzo/ && bun install
+```
 
+To development server on localhost:3000:
 ```bash
 bun dev
 ```
-
 
 ## Framework Documentation
 
