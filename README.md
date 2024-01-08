@@ -2,12 +2,12 @@
 Server side app framework running on bun with HTMX
 
 ### Tech Stack
-- Hono for routing
-- Preact as a JSX templating engine
-- HTMX for frontend interactivity
-- Tailwind for styling
-- Kysely for Migrations and data layer
-- Running on Bun
+- [Hono](https://hono.dev) for routing
+- [Preact](https://preactjs.com/guide/v10/server-side-rendering/) as a JSX templating engine
+- [HTMX](https://htmx.org/) for frontend interactivity
+- [Tailwind](https://tailwindcss.com/docs/utility-first) for styling
+- [Kysely](https://kysely.dev/docs/getting-started) for Migrations and data layer
+- Running on [Bun](https://bun.sh/)
 
 ### How to use
 Install deps:
