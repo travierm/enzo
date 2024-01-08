@@ -26,7 +26,7 @@ To development server on localhost:3000:
 bun dev
 ```
 
-## Framework Documentation
+## Example Code
 
 ```ts
 app.post("/dashboard/expense", async (c) => {
