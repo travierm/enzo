@@ -3,6 +3,7 @@ Current Tasks
     ☐ Autoload .router files in pages/
     ☐ Catch errors when building and display on website
     ☐ Add total to bottom of Expenses table
+    ☐ Request logging like monolog context worked in PHP ( maybe switch from pino )
 
 Features:
     ✔ slim down codebase and move core functions into a library @done(24-01-07 16:34)

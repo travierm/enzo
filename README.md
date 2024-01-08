@@ -28,61 +28,85 @@ bun dev
 
 ## Framework Documentation
 
-### Request Validation
-
 ```ts
-import { Context, Hono } from "hono";
+app.post("/dashboard/expense", async (c) => {
+  const result = await validateForm(
+    c,
+    z.object({
+      name: z.string(),
+      amount: z.string(),
+    })
+  );
 
-const app = new Hono();
+  if (result.success) {
+    const { name, amount } = result.data;
 
-app.post(
-  "/user/create",
-  zValidator(
-    "form", // set the data type to validate
-    z.object({ // define the Zod type contraints
-      email: z.string().min(100),
-      password: z.string().max(1),
-    }),
-    // hook to handle when validation fails
-    (result, c) => {
-      // let page component display errors to the user
-      return handleZodErrors(c, result, CreateUser)
-    }
-  ),
-  async (c) => {
-    const body  = c.req.valid('form')
-
-    return renderComponent(c, <CreateUser />);
+    await createRecord({
+      name,
+      amount: Number(amount),
+      type: "expense",
+    });
   }
-);
+
+  return getDashboard(c);
+});
+```
+
+```tsx
+export async function getDashboard(c: Context) {
+  const expenses = transformRecords(await getRecordsByType("expense"));
+  const income = transformRecords(await getRecordsByType("income"));
+  const currentBalance = await getCurrentBalance();
+
+  return render(
+    c,
+    <Dashboard
+      currentBalance={currentBalance}
+      income={income}
+      expenses={expenses}
+    />
+  );
+}
 ```
 
 
-```jsx
+```tsx
 type Props = {
   alertMessage?: AlertMessage;
+  income: TransformedRecord[];
+  expenses: TransformedRecord[];
+  currentBalance: number;
 };
 
-export function CreateUser(props: Props) {
+export function Dashboard(props: Props) {
   return (
-    <Layout>
-      <div class="flex items-center justify-center">
-        <CoreHeading size="2xl">Create User</CoreHeading>
+    <Layout id="dashboard-root">
+      <div class="flex items-center">
+        <CoreHeading size="2xl">Dashboard</CoreHeading>
       </div>
 
-      <div class="flex flex-col items-center justify-center">
-         { props.templateMessage && <CoreTemplateMessage templateMessage={props.templateMessage} /> }
+      <div class="grid grid-cols-4 gap-4 mx-4">
+        <div>
+          <ExpensesTable expenses={props.expenses} />
+        </div>
 
-        <form action="/user/create" method="POST">
-          <CoreInputBlock label="Email" name="email" />
-          <CoreInputBlock label="Password" name="password" type="password" />
+        <div>
+          <IncomeTable income={props.income} />
+        </div>
 
-          <CoreButton className="mt-2">Create User</CoreButton>
-        </form>
+        <div>
+          <AccountBalance currentBalance={props.currentBalance} />
+          <Stats
+            currentBalance={props.currentBalance}
+            income={props.income}
+            expenses={props.expenses}
+          />
+        </div>
       </div>
     </Layout>
   );
 }
+
 ```
 
 ### Cavets
