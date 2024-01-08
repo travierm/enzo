@@ -29,6 +29,8 @@ bun dev
 ## Example Code
 
 ```ts
+// file: pages/Dashboard.router.tsx
+
 app.post("/dashboard/expense", async (c) => {
   const result = await validateForm(
     c,
@@ -52,7 +54,10 @@ app.post("/dashboard/expense", async (c) => {
 });
 ```
 
+
 ```tsx
+// file: pages/Dashboard.controller.tsx
+
 export async function getDashboard(c: Context) {
   const expenses = transformRecords(await getRecordsByType("expense"));
   const income = transformRecords(await getRecordsByType("income"));
@@ -71,6 +76,8 @@ export async function getDashboard(c: Context) {
 
 
 ```tsx
+// file: pages/Dashboard.tsx
+
 type Props = {
   alertMessage?: AlertMessage;
   income: TransformedRecord[];
