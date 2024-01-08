@@ -3,15 +3,16 @@ import { VNode } from "preact";
 import { RequestContext } from "enzo/core";
 
 type Props = {
+  id?: string;
   children: VNode | VNode[];
 };
 
-export function Layout(props: Props) {
+export function Layout({ id = "", ...props }: Props) {
   return (
     <RequestContext.Consumer>
       {(context) => {
         return (
-          <div class="h-full">
+          <div class="h-full" id={id}>
             <Navbar isAuthed={context?.get("user") !== undefined} />
 
             {props.children}

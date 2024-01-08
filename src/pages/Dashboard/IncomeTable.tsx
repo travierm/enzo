@@ -16,7 +16,7 @@ export function IncomeTable(props: Props) {
       <form
         id="incomeTableForm"
         hx-post="/dashboard/income"
-        hx-target="#incomeTable"
+        hx-target="#dashboard-root"
         hx-swap="outerHTML"
       >
         <table class="w-full text-sm text-left text-gray-500">
@@ -57,7 +57,7 @@ export function IncomeTable(props: Props) {
                 <input
                   name="amount"
                   type="text"
-                  class="form-input mt-1 block w-full mask-usd"
+                  class="form-input mt-1 block w-full"
                   placeholder="Cost"
                 />
               </td>

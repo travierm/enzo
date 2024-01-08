@@ -13,7 +13,7 @@ export function ExpensesTable(props: Props) {
       <form
         id="expenseTableForm"
         hx-post="/dashboard/expense"
-        hx-target="#expenseTable"
+        hx-target="#dashboard-root"
         hx-swap="outerHTML"
       >
         <table class="w-full text-sm text-left text-gray-500">
@@ -54,7 +54,7 @@ export function ExpensesTable(props: Props) {
                 <input
                   name="amount"
                   type="text"
-                  class="form-input mt-1 block w-full mask-usd"
+                  class="form-input mt-1 block w-full"
                   placeholder="Cost"
                 />
               </td>

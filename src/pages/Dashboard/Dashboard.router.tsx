@@ -1,35 +1,17 @@
 import { Context, Hono } from "hono";
 
-import { render, validateForm } from "enzo/core";
-import { z } from "zod";
-import { IncomeTable } from "./IncomeTable";
-import { Dashboard } from "./Dashboard";
-import { Stats } from "./Stats";
-import { ExpensesTable } from "./ExpensesTable";
-import { AccountBalance } from "./AccountBalance";
 import {
   createRecord,
   deleteRecord,
-  getCurrentBalance,
-  getRecordsByType,
-  transformRecords,
 } from "@/database/models/record/record.repo";
+import { validateForm } from "enzo/core";
+import { z } from "zod";
+import { getDashboard } from "./Dashboard.controller";
 
 const app = new Hono();
 
 app.get("/dashboard", async (c: Context) => {
-  const expenses = transformRecords(await getRecordsByType("expense"));
-  const income = transformRecords(await getRecordsByType("income"));
-  const currentBalance = await getCurrentBalance();
-
-  return render(
-    c,
-    <Dashboard
-      currentBalance={currentBalance}
-      income={income}
-      expenses={expenses}
-    />
-  );
+  return getDashboard(c);
 });
 
 app.post("/dashboard/account-balance", async (c) => {
@@ -55,11 +37,9 @@ app.post("/dashboard/account-balance", async (c) => {
       amount: numericBalance,
       type: "currentBalance",
     });
-
-    c.header("HX-Trigger", "incomeUpdated");
   }
 
-  return render(c, <AccountBalance currentBalance={numericBalance} />);
+  return getDashboard(c);
 });
 
 app.post("/dashboard/income", async (c) => {
@@ -79,12 +59,9 @@ app.post("/dashboard/income", async (c) => {
       amount: Number(amount),
       type: "income",
     });
-
-    c.header("HX-Trigger", "incomeUpdated");
   }
 
-  const income = transformRecords(await getRecordsByType("income"));
-  return render(c, <IncomeTable income={income} />);
+  return getDashboard(c);
 });
 
 app.post("/dashboard/expense", async (c) => {
@@ -106,20 +83,15 @@ app.post("/dashboard/expense", async (c) => {
     });
   }
 
-  const expenses = transformRecords(await getRecordsByType("expense"));
-
-  c.header("HX-Trigger", "expenseUpdated");
-  return render(c, <ExpensesTable expenses={expenses} />);
+  return getDashboard(c);
 });
 
 app.delete("/dashboard/expense/:id", async (c) => {
   const id = Number(c.req.param("id"));
 
   await deleteRecord(id);
-  const expenses = transformRecords(await getRecordsByType("expense"));
 
-  c.header("HX-Trigger", "expenseUpdated");
-  return render(c, <ExpensesTable expenses={expenses} />);
+  return getDashboard(c);
 });
 
 app.delete("/dashboard/income/:id", async (c) => {
@@ -127,25 +99,7 @@ app.delete("/dashboard/income/:id", async (c) => {
 
   await deleteRecord(id);
 
-  c.header("HX-Trigger", "incomeUpdated");
-
-  const income = transformRecords(await getRecordsByType("income"));
-  return render(c, <IncomeTable income={income} />);
-});
-
-app.get("/dashboard/stats", async (c) => {
-  const expenses = await getRecordsByType("expense");
-  const income = await getRecordsByType("income");
-  const currentBalance = await getCurrentBalance();
-
-  return render(
-    c,
-    <Stats
-      currentBalance={currentBalance}
-      income={income}
-      expenses={expenses}
-    />
-  );
+  return getDashboard(c);
 });
 
 export const dashboardRouter = app;

@@ -6,6 +6,14 @@ import { z } from "zod";
 
 const app = new Hono();
 
+app.use("*", async (c, next) => {
+  if (c.req.method === "POST") {
+    console.log(await c.req.parseBody());
+  }
+
+  return next();
+});
+
 app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
 app.use("/public/app.js", serveStatic({ path: "./public/app.js" }));
 

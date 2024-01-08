@@ -14,7 +14,7 @@ export function AccountBalance(props: Props) {
       <div>Current Balance: {currentBalance}</div>
       <form
         hx-post="/dashboard/account-balance"
-        hx-target="#accountBalance"
+        hx-target="#dashboard-root"
         hx-swap="outerHTML"
         class="p-2"
       >

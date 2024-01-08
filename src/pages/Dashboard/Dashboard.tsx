@@ -16,7 +16,7 @@ type Props = {
 
 export function Dashboard(props: Props) {
   return (
-    <Layout>
+    <Layout id="dashboard-root">
       <div class="flex items-center">
         <CoreHeading size="2xl">Dashboard</CoreHeading>
       </div>

@@ -34,12 +34,7 @@ export function Stats(props: Props) {
   }
 
   return (
-    <div
-      class="relative overflow-x-auto shadow-md sm:rounded"
-      hx-get="/dashboard/stats"
-      hx-swap="outerHTML"
-      hx-trigger="incomeUpdated from:body, expenseUpdated from:body"
-    >
+    <div class="relative overflow-x-auto shadow-md sm:rounded">
       <ul class="w-full text-sm text-left text-gray-500 p-2">
         <li>Total Income: {formatNumberToUSD(totalIncome)}</li>
         <li>Total Expenses: {formatNumberToUSD(totalExpense)}</li>
