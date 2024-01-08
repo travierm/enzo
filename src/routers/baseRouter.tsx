@@ -1,3 +1,4 @@
+import { logger } from "@/logger";
 import { zValidator } from "@hono/zod-validator";
 import { Context, Hono } from "hono";
 
@@ -7,9 +8,14 @@ import { z } from "zod";
 const app = new Hono();
 
 app.use("*", async (c, next) => {
+  let log = logger;
   if (c.req.method === "POST") {
-    console.log(await c.req.parseBody());
+    const body = await c.req.parseBody();
+
+    log = logger.child({ body: body });
   }
+
+  log.debug(`${c.req.method} ${c.req.url}`);
 
   return next();
 });

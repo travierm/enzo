@@ -24,12 +24,13 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "hono": "3.12.0",
     "@hono/zod-validator": "^0.1.11",
     "@types/web": "^0.0.99",
+    "hono": "3.12.0",
     "kysely": "^0.26.3",
     "pg": "^8.11.3",
     "pino": "^8.16.2",
+    "pino-pretty": "^10.3.1",
     "preact": "^10.18.1",
     "preact-render-to-string": "^6.2.2",
     "reflect-metadata": "^0.1.14",

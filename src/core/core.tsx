@@ -1,9 +1,11 @@
 import { Context, Env } from "hono";
-import { ZodError, ZodSchema } from "zod";
+import { ZodError, ZodSchema, object } from "zod";
 import { ComponentType, VNode, createContext } from "preact";
 
 import renderToString from "preact-render-to-string";
 import { Index } from "../index";
+import { logger } from "@/logger";
+import { formatGetComponentName } from "@/database/utils/formatter";
 
 export type ErrorBag = {
   message: string;
@@ -49,6 +51,13 @@ export function applyContext(c: Context, component: VNode) {
 }
 
 export async function render(c: Context, component: VNode) {
+  const componentName =
+    typeof component.type === "string" ? component.type : component.type.name;
+
+  logger.debug(
+    `RESPONSE rendered component ${formatGetComponentName(componentName)}`
+  );
+
   const isHxRequest = c.req.header("Hx-Request");
 
   // apply reqest context to component
