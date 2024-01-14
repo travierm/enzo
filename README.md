@@ -22,6 +22,11 @@ Install deps:
 cd enzo/ && bun install
 ```
 
+Clone .env.example
+```bash
+cp ./.env.example .env
+```
+
 To development server on localhost:3000:
 ```bash
 bun dev

@@ -1,9 +1,10 @@
-import { Record } from "@/database/models/record/record.model";
+import { RecordTable } from "@/database/models/record/record.model.drizzle";
 import { formatNumberToUSD } from "@/database/utils/formatter";
+
 type Props = {
   currentBalance: number;
-  income: Record[];
-  expenses: Record[];
+  income: RecordTable[];
+  expenses: RecordTable[];
 };
 
 export function Stats(props: Props) {

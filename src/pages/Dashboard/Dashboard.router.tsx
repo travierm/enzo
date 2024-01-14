@@ -1,12 +1,16 @@
 import { Context, Hono } from "hono";
 
 import {
-  createRecord,
+  // createRecord,
   deleteRecord,
 } from "@/database/models/record/record.repo";
+
 import { validateForm } from "enzo/core";
 import { z } from "zod";
 import { getDashboard } from "./Dashboard.controller";
+import { createRecord } from "@/database/models/record/record.repo.drizzle";
+import { insertRecordSchema } from "@/database/models/record/record.model.drizzle";
+import { logger } from "@/logger";
 
 const app = new Hono();
 
@@ -65,24 +69,25 @@ app.post("/dashboard/income", async (c) => {
 });
 
 app.post("/dashboard/expense", async (c) => {
-  const result = await validateForm(
-    c,
-    z.object({
-      name: z.string(),
-      amount: z.string(),
-    })
-  );
+  // TODO - doesn't error with an empty object
+  const result = await validateForm(c, insertRecordSchema);
+
+  // TODO - should this live in validateForm?
+  if (!result.success) {
+    logger.error({ errors: result.error?.errors }, "ZOD error:");
+  }
 
   if (result.success) {
+    logger.debug({ data: result.data }, "ZOD Parse:");
+
     const { name, amount } = result.data;
 
     await createRecord({
       name,
-      amount: Number(amount),
+      amount,
       type: "expense",
     });
   }
-
   return getDashboard(c);
 });
 
