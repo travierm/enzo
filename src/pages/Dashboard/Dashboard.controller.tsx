@@ -10,7 +10,7 @@ import { logger } from "@/logger";
 export async function getDashboard(c: Context) {
   const expenses = await getRecordsByType("expense");
   const income = await getRecordsByType("income");
-  const currentBalance = (await getFirstRecordByType("currentBalance")).amount;
+  const currentBalance = (await getFirstRecordByType("currentBalance"))?.amount || 0;
 
   logger.info(expenses)
   return render(

@@ -9,7 +9,7 @@ import {
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-const RecordTypeEnum = pgEnum("record_type", [
+export const RecordTypeEnum = pgEnum("record_type", [
   "expense",
   "income",
   "currentBalance",

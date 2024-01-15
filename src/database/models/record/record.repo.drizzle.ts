@@ -1,18 +1,18 @@
-import { db } from "@/database/drizzle";
+import { db } from "@/database/drizzle.config";
 import {
   RecordTable,
   recordTable,
   RecordType,
   UpdateRecordSchema,
 } from "./record.model.drizzle";
-import { desc, eq, sql, asc } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 
 export type RecordWithAmountUSD = RecordTable & { amountUSD: string };
 const selectWithUSD = {
   id: recordTable.id,
   name: recordTable.name,
   amount: recordTable.amount,
-  amountUSD: sql<string>`cast(${recordTable.amount} as money)`,
+  amountUSD: sql<string>`${recordTable.amount}::NUMERIC::MONEY`,
   type: recordTable.type,
   createdAt: recordTable.createdAt,
 }

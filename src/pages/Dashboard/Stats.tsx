@@ -1,6 +1,14 @@
 import { RecordTable } from "@/database/models/record/record.model.drizzle";
 import { formatNumberToUSD } from "@/database/utils/formatter";
 
+const safePercentage = (numerator: number, denominator: number) => {
+  if (denominator === 0) {
+    return 0;
+  }
+
+  return Math.round((numerator / denominator) * 100);
+}
+
 type Props = {
   currentBalance: number;
   income: RecordTable[];
@@ -18,7 +26,7 @@ export function Stats(props: Props) {
     totalExpense += Number(props.expenses[k].amount);
   }
 
-  const incomeRatio = Math.round((totalExpense / totalIncome) * 100);
+  const incomeRatio = safePercentage(totalExpense, totalIncome);
   const monthyNetProfit = totalIncome - totalExpense;
 
   let monthlyProjections: number[] = [];

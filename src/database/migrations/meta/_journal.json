@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1705338859256,
+      "tag": "0000_foundation_tables",
+      "breakpoints": true
+    }
+  ]
+}
