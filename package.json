@@ -9,10 +9,9 @@
     "tailwind:dev": "bunx tailwindcss -i ./src/app.css -o ./public/app.css --watch",
     "client:build": "bun build ./src/client/index.tsx --outdir ./public --watch",
     "db:types": "kysely-codegen",
-    "migrate:create": "drizzle-kit generate:pg --config=src/database/drizzle.config.ts",
-    "migrate:latest": "drizzle-kit push:pg --config=src/database/drizzle.config.ts",
-    "migrate:down": "drizzle-kit drop --config=src/database/drizzle.config.ts",
-    "migrate:fresh": "bun ./src/core/cmd/migrateReset && bun migrate:latest",
+    "migrate:create": "npx drizzle-kit generate:pg --config=src/database/drizzle.config.ts",
+    "migrate:latest": "npx drizzle-kit push:pg --config=src/database/drizzle.config.ts",
+    "migrate:down": "npx drizzle-kit drop --config=src/database/drizzle.config.ts",
     "drizzle:studio": "npx drizzle-kit studio --config=src/database/drizzle.config.ts"
   },
   "devDependencies": {
