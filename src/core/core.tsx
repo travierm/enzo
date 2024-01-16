@@ -1,11 +1,12 @@
 import { Context, Env } from "hono";
-import { ZodError, ZodSchema, object } from "zod";
+import { ZodError, ZodSchema, z } from "zod";
 import { ComponentType, VNode, createContext } from "preact";
 
 import renderToString from "preact-render-to-string";
 import { Index } from "../index";
 import { logger } from "@/logger";
 import { formatGetComponentName } from "@/database/utils/formatter";
+import { BodyData } from "hono/utils/body";
 
 export type ErrorBag = {
   message: string;
@@ -111,7 +112,10 @@ export function handleZodErrors<T, E extends Env, P extends string, O = {}>(
   return;
 }
 
-export async function validateForm<T extends ZodSchema>(c: Context, schema: T) {
+export async function validateForm<T extends ZodSchema>(
+  c: Context,
+  schema: T
+): Promise<z.SafeParseReturnType<BodyData, z.infer<T>>> {
   const body = await c.req.parseBody();
-  return await schema.safeParseAsync(body);
+  return schema.safeParseAsync(body);
 }
