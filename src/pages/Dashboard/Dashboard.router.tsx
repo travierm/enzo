@@ -47,13 +47,7 @@ app.post("/dashboard/account-balance", async (c) => {
 });
 
 app.post("/dashboard/income", async (c) => {
-  const result = await validateForm(
-    c,
-    z.object({
-      name: z.string(),
-      amount: z.string(),
-    })
-  );
+  const result = await validateForm(c, insertRecordSchema);
 
   if (result.success) {
     const { name, amount } = result.data;
@@ -69,10 +63,8 @@ app.post("/dashboard/income", async (c) => {
 });
 
 app.post("/dashboard/expense", async (c) => {
-  // TODO - doesn't error with an empty object
   const result = await validateForm(c, insertRecordSchema);
 
-  // TODO - should this live in validateForm?
   if (!result.success) {
     logger.error({ errors: result.error?.errors }, "ZOD error:");
   }
@@ -88,6 +80,7 @@ app.post("/dashboard/expense", async (c) => {
       type: "expense",
     });
   }
+
   return getDashboard(c);
 });
 
