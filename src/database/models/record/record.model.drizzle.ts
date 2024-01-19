@@ -26,9 +26,12 @@ export const recordTable = pgTable("records", {
   createdAt: timestamp("createdAt").notNull().defaultNow(),
 });
 
-
 export type InsertRecordSchema = z.infer<typeof insertRecordSchema>;
-export const insertRecordSchema = createInsertSchema(recordTable).omit({ id: true, createdAt: true, type: true });
+export const insertRecordSchema = createInsertSchema(recordTable).omit({
+  id: true,
+  createdAt: true,
+  type: true,
+});
 
 export type UpdateRecordSchema = z.infer<typeof updateRecordSchema>;
 export const updateRecordSchema = insertRecordSchema.partial().extend({

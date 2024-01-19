@@ -8,7 +8,6 @@
     "tailwind": "bunx tailwindcss -i ./src/app.css -o ./public/app.css",
     "tailwind:dev": "bunx tailwindcss -i ./src/app.css -o ./public/app.css --watch",
     "client:build": "bun build ./src/client/index.tsx --outdir ./public --watch",
-    "db:types": "kysely-codegen",
     "migrate:create": "npx drizzle-kit generate:pg --config=src/database/drizzle.config.ts",
     "migrate:latest": "npx drizzle-kit push:pg --config=src/database/drizzle.config.ts",
     "migrate:down": "npx drizzle-kit drop --config=src/database/drizzle.config.ts",
@@ -18,7 +17,7 @@
     "@types/pg": "^8.10.9",
     "bun-types": "latest",
     "concurrently": "^8.2.0",
-    "drizzle-kit": "^0.20.12",
+    "drizzle-kit": "latest",
     "tailwindcss": "^3.3.3"
   },
   "peerDependencies": {
@@ -30,7 +29,6 @@
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
     "hono": "3.12.0",
-    "kysely": "^0.26.3",
     "pg": "^8.11.3",
     "pino": "^8.16.2",
     "pino-pretty": "^10.3.1",
