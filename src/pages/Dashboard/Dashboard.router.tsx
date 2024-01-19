@@ -1,14 +1,12 @@
 import { Context, Hono } from "hono";
 
-import {
-  // createRecord,
-  deleteRecord,
-} from "@/database/models/record/record.repo";
-
 import { validateForm } from "enzo/core";
 import { z } from "zod";
 import { getDashboard } from "./Dashboard.controller";
-import { createRecord } from "@/database/models/record/record.repo.drizzle";
+import {
+  createRecord,
+  deleteRecord,
+} from "@/database/models/record/record.repo.drizzle";
 import { insertRecordSchema } from "@/database/models/record/record.model.drizzle";
 import { logger } from "@/logger";
 
@@ -46,21 +44,29 @@ app.post("/dashboard/account-balance", async (c) => {
   return getDashboard(c);
 });
 
-app.post("/dashboard/income", async (c) => {
-  const result = await validateForm(c, insertRecordSchema);
+app.post(
+  "/dashboard/income",
+  () => {
+    console.log("middleware");
+  },
+  async (c) => {
+    const result = await validateForm(c, insertRecordSchema);
 
-  if (result.success) {
-    const { name, amount } = result.data;
+    console.log("result", result);
 
-    await createRecord({
-      name,
-      amount: Number(amount),
-      type: "income",
-    });
+    if (result.success) {
+      const { name, amount } = result.data;
+
+      await createRecord({
+        name,
+        amount: Number(amount),
+        type: "income",
+      });
+    }
+
+    return getDashboard(c);
   }
-
-  return getDashboard(c);
-});
+);
 
 app.post("/dashboard/expense", async (c) => {
   const result = await validateForm(c, insertRecordSchema);

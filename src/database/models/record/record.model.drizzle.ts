@@ -27,11 +27,15 @@ export const recordTable = pgTable("records", {
 });
 
 export type InsertRecordSchema = z.infer<typeof insertRecordSchema>;
-export const insertRecordSchema = createInsertSchema(recordTable).omit({
-  id: true,
-  createdAt: true,
-  type: true,
-});
+export const insertRecordSchema = createInsertSchema(recordTable)
+  .omit({
+    id: true,
+    createdAt: true,
+    type: true,
+  })
+  .extend({
+    amount: z.coerce.number(),
+  });
 
 export type UpdateRecordSchema = z.infer<typeof updateRecordSchema>;
 export const updateRecordSchema = insertRecordSchema.partial().extend({

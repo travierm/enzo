@@ -7,7 +7,7 @@ import { compress } from "hono/compress";
 
 export function bootRouter(app: Hono<Env, {}, "/">) {
   app.use("*", secureHeaders());
-  app.use("*", compress())
+  //app.use("*", compress())
   //app.use("*", logger());
   //app.use("*", authGuard());
 

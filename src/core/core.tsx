@@ -117,5 +117,6 @@ export async function validateForm<T extends ZodSchema>(
   schema: T
 ): Promise<z.SafeParseReturnType<BodyData, z.infer<T>>> {
   const body = await c.req.parseBody();
+
   return schema.safeParseAsync(body);
 }
