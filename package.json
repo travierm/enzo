@@ -1,5 +1,5 @@
 {
-  "name": "bun-htmx",
+  "name": "enzo",
   "module": "index.tsx",
   "type": "module",
   "scripts": {
@@ -8,16 +8,16 @@
     "tailwind": "bunx tailwindcss -i ./src/app.css -o ./public/app.css",
     "tailwind:dev": "bunx tailwindcss -i ./src/app.css -o ./public/app.css --watch",
     "client:build": "bun build ./src/client/index.tsx --outdir ./public --watch",
-    "db:types": "kysely-codegen",
-    "migrate:create": "bun ./src/core/cmd/migrateCreate createMigration.ts",
-    "migrate:latest": "bun ./src/core/cmd/migrateLatest",
-    "migrate:down": "bun ./src/core/cmd/migrateDown",
-    "migrate:fresh": "bun ./src/core/cmd/migrateReset && bun migrate:latest"
+    "migrate:create": "npx drizzle-kit generate:pg --config=src/database/drizzle.config.ts",
+    "migrate:latest": "npx drizzle-kit push:pg --config=src/database/drizzle.config.ts",
+    "migrate:down": "npx drizzle-kit drop --config=src/database/drizzle.config.ts",
+    "drizzle:studio": "npx drizzle-kit studio --config=src/database/drizzle.config.ts"
   },
   "devDependencies": {
     "@types/pg": "^8.10.9",
     "bun-types": "latest",
     "concurrently": "^8.2.0",
+    "drizzle-kit": "latest",
     "tailwindcss": "^3.3.3"
   },
   "peerDependencies": {
@@ -26,23 +26,18 @@
   "dependencies": {
     "@hono/zod-validator": "^0.1.11",
     "@types/web": "^0.0.99",
+    "drizzle-orm": "^0.29.3",
+    "drizzle-zod": "^0.5.1",
     "hono": "3.12.0",
-    "kysely": "^0.26.3",
     "pg": "^8.11.3",
     "pino": "^8.16.2",
     "pino-pretty": "^10.3.1",
+    "postgres": "^3.4.3",
     "preact": "^10.18.1",
     "preact-render-to-string": "^6.2.2",
     "reflect-metadata": "^0.1.14",
     "typedi": "^0.10.0",
     "uuid": "^9.0.0",
     "zod": "^3.22.2"
-  },
-  "compilerOptions": {
-    "paths": {
-      "@framework/*": [
-        "./src/framework/framework.tsx"
-      ]
-    }
   }
 }

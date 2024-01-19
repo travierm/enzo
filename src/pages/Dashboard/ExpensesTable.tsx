@@ -1,7 +1,7 @@
-import { TransformedRecord } from "@/database/models/record/record.model";
+import { RecordWithAmountUSD } from "@/database/models/record/record.repo.drizzle";
 
 type Props = {
-  expenses: TransformedRecord[];
+  expenses: RecordWithAmountUSD[];
 };
 
 export function ExpensesTable(props: Props) {

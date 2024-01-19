@@ -1,7 +1,7 @@
-import { TransformedRecord } from "@/database/models/record/record.model";
+import { RecordWithAmountUSD } from "@/database/models/record/record.repo.drizzle";
 
 type Props = {
-  income: TransformedRecord[];
+  income: RecordWithAmountUSD[];
 };
 
 export type Income = {
@@ -56,7 +56,8 @@ export function IncomeTable(props: Props) {
               <td class="whitespace-nowrap">
                 <input
                   name="amount"
-                  type="text"
+                  type="number"
+                  step="1"
                   class="form-input mt-1 block w-full"
                   placeholder="Cost"
                 />

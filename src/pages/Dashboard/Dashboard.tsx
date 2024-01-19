@@ -5,12 +5,12 @@ import { ExpensesTable } from "./ExpensesTable";
 import { IncomeTable } from "./IncomeTable";
 import { Stats } from "./Stats";
 import { AccountBalance } from "./AccountBalance";
-import { TransformedRecord } from "@/database/models/record/record.model";
+import { RecordWithAmountUSD } from "@/database/models/record/record.repo.drizzle";
 
 type Props = {
   alertMessage?: AlertMessage;
-  income: TransformedRecord[];
-  expenses: TransformedRecord[];
+  income: RecordWithAmountUSD[];
+  expenses: RecordWithAmountUSD[];
   currentBalance: number;
 };
 
