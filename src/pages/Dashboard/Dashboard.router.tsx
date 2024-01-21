@@ -44,29 +44,21 @@ app.post("/dashboard/account-balance", async (c) => {
   return getDashboard(c);
 });
 
-app.post(
-  "/dashboard/income",
-  () => {
-    console.log("middleware");
-  },
-  async (c) => {
-    const result = await validateForm(c, insertRecordSchema);
+app.post("/dashboard/income", async (c) => {
+  const result = await validateForm(c, insertRecordSchema);
 
-    console.log("result", result);
+  if (result.success) {
+    const { name, amount } = result.data;
 
-    if (result.success) {
-      const { name, amount } = result.data;
-
-      await createRecord({
-        name,
-        amount: Number(amount),
-        type: "income",
-      });
-    }
-
-    return getDashboard(c);
+    await createRecord({
+      name,
+      amount: Number(amount),
+      type: "income",
+    });
   }
-);
+
+  return getDashboard(c);
+});
 
 app.post("/dashboard/expense", async (c) => {
   const result = await validateForm(c, insertRecordSchema);
