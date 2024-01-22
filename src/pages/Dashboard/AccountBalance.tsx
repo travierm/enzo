@@ -1,5 +1,4 @@
-import { CoreButton } from "@/components/core/CoreButton";
-import { CoreFormInput } from "@/components/core/CoreFormInput";
+import { FormInput } from "@/components/core/CoreFormInput";
 import { formatNumberToUSD } from "@/database/utils/formatter";
 
 type Props = {
@@ -18,7 +17,7 @@ export function AccountBalance(props: Props) {
         hx-swap="outerHTML"
         class="p-2"
       >
-        <CoreFormInput
+        <FormInput
           label="Current Balance"
           name="balance"
           type="text"
@@ -27,7 +26,7 @@ export function AccountBalance(props: Props) {
           value={currentBalance}
         />
 
-        <CoreButton>Update</CoreButton>
+        <button class="btn btn-blue">Update</button>
       </form>
     </div>
   );

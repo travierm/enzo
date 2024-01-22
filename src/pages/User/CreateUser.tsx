@@ -1,7 +1,7 @@
 import { AlertMessage } from "enzo/core";
 import { CoreButton } from "../../components/core/CoreButton";
 import { CoreHeading } from "../../components/core/CoreHeading";
-import { CoreFormInput } from "../../components/core/CoreFormInput";
+import { FormInput } from "../../components/core/CoreFormInput";
 import { CoreAlertMessage } from "../../components/core/CoreTemplateMessages";
 import { Layout } from "../Layout";
 
@@ -22,8 +22,8 @@ export function CreateUser(props: Props) {
         )}
 
         <form action="/user/create" method="POST">
-          <CoreFormInput label="Email" name="email" />
-          <CoreFormInput label="Password" name="password" type="password" />
+          <FormInput label="Email" name="email" />
+          <FormInput label="Password" name="password" type="password" />
 
           <CoreButton className="mt-2">Create User</CoreButton>
         </form>

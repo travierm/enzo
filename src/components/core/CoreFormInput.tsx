@@ -3,18 +3,14 @@ type Props = {
   name: string;
   type?: "text" | "password" | "email" | "number";
   placeholder?: string;
-  className?: string;
+  class?: string;
   value?: string | number;
 };
 
-export function CoreFormInput({
-  label,
-  name,
-  type = "text",
-  placeholder = "",
-  className = "",
-  value = "",
-}: Props) {
+export function FormInput(props: Props) {
+  const className = props.class || "";
+  const { label, name, type = "text", placeholder = "", value = "" } = props;
+
   return (
     <div class="mb-4">
       <label for="username" class="block text-gray-700 text-sm font-bold mb-2">

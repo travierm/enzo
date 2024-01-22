@@ -1,6 +1,6 @@
 import { AlertMessage } from "enzo/core";
 import { CoreButton } from "../components/core/CoreButton";
-import { CoreFormInput } from "../components/core/CoreFormInput";
+import { FormInput } from "../components/core/CoreFormInput";
 import { CoreHeading } from "../components/core/CoreHeading";
 import { CoreAlertMessage } from "../components/core/CoreTemplateMessages";
 import { Layout } from "./Layout";
@@ -20,8 +20,8 @@ export function Login(props: Props) {
             <CoreAlertMessage templateMessage={props.templateMessage} />
           )}
 
-          <CoreFormInput name="email" label="Email" />
-          <CoreFormInput name="password" label="Password" type="password" />
+          <FormInput name="email" label="Email" />
+          <FormInput name="password" label="Password" type="password" />
 
           <div class="flex justify-end">
             <CoreButton>Login</CoreButton>

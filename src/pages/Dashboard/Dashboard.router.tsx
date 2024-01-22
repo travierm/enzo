@@ -24,23 +24,6 @@ app.post("/dashboard/account-balance", async (c) => {
     })
   );
 
-  let numericBalance = 0;
-  if (result.success) {
-    let balance = result.data.balance.replace(/[^\d.]/g, "");
-    numericBalance = Number(balance);
-
-    numericBalance =
-      numericBalance < 0
-        ? Math.ceil(numericBalance)
-        : Math.floor(numericBalance);
-
-    await createRecord({
-      name: "Account Balance",
-      amount: numericBalance,
-      type: "currentBalance",
-    });
-  }
-
   return getDashboard(c);
 });
 
