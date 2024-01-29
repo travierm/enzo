@@ -1,7 +1,7 @@
 import { VNode } from "preact";
 
 type Props = {
-  children: VNode;
+  children?: VNode;
 };
 
 export function Index(props: Props) {

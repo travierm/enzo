@@ -1,12 +1,30 @@
 import { Context, Env } from "hono";
 import { ZodError, ZodSchema, z } from "zod";
 import { ComponentType, VNode, createContext } from "preact";
-
 import renderToString from "preact-render-to-string";
-import { Index } from "../index";
-import { logger } from "@/logger";
-import { formatGetComponentName } from "@/database/utils/formatter";
 import { BodyData } from "hono/utils/body";
+
+let indexFunction: (children: VNode) => VNode = (children) => {
+  return <div>{children}</div>;
+};
+
+export function setIndexComponent(func: (children: VNode) => VNode) {
+  indexFunction = func;
+}
+
+export async function render(c: Context, component: VNode) {
+  const isHxRequest = c.req.header("Hx-Request");
+
+  // apply reqest context to component
+  const componentWithContext = applyContext(c, component);
+
+  // append component to index.html unless hx request header is present
+  const stringComponent = isHxRequest
+    ? renderToString(componentWithContext)
+    : renderToString(indexFunction(componentWithContext));
+
+  return c.html(stringComponent);
+}
 
 export type ErrorBag = {
   message: string;
@@ -51,27 +69,6 @@ export function applyContext(c: Context, component: VNode) {
   return <RequestProvider data={c}>{component}</RequestProvider>;
 }
 
-export async function render(c: Context, component: VNode) {
-  const componentName =
-    typeof component.type === "string" ? component.type : component.type.name;
-
-  logger.debug(
-    `RESPONSE rendered component ${formatGetComponentName(componentName)}`
-  );
-
-  const isHxRequest = c.req.header("Hx-Request");
-
-  // apply reqest context to component
-  const componentWithContext = applyContext(c, component);
-
-  // append component to index.html unless hx request header is present
-  const stringComponent = isHxRequest
-    ? renderToString(componentWithContext)
-    : renderToString(<Index>{componentWithContext}</Index>);
-
-  return c.html(stringComponent);
-}
-
 export function createTemplateMessageFromResult<T>(
   result:
     | { success: true; data: T }
@@ -96,7 +93,7 @@ export function createTemplateMessageFromResult<T>(
   return;
 }
 
-export function handleZodErrors<T, E extends Env, P extends string, O = {}>(
+export function handleZodErrors<T, E extends Env, P extends string>(
   context: Context<E, P>,
   result:
     | { success: true; data: T }
