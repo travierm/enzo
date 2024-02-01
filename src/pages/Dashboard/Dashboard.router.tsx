@@ -1,6 +1,6 @@
 import { Context, Hono } from "hono";
 
-import { validateForm } from "enzo/core";
+import { validateForm } from "enzo-core";
 import { z } from "zod";
 import { getDashboard } from "./Dashboard.controller";
 import {

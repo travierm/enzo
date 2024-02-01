@@ -1,5 +1,5 @@
 import { VNode } from "preact";
-import { ErrorBag } from "enzo/core";
+import { ErrorBag } from "enzo-core";
 
 type Props = {
   errorBag: ErrorBag;

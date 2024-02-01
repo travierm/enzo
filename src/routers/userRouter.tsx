@@ -3,7 +3,7 @@ import { Context, Hono } from "hono";
 import { CreateUser } from "../pages/User/CreateUser";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { createAlertMessage, handleZodErrors, render } from "enzo/core";
+import { createAlertMessage, handleZodErrors, render } from "enzo-core";
 
 const app = new Hono();
 

@@ -31,7 +31,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "enzo/core": ["./src/core/core.tsx"], // Map "@" to the root directory
       "@/*": ["./src/*"] // Map "@" to the root directory
     }
   },

@@ -1,4 +1,4 @@
-import { AlertMessage } from "enzo/core";
+import { AlertMessage } from "enzo-core";
 import { CoreHeading } from "../../components/core/CoreHeading";
 import { Layout } from "../Layout";
 import { ExpensesTable } from "./ExpensesTable";

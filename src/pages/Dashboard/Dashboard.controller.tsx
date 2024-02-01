@@ -1,6 +1,6 @@
 import { Dashboard } from "./Dashboard";
 import { Context } from "hono";
-import { render } from "enzo/core";
+import { render } from "enzo-core";
 import Container from "typedi";
 import { RecordService } from "@/services/RecordService";
 

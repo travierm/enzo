@@ -1,9 +1,7 @@
-import "reflect-metadata";
-import "./polyfills/compressionStream";
 import { Hono } from "hono";
-import { bootRouter } from "./routers/router";
+import { bootRouter } from "./routers";
 import { showRoutes } from "hono/dev";
-import { setIndexComponent } from "enzo/core";
+import { setIndexComponent } from "enzo-core";
 import { Index } from ".";
 
 setIndexComponent((children) => <Index>{children}</Index>);
