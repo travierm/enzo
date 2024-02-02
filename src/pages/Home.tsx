@@ -1,6 +1,6 @@
-import { Layout } from "./Layout";
+import { Layout } from "../components/Layout";
 
-export function Home() {
+export default function Home() {
   return (
     <Layout>
       <div class="flex items-center justify-center">

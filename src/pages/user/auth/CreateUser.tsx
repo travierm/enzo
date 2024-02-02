@@ -1,13 +1,11 @@
 import { AlertMessage } from "enzo/core";
-import { CoreButton } from "../../components/core/CoreButton";
-import { CoreHeading } from "../../components/core/CoreHeading";
-import { FormInput } from "../../components/core/CoreFormInput";
-import { CoreAlertMessage } from "../../components/core/CoreTemplateMessages";
-import { Layout } from "../Layout";
+import { CoreButton } from "../../../components/core/CoreButton";
+import { CoreHeading } from "../../../components/core/CoreHeading";
+import { FormInput } from "../../../components/core/CoreFormInput";
+import { CoreAlertMessage } from "../../../components/core/CoreTemplateMessages";
+import { Layout } from "../../../components/Layout";
 
-type Props = {
-  alertMessage?: AlertMessage;
-};
+type Props = {};
 
 export function CreateUser(props: Props) {
   return (
@@ -17,10 +15,6 @@ export function CreateUser(props: Props) {
       </div>
 
       <div class="flex flex-col items-center justify-center">
-        {props.alertMessage && (
-          <CoreAlertMessage alertMessage={props.alertMessage} />
-        )}
-
         <form action="/user/create" method="POST">
           <FormInput label="Email" name="email" />
           <FormInput label="Password" name="password" type="password" />

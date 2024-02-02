@@ -1,10 +1,15 @@
 Current Tasks
     ✔ When hx-request: true in header then only return component in render() @done(23-12-24 21:01)
-    ☐ Autoload .router files in pages/
+    ☐ File Router
     ☐ Catch errors when building and display on website
     ☐ Add total to bottom of Expenses table
     ☐ Request logging like monolog context worked in PHP ( maybe switch from pino )
 
+
+File Router:
+    ☐ Create a route for each file in the directory
+    ☐ Allow excludes 
+    
 Features:
     ✔ slim down codebase and move core functions into a library @done(24-01-07 16:34)
     ☐ Copy some techniques from https://github.com/mikestefanello/pagoda like the idea of a defined container with types that gets passed around with the context
