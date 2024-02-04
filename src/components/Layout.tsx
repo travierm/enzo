@@ -12,7 +12,7 @@ export function Layout({ id = "", ...props }: Props) {
     <RequestContext.Consumer>
       {(context) => {
         return (
-          <div class="h-full" id={id}>
+          <div class="h-full">
             <Navbar isAuthed={context?.get("user") !== undefined} />
 
             {props.children}

@@ -56,6 +56,8 @@ export function renderComponent(c: Context, component: VNode) {
       });
   }
 
+  Bun.gzipSync(stringComponent);
+
   return c.html(stringComponent);
 }
 
