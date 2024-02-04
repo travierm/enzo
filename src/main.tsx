@@ -12,6 +12,15 @@ import "./bootstrap";
 
 const app = new Hono();
 
+app.use("*", async (c, next) => {
+  const startTime = process.hrtime();
+  await next();
+
+  const endTime = process.hrtime(startTime);
+  const elapsedTimeInMs = endTime[0] * 1000 + endTime[1] / 1e6;
+  console.log(`Route ${c.req.routePath} execution time: ${elapsedTimeInMs} ms`);
+});
+
 app.use("*", secureHeaders());
 app.use("*", compress());
 app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));

@@ -2,7 +2,7 @@ import prettier from "prettier";
 import type { Context } from "hono";
 import { ZodSchema, z } from "zod";
 import { VNode, createContext } from "preact";
-import renderToString, { renderToStaticMarkup } from "preact-render-to-string";
+import renderToString from "preact-render-to-string";
 import { BodyData } from "hono/utils/body";
 import { htmlParser } from "./htmlParser";
 
@@ -55,8 +55,6 @@ export function renderComponent(c: Context, component: VNode) {
         return c.html(formatted);
       });
   }
-
-  Bun.gzipSync(stringComponent);
 
   return c.html(stringComponent);
 }
