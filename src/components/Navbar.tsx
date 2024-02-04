@@ -4,17 +4,19 @@ type Props = {
 
 export function Navbar(props: Props) {
   // const { isAuthed = true } = props;
-  let isAuthed = true;
-
-  const loginButton = isAuthed ? (
-    <a href="/logout">Logout</a>
-  ) : (
-    <a href="/login">Login</a>
-  );
 
   return (
-    <nav class="bg-blue-700 flex p-2 text-white text-xl">
+    <nav class="bg-blue-700 flex p-3 text-white text-2xl">
       <div class="mr-4">Enzo</div>
+
+      <div>
+        <a href="/" class="mr-4">
+          Home
+        </a>
+        <a href="/blog" class="mr-4">
+          Blog
+        </a>
+      </div>
     </nav>
   );
 }

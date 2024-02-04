@@ -1,4 +1,4 @@
-import { AlertMessage } from "enzo/core";
+import { AlertMessage } from "enzo-core";
 
 type Props = {
   alertMessage: AlertMessage;

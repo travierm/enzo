@@ -1,7 +1,7 @@
 import path from "path";
 import { readdir } from "node:fs/promises";
 import { Hono } from "hono";
-import { render } from "enzo/core";
+import { renderComponent } from "enzo-core";
 
 type FileRouterConfig = {
   routesPath: string;
@@ -83,7 +83,7 @@ export class FileRouter {
         const page = await import(pagePath);
         for (const exportName in page) {
           if (page.hasOwnProperty(exportName)) {
-            return render(c, page[exportName]());
+            return renderComponent(c, page[exportName]());
           }
         }
 
