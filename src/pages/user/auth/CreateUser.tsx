@@ -1,4 +1,4 @@
-import { AlertMessage } from "enzo-core";
+import { AlertMessage } from "@/core";
 import { CoreButton } from "../../../components/core/CoreButton";
 import { CoreHeading } from "../../../components/core/CoreHeading";
 import { FormInput } from "../../../components/core/CoreFormInput";

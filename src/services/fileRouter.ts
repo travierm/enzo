@@ -1,7 +1,7 @@
 import path from "path";
 import { readdir } from "node:fs/promises";
 import { Hono } from "hono";
-import { renderComponent } from "enzo-core";
+import { renderComponent } from "@/core";
 
 type FileRouterConfig = {
   routesPath: string;

@@ -1,14 +1,14 @@
-import { Context, Env, Hono } from "hono";
+import { Hono } from "hono";
 import router from "./routers";
 import { showRoutes } from "hono/dev";
-import { setIndexComponent, renderComponent } from "enzo-core";
+import { setIndexComponent, renderComponent, setIndexHTML } from "@/core";
 import { secureHeaders } from "hono/secure-headers";
 import { Index } from ".";
 import { FileRouter } from "./services/fileRouter";
 import { serveStatic } from "hono/bun";
 import Home from "./pages/Home";
 
-setIndexComponent((children) => <Index>{children}</Index>);
+setIndexHTML("./public/index.html");
 
 const app = new Hono();
 

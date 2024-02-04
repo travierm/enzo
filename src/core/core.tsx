@@ -1,15 +1,21 @@
+import prettier from "prettier";
 import type { Context } from "hono";
 import { ZodSchema, z } from "zod";
 import { VNode, createContext } from "preact";
-import renderToString from "preact-render-to-string";
+import renderToString, { renderToStaticMarkup } from "preact-render-to-string";
 import { BodyData } from "hono/utils/body";
+import { htmlParser } from "./htmlParser";
 
-let indexFunction: (children: VNode) => VNode = (children) => {
-  return <div>{children}</div>;
-};
+// let indexFunction: (children: VNode) => VNode = (children) => {
+//   return <div>{children}</div>;
+// };
 
-export function setIndexComponent(func: (children: VNode) => VNode) {
-  indexFunction = func;
+// export function setIndexComponent(func: (children: VNode) => VNode) {
+//   indexFunction = func;
+// }
+
+export async function setIndexHTML(filePath: string) {
+  htmlParser.parse(filePath);
 }
 
 export const RequestContext = createContext<Context | null>(null);
@@ -39,7 +45,16 @@ export function renderComponent(c: Context, component: VNode) {
   // append component to index.html unless hx request header is present
   const stringComponent = isHxRequest
     ? renderToString(componentWithContext)
-    : renderToString(indexFunction(componentWithContext));
+    : htmlParser.injectContent(renderToString(componentWithContext));
+
+  // pretty print html in development
+  if (process.env.PRETTIER_HTML === "true") {
+    return prettier
+      .format(stringComponent, { parser: "html" })
+      .then((formatted) => {
+        return c.html(formatted);
+      });
+  }
 
   return c.html(stringComponent);
 }
