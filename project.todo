@@ -1,10 +1,18 @@
 Current Tasks
     ✔ When hx-request: true in header then only return component in render() @done(23-12-24 21:01)
-    ☐ Autoload .router files in pages/
+    ☐ File Router
     ☐ Catch errors when building and display on website
+        ☐ Use built in Bun error handler
     ☐ Add total to bottom of Expenses table
     ☐ Request logging like monolog context worked in PHP ( maybe switch from pino )
+    ☐ Show response time logging on every request
+    ☐ Gzip
 
+
+File Router:
+    ☐ Create a route for each file in the directory
+    ☐ Allow excludes 
+    
 Features:
     ✔ slim down codebase and move core functions into a library @done(24-01-07 16:34)
     ☐ Copy some techniques from https://github.com/mikestefanello/pagoda like the idea of a defined container with types that gets passed around with the context
@@ -19,3 +27,9 @@ Todo:
 
     
     
+Inventory System:
+    ☐ current_stock
+        ☐ Option #1 - all previous rows of inventory computed with current rows data as well
+        ☐ Option #2 - same as above but include purchases
+        ☐ End goal is to have a number that represents In Stock calculation
+    ☐ change can be +20 or -20 type of inputs

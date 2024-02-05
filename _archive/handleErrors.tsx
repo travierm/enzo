@@ -1,6 +1,6 @@
 import { Context, Env } from "hono";
 import { ZodError } from "zod";
-import { ErrorBag, AlertMessage } from "enzo/core";
+import { ErrorBag, AlertMessage } from "@/core";
 import { ComponentType } from "preact";
 import { render } from "../renderer/renderComponent";
 

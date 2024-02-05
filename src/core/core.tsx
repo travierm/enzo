@@ -1,54 +1,23 @@
-import { Context, Env } from "hono";
-import { ZodError, ZodSchema, z } from "zod";
-import { ComponentType, VNode, createContext } from "preact";
+import prettier from "prettier";
+import type { Context, MiddlewareHandler } from "hono";
+import { ZodSchema, z } from "zod";
+import { VNode, createContext } from "preact";
 import renderToString from "preact-render-to-string";
 import { BodyData } from "hono/utils/body";
+import { htmlParser } from "./htmlParser";
 
-let indexFunction: (children: VNode) => VNode = (children) => {
-  return <div>{children}</div>;
-};
+// let indexFunction: (children: VNode) => VNode = (children) => {
+//   return <div>{children}</div>;
+// };
 
-export function setIndexComponent(func: (children: VNode) => VNode) {
-  indexFunction = func;
-}
+// let indexFunction: (children: VNode) => VNode | null = null;
 
-export async function render(c: Context, component: VNode) {
-  const isHxRequest = c.req.header("Hx-Request");
+// export function setIndexComponent(func: (children: VNode) => VNode) {
+//   indexFunction = func;
+// }
 
-  // apply reqest context to component
-  const componentWithContext = applyContext(c, component);
-
-  // append component to index.html unless hx request header is present
-  const stringComponent = isHxRequest
-    ? renderToString(componentWithContext)
-    : renderToString(indexFunction(componentWithContext));
-
-  return c.html(stringComponent);
-}
-
-export type ErrorBag = {
-  message: string;
-  inputErrors: {
-    [key: string]: string;
-  };
-};
-
-export type AlertMessage = {
-  type: "error" | "success" | "warning" | "info";
-  message: string;
-  listItems: string[];
-};
-
-export function createAlertMessage(
-  type: "error" | "success" | "warning" | "info" = "info",
-  message: string,
-  listItems: string[] = []
-) {
-  return {
-    type,
-    message,
-    listItems,
-  } as AlertMessage;
+export async function setIndexHTML(filePath: string) {
+  htmlParser.parse(filePath);
 }
 
 export const RequestContext = createContext<Context | null>(null);
@@ -69,45 +38,38 @@ export function applyContext(c: Context, component: VNode) {
   return <RequestProvider data={c}>{component}</RequestProvider>;
 }
 
-export function createTemplateMessageFromResult<T>(
-  result:
-    | { success: true; data: T }
-    | { success: false; error: ZodError; data: T }
-) {
-  if (Object.hasOwn(result, "success")) {
-    if (!result.success) {
-      const templateMessage: AlertMessage = {
-        type: "error",
-        message: "Validation failed",
-        listItems: [],
-      };
+export function renderComponent(c: Context, component: VNode) {
+  const isHxRequest = c.req.header("Hx-Request");
 
-      for (const err of result.error.errors) {
-        templateMessage.listItems.push(`${err.path.join(".")} ${err.message}`);
-      }
+  // apply reqest context to component
+  const componentWithContext = applyContext(c, component);
 
-      return templateMessage;
-    }
+  // append component to index.html unless hx request header is present
+  const stringComponent = isHxRequest
+    ? renderToString(componentWithContext)
+    : htmlParser.injectContent(renderToString(componentWithContext));
+
+  // pretty print html in development
+  if (process.env.PRETTIER_HTML === "true") {
+    return prettier
+      .format(stringComponent, { parser: "html" })
+      .then((formatted) => {
+        return c.html(formatted);
+      });
   }
 
-  return;
+  return c.html(stringComponent);
 }
 
-export function handleZodErrors<T, E extends Env, P extends string>(
-  context: Context<E, P>,
-  result:
-    | { success: true; data: T }
-    | { success: false; error: ZodError; data: T },
-  Component: ComponentType<{ templateMessage: AlertMessage }>
-) {
-  const templateMessage = createTemplateMessageFromResult(result);
+export const renderComponentMiddleware: MiddlewareHandler<{
+  Variables: {
+    renderComponent: (component: VNode) => Response | Promise<Response>;
+  };
+}> = async (c, next) => {
+  c.set("renderComponent", (component) => renderComponent(c, component));
 
-  if (templateMessage) {
-    return render(context, <Component templateMessage={templateMessage} />);
-  }
-
-  return;
-}
+  return next();
+};
 
 export async function validateForm<T extends ZodSchema>(
   c: Context,
