@@ -10,6 +10,8 @@ import { htmlParser } from "./htmlParser";
 //   return <div>{children}</div>;
 // };
 
+// let indexFunction: (children: VNode) => VNode | null = null;
+
 // export function setIndexComponent(func: (children: VNode) => VNode) {
 //   indexFunction = func;
 // }
