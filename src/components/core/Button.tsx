@@ -7,7 +7,12 @@ type Props = {
   onClick?: (event: MouseEvent) => void;
 };
 
-export function CoreButton({ children, color = "blue", className =  "",  onClick }: Props) {
+export function Button({
+  children,
+  color = "blue",
+  className = "",
+  onClick,
+}: Props) {
   return (
     <button
       onClick={onClick}

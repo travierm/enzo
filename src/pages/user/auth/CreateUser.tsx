@@ -1,5 +1,5 @@
 import { AlertMessage } from "@/core";
-import { CoreButton } from "../../../components/core/CoreButton";
+import { Button } from "../../../components/core/CoreButton";
 import { CoreHeading } from "../../../components/core/CoreHeading";
 import { FormInput } from "../../../components/core/CoreFormInput";
 import { CoreAlertMessage } from "../../../components/core/CoreTemplateMessages";
@@ -19,7 +19,7 @@ export function CreateUser(props: Props) {
           <FormInput label="Email" name="email" />
           <FormInput label="Password" name="password" type="password" />
 
-          <CoreButton className="mt-2">Create User</CoreButton>
+          <Button className="mt-2">Create User</Button>
         </form>
       </div>
     </Layout>

@@ -1,5 +1,5 @@
-import { CoreButton } from "../components/core/CoreButton";
-import { FormInput } from "../components/core/CoreFormInput";
+import { Button } from "../components/core/Button";
+import { FormInput } from "../components/core/FormInput";
 import { CoreHeading } from "../components/core/CoreHeading";
 import { Layout } from "../components/Layout";
 
@@ -16,7 +16,7 @@ export function Login(props: Props) {
           <FormInput name="password" label="Password" type="password" />
 
           <div class="flex justify-end">
-            <CoreButton>Login</CoreButton>
+            <Button>Login</Button>
           </div>
         </form>
       </div>
