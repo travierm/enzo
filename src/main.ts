@@ -1,4 +1,4 @@
-import "./polyfills/compressionStream";
+import "./core/compressionStream";
 import { Hono } from "hono";
 import router from "./routers";
 import { secureHeaders } from "hono/secure-headers";
@@ -7,11 +7,12 @@ import { compress } from "hono/compress";
 import { requestTimingLogger } from "./core/requestTimingLogger";
 import { logger } from "./logger";
 import { setIndexHTML } from "@/core";
+import { RequestVariables } from "./requestVariables";
 
 // Used to wrap around pages
 setIndexHTML("./public/index.html");
 
-const app = new Hono();
+const app = new Hono<{ Variables: RequestVariables }>();
 
 app.use(
   "*",

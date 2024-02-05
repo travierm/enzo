@@ -1,6 +1,7 @@
 import { Navbar } from "./Navbar";
 import { VNode } from "preact";
 import { RequestContext } from "@/core";
+import { useContext } from "preact/hooks";
 
 type Props = {
   id?: string;
@@ -8,6 +9,8 @@ type Props = {
 };
 
 export function Layout({ id = "", ...props }: Props) {
+  const context = useContext(RequestContext);
+
   return (
     <RequestContext.Consumer>
       {(context) => {

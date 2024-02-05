@@ -3,8 +3,9 @@ import authRoutes from "./auth";
 import { FileRouter } from "@/core/fileRouter";
 import { renderComponent } from "@/core";
 import Home from "@/pages/Home";
+import { RequestVariables } from "@/requestVariables";
 
-const app = new Hono();
+const app = new Hono<{ Variables: RequestVariables }>();
 
 const fileRouter = new FileRouter();
 const fileRoutes = await fileRouter.getRouter();
