@@ -11,11 +11,14 @@
     "migrate:create": "npx drizzle-kit generate:pg --config=src/database/drizzle.config.ts",
     "migrate:latest": "npx drizzle-kit push:pg --config=src/database/drizzle.config.ts",
     "migrate:down": "npx drizzle-kit drop --config=src/database/drizzle.config.ts",
-    "drizzle:studio": "npx drizzle-kit studio --config=src/database/drizzle.config.ts"
+    "drizzle:studio": "npx drizzle-kit studio --config=src/database/drizzle.config.ts",
+    "cli": "bun run src/commands/cli.ts"
   },
   "devDependencies": {
     "@types/pg": "^8.10.9",
     "bun-types": "latest",
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
     "concurrently": "^8.2.0",
     "drizzle-kit": "latest",
     "prettier": "^3.2.4",
@@ -26,6 +29,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.1.11",
+    "@inquirer/prompts": "^4.0.0",
     "@types/web": "^0.0.99",
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
