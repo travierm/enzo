@@ -13,6 +13,7 @@ program
   .description("CLI for interacting with your Enzo app.")
   .version("0.0.1");
 
+// user:create
 program
   .command("user:create")
   .description("Create a new user account")
@@ -38,6 +39,7 @@ program
     process.exit();
   });
 
+// user:list
 program
   .command("user:list")
   .description("List user accounts")
