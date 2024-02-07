@@ -1,6 +1,10 @@
+import { UserTableSafe } from "@/database/models/user/user.model.drizzle";
 import { userRepo } from "@/database/models/user/user.repo.drizzle";
 
-export async function authenticate(email: string, password: string) {
+export async function authenticate(
+  email: string,
+  password: string
+): Promise<UserTableSafe | null> {
   const user = await userRepo.getDangerousUser(email);
 
   if (!user) {

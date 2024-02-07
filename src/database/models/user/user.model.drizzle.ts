@@ -20,6 +20,7 @@ export const userTable = pgTable(
   }
 );
 export type UserTable = typeof userTable.$inferInsert;
+export type UserTableSafe = Omit<typeof userTable.$inferSelect, "password">;
 
 // Define Insert Schema
 export const insertUserSchema = createInsertSchema(userTable).omit({
