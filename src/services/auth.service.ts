@@ -11,7 +11,11 @@ export async function authenticate(
     throw new Error("User not found");
   }
 
-  const passwordMatch = await Bun.password.verify(user.password, password);
+  const passwordMatch = await Bun.password.verify(
+    password,
+    user.password,
+    "argon2id"
+  );
 
   return !passwordMatch
     ? null

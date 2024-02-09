@@ -8,6 +8,7 @@ import { requestTimingLogger } from "./core/requestTimingLogger";
 import { logger } from "./logger";
 import { setIndexHTML } from "@/core";
 import { RequestVariables } from "./requestVariables";
+import { authGuard } from "./middleware/authGuard";
 
 // Used to wrap around pages
 setIndexHTML("./public/index.html");
@@ -22,6 +23,7 @@ app.use(
 );
 
 app.use("*", secureHeaders());
+app.use("*", authGuard());
 app.use("*", compress());
 app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
 app.use("/public/app.js", serveStatic({ path: "./public/app.js" }));

@@ -1,38 +1,38 @@
+import { RequestVariables } from "@/requestVariables";
+import { sessionStore } from "@/services/session.service";
 import { MiddlewareHandler } from "hono";
 import { getCookie } from "hono/cookie";
 
-import { UserService } from "../services/userService";
-import Container from "typedi";
-
-export type User = {
-  id: number;
-  username: string;
-};
-
 const unAuthedPaths = ["/login", "/ping", "/public/app.css"];
 
-export const authGuard = (): MiddlewareHandler => {
-  const userService = Container.get(UserService);
-
+export const authGuard = (): MiddlewareHandler<{
+  Variables: RequestVariables;
+}> => {
   return async (c, next) => {
     // Unauthed route we should let the request continue without changes
     if (c.req.path && unAuthedPaths.includes(c.req.path)) {
       return next();
     }
 
-    const token = getCookie(c, "token");
-    if (!token) {
+    if (c.get("isAuthed")) {
+      return next();
+    }
+
+    const sessionId = getCookie(c, "auth_session_id");
+    if (sessionId === undefined) {
+      console.log("redirect to /login because of no token");
       // no token on authed router
       return c.redirect("/login");
     }
 
-    const user = userService.getUserByToken(token);
-    if (!user) {
-      // no token data in-memory
+    const session = await sessionStore.get(sessionId);
+    if (!session || session.isExpired()) {
+      console.log("redirect to /login because of no session");
       return c.redirect("/login");
     }
 
-    c.set("user", user);
+    c.set("user", session.user);
+    c.set("isAuthed", true);
 
     return next();
   };

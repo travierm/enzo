@@ -11,12 +11,14 @@ type Props = {
 export function Layout({ id = "", ...props }: Props) {
   const context = useContext(RequestContext);
 
+  const isAuthed = context?.get("isAuthed");
+
   return (
     <RequestContext.Consumer>
       {(context) => {
         return (
           <div class="h-full">
-            <Navbar isAuthed={context?.get("user") !== undefined} />
+            <Navbar isAuthed={isAuthed} />
 
             {props.children}
           </div>

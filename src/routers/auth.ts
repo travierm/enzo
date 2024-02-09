@@ -1,6 +1,7 @@
 import { validateForm } from "@/core";
 import { RequestVariables } from "@/requestVariables";
 import { authenticate } from "@/services/auth.service";
+import { createSession } from "@/services/session.service";
 import { Hono } from "hono";
 import { setCookie } from "hono/cookie";
 import { z } from "zod";
@@ -25,7 +26,16 @@ app.post("/login", async (c) => {
     return c.redirect("/login");
   }
 
-  setCookie(c, "user", user.id.toString());
+  const session = await createSession(user);
+  setCookie(c, "auth_session_id", session.id, {
+    expires: session.expiresAt,
+    httpOnly: true,
+  });
+
+  c.set("user", user);
+  c.set("isAuthed", true);
+
+  console.log("redirect to / after login");
   return c.redirect("/");
 });
 

@@ -56,12 +56,15 @@ export async function createSession(user: UserTableSafe) {
   const now = new Date();
   const expiresAt = new Date(+now + 120 * 1000);
 
-  return new Session(user, expiresAt);
+  const session = new Session(user, expiresAt);
+  await sessionStore.set(session);
+
+  return session;
 }
 
-export const sessionStore = new SessionStore();
+export const sessionStore: ISessionStore = new SessionStore();
 
-setInterval(() => {
-  logger.info("Garbage collecting sessions");
-  sessionStore.garbageCollect();
+setInterval(async () => {
+  logger.info("garbage collecting sessions");
+  await sessionStore.garbageCollect();
 }, 60 * 1000);
