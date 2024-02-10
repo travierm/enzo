@@ -9,7 +9,7 @@ if (!process.env.DATABASE_URL) {
 
 // This is used by drizzle-studio & drizzle-migrations
 export default {
-  driver: 'pg',
+  driver: "pg",
   dbCredentials: {
     connectionString: process.env.DATABASE_URL,
   },
@@ -19,3 +19,7 @@ export default {
 
 const queryClient = postgres(process.env.DATABASE_URL);
 export const db = drizzle(queryClient);
+
+process.on("exit", () => {
+  queryClient.end();
+});
