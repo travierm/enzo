@@ -20,14 +20,12 @@ export const authGuard = (): MiddlewareHandler<{
 
     const sessionId = getCookie(c, "auth_session_id");
     if (sessionId === undefined) {
-      console.log("redirect to /login because of no token");
       // no token on authed router
       return c.redirect("/login");
     }
 
     const session = await $sessionStore.get(sessionId);
-    if (!session || session.isExpired()) {
-      console.log("redirect to /login because of no session");
+    if (!session) {
       return c.redirect("/login");
     }
 
