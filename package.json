@@ -40,6 +40,7 @@
     "postgres": "^3.4.3",
     "preact": "^10.18.1",
     "preact-render-to-string": "^6.2.2",
+    "redis": "^4.6.13",
     "uuid": "^9.0.0",
     "zod": "^3.22.2"
   }

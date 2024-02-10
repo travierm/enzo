@@ -1,39 +1,12 @@
+import { CONFIG } from "@/config";
 import { UserTableSafe } from "@/database/models/user/user.model.drizzle";
-import { logger } from "@/logger";
+import { Context } from "hono";
+import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 
-interface ISessionStore {
+interface ICacheService {
   get(id: string): Promise<Session | null>;
   set(session: Session): Promise<void>;
   delete(id: string): Promise<void>;
-  garbageCollect(): Promise<number>;
-}
-
-export class SessionStore implements ISessionStore {
-  private sessions: Map<string, Session> = new Map();
-
-  async get(id: string) {
-    return this.sessions.get(id) || null;
-  }
-
-  async set(session: Session) {
-    this.sessions.set(session.id, session);
-  }
-
-  async delete(id: string) {
-    this.sessions.delete(id);
-  }
-
-  async garbageCollect() {
-    let count = 0;
-    for (const [id, session] of this.sessions.entries()) {
-      if (session.isExpired()) {
-        this.sessions.delete(id);
-        count++;
-      }
-    }
-
-    return count;
-  }
 }
 
 export class Session {
@@ -54,17 +27,29 @@ export class Session {
 
 export async function createSession(user: UserTableSafe) {
   const now = new Date();
-  const expiresAt = new Date(+now + 120 * 1000);
+  const hoursUntilExpire = CONFIG.sesssion.sessionExpiresAfterHours; // Number of hours until the session should expire
+  const millisecondsPerHour = 3600 * 1000; // Number of milliseconds in an hour
+  const expiresAt = new Date(+now + hoursUntilExpire * millisecondsPerHour);
 
   const session = new Session(user, expiresAt);
-  await sessionStore.set(session);
+  await $sessionStore.set(session);
 
   return session;
 }
 
-export const sessionStore: ISessionStore = new SessionStore();
+export function deleteSessionCookie(c: Context) {
+  deleteCookie(c, CONFIG.sesssion.cookieName);
+}
 
-setInterval(async () => {
-  logger.info("garbage collecting sessions");
-  await sessionStore.garbageCollect();
-}, 60 * 1000);
+export function getSessionCookie(c: Context) {
+  return getCookie(c, CONFIG.sesssion.cookieName);
+}
+
+export function setSessionCookie(c: Context, session: Session) {
+  return setCookie(c, CONFIG.sesssion.cookieName, session.id, {
+    expires: session.expiresAt,
+    httpOnly: true,
+  });
+}
+
+export const $sessionStore: ICacheService = new SessionStore();

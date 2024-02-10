@@ -1,12 +1,11 @@
 Current Tasks
     ✔ When hx-request: true in header then only return component in render() @done(23-12-24 21:01)
-    ☐ File Router
-    ☐ Catch errors when building and display on website
-        ☐ Use built in Bun error handler
-    ☐ Add total to bottom of Expenses table
+    ✔ File Router @done(24-02-09 17:16)
+    ✔ Catch errors when building and display on website @done(24-02-09 17:16)
+        ✔ Use built in Bun error handler @done(24-02-09 17:16)
     ☐ Request logging like monolog context worked in PHP ( maybe switch from pino )
-    ☐ Show response time logging on every request
-    ☐ Gzip
+    ✔ Show response time logging on every request @done(24-02-09 17:18)
+    ✔ Gzip @done(24-02-09 17:18)
 
 
 File Router:
@@ -17,19 +16,7 @@ Features:
     ✔ slim down codebase and move core functions into a library @done(24-01-07 16:34)
     ☐ Copy some techniques from https://github.com/mikestefanello/pagoda like the idea of a defined container with types that gets passed around with the context
 
-Core Concepts:
-    ☐ Never fully rely on bun functions and allow the app to run on node, deno or bun
-
 Todo:
     ☐ SPA Routing
     ☐ Interactive Components
-    ☐ Live Input Validation
-
-    
-    
-Inventory System:
-    ☐ current_stock
-        ☐ Option #1 - all previous rows of inventory computed with current rows data as well
-        ☐ Option #2 - same as above but include purchases
-        ☐ End goal is to have a number that represents In Stock calculation
-    ☐ change can be +20 or -20 type of inputs
+    ☐ Live Input Validation    

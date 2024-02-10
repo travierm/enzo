@@ -1,5 +1,5 @@
 import { RequestVariables } from "@/requestVariables";
-import { sessionStore } from "@/services/session.service";
+import { $sessionStore } from "@/services/session.service";
 import { MiddlewareHandler } from "hono";
 import { getCookie } from "hono/cookie";
 
@@ -25,7 +25,7 @@ export const authGuard = (): MiddlewareHandler<{
       return c.redirect("/login");
     }
 
-    const session = await sessionStore.get(sessionId);
+    const session = await $sessionStore.get(sessionId);
     if (!session || session.isExpired()) {
       console.log("redirect to /login because of no session");
       return c.redirect("/login");
