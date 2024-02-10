@@ -27,6 +27,7 @@ app.use("*", authGuard());
 app.use("*", compress());
 app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
 app.use("/public/app.js", serveStatic({ path: "./public/app.js" }));
+app.use("/public/favicon.ico", serveStatic({ path: "./public/favicon.ico" }));
 
 // register routers/index
 app.route("/", router);

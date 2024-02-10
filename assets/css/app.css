@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-white;
+}
+
 .btn {
   @apply py-2 px-4 text-white font-bold rounded;
 }

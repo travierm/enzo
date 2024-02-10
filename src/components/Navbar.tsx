@@ -9,28 +9,32 @@ export function Navbar(props: Props) {
     <nav class="bg-blue-700 flex p-3 text-white text-2xl">
       <div class="mr-4">Enzo</div>
 
-      <div hx-boost="true">
-        {isAuthed && (
-          <div>
-            <a href="/" class="mr-4">
-              Home
-            </a>
-            <a href="/blog" class="mr-4">
-              Blog
-            </a>
+      <div hx-boost="true" class="flex w-full">
+        {isAuthed && <NavbarPageLinks />}
 
-            {isAuthed ? (
-              <a href="/logout" class="mr-4">
-                Logout
-              </a>
-            ) : (
-              <a href="/login" class="mr-4">
-                Login
-              </a>
-            )}
-          </div>
-        )}
+        <div class="ml-auto">
+          <NavbarAuthLink isAuthed={isAuthed} />
+        </div>
       </div>
     </nav>
+  );
+}
+
+function NavbarAuthLink(props: Props) {
+  if (props.isAuthed) {
+    return <a href="/logout">Logout</a>;
+  } else {
+    return <a href="/login">Login</a>;
+  }
+}
+
+function NavbarPageLinks() {
+  return (
+    <>
+      <a href="/" class="mr-4">
+        Home
+      </a>
+      <a href="/blog">Blog</a>
+    </>
   );
 }
