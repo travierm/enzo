@@ -7,7 +7,7 @@ type Props = {
   onClick?: (event: MouseEvent) => void;
 };
 
-export function CoreHeading({
+export function Heading({
   className = "",
   children,
   size = "2xl",

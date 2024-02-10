@@ -1,7 +1,10 @@
-import { validateForm } from "@/core";
+import { renderComponent, validateForm } from "@/core";
+import { createAlert } from "@/core/alertMessage";
+import { Login } from "@/pages/Login";
 import { RequestVariables } from "@/requestVariables";
 import { handleAuth, handleLogout } from "@/services/auth.service";
 import { Hono } from "hono";
+import { render } from "preact";
 import { z } from "zod";
 
 const app = new Hono<{ Variables: RequestVariables }>();
@@ -28,7 +31,12 @@ app.post("/login", async (c) => {
   try {
     await handleAuth(c, body.data.email, body.data.password);
   } catch (e) {
-    return c.redirect("/login");
+    createAlert(c, {
+      type: "error",
+      message: "Invalid email or password",
+    });
+
+    return renderComponent(c, <Login />);
   }
 
   return c.redirect("/");

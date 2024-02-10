@@ -6,8 +6,8 @@ import { ICacheService } from "./drivers/driver-interfaces";
 import { RedisCache } from "./drivers/redis-cache.driver";
 
 export class Session {
-  public readonly user: UserTableSafe;
   public readonly id: string;
+  public readonly user: UserTableSafe;
 
   constructor(user: UserTableSafe) {
     this.id = crypto.randomUUID();

@@ -5,6 +5,8 @@ import { VNode, createContext } from "preact";
 import renderToString from "preact-render-to-string";
 import { BodyData } from "hono/utils/body";
 import { htmlParser } from "./htmlParser";
+import { AlertMessage } from "./alertMessage";
+import { RequestVariables } from "@/requestVariables";
 
 // let indexFunction: (children: VNode) => VNode = (children) => {
 //   return <div>{children}</div>;
@@ -20,7 +22,22 @@ export async function setIndexHTML(filePath: string) {
   htmlParser.parse(filePath);
 }
 
+export const AlertMessagesContext = createContext<AlertMessage[]>([]);
 export const RequestContext = createContext<Context | null>(null);
+
+function AlertMessagesProvider({
+  data,
+  children,
+}: {
+  data: AlertMessage[];
+  children: VNode;
+}) {
+  return (
+    <AlertMessagesContext.Provider value={data}>
+      {children}
+    </AlertMessagesContext.Provider>
+  );
+}
 
 function RequestProvider({
   data,
@@ -38,11 +55,29 @@ export function applyContext(c: Context, component: VNode) {
   return <RequestProvider data={c}>{component}</RequestProvider>;
 }
 
-export function renderComponent(c: Context, component: VNode) {
+export function applyAlertMessages(
+  alertMessages: AlertMessage[],
+  component: VNode
+) {
+  return (
+    <AlertMessagesProvider data={alertMessages}>
+      {component}
+    </AlertMessagesProvider>
+  );
+}
+
+export function renderComponent(
+  c: Context<{ Variables: RequestVariables }>,
+  component: VNode
+) {
   const isHxRequest = c.req.header("Hx-Request");
 
   // apply reqest context to component
-  const componentWithContext = applyContext(c, component);
+  let componentWithContext = applyContext(c, component);
+  componentWithContext = applyAlertMessages(
+    c.get("alertMessages") ?? [],
+    componentWithContext
+  );
 
   // append component to index.html unless hx request header is present
   const stringComponent = isHxRequest

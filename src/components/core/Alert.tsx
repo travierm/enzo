@@ -1,10 +1,10 @@
-import { AlertMessage } from "@/core";
+import { AlertMessage } from "@/core/alertMessage";
 
 type Props = {
   alertMessage: AlertMessage;
 };
 
-export function CoreAlertMessage({ alertMessage }: Props) {
+export function Alert({ alertMessage }: Props) {
   const { type, message, listItems } = alertMessage;
 
   const colorMap = {

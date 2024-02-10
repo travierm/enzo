@@ -1,9 +1,7 @@
-import { AlertMessage } from "@/core";
-import { Button } from "../../../components/core/CoreButton";
-import { CoreHeading } from "../../../components/core/CoreHeading";
-import { FormInput } from "../../../components/core/CoreFormInput";
-import { CoreAlertMessage } from "../../../components/core/CoreTemplateMessages";
-import { Layout } from "../../../components/Layout";
+import { Layout } from "@/components/Layout";
+import { Button } from "@/components/core/Button";
+import { Heading } from "@/components/core/CoreHeading";
+import { FormInput } from "@/components/core/FormInput";
 
 type Props = {};
 
@@ -11,7 +9,7 @@ export function CreateUser(props: Props) {
   return (
     <Layout>
       <div class="flex items-center justify-center">
-        <CoreHeading size="2xl">Create User</CoreHeading>
+        <Heading size="2xl">Create User</Heading>
       </div>
 
       <div class="flex flex-col items-center justify-center">

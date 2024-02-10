@@ -1,22 +1,27 @@
-Current Tasks
-    ✔ When hx-request: true in header then only return component in render() @done(23-12-24 21:01)
-    ✔ File Router @done(24-02-09 17:16)
-    ✔ Catch errors when building and display on website @done(24-02-09 17:16)
-        ✔ Use built in Bun error handler @done(24-02-09 17:16)
+Current Tasks:
+    ☐ On Every request check if a session_id is set in a cookie
+        ☐ add anon sesssion id if not
+    ☐ Alert Messages
+        ☐ Users will need a sessionId even when not authed
+        ☐ store flash messages in redis
+
+    ☐ Form Errors
+        ☐ 
     ☐ Request logging like monolog context worked in PHP ( maybe switch from pino )
-    ✔ Show response time logging on every request @done(24-02-09 17:18)
-    ✔ Gzip @done(24-02-09 17:18)
 
-
-File Router:
-    ☐ Create a route for each file in the directory
-    ☐ Allow excludes 
-    
 Features:
-    ✔ slim down codebase and move core functions into a library @done(24-01-07 16:34)
     ☐ Copy some techniques from https://github.com/mikestefanello/pagoda like the idea of a defined container with types that gets passed around with the context
 
 Todo:
     ☐ SPA Routing
     ☐ Interactive Components
     ☐ Live Input Validation    
+
+Archive:
+  ✔ When hx-request: true in header then only return component in render() @done(23-12-24 21:01)
+  ✔ File Router @done(24-02-09 17:16)
+  ✔ Catch errors when building and display on website @done(24-02-09 17:16)
+  ✔ Use built in Bun error handler @done(24-02-09 17:16)
+  ✔ Show response time logging on every request @done(24-02-09 17:18)
+  ✔ Gzip @done(24-02-09 17:18)
+  ✔ slim down codebase and move core functions into a library @done(24-01-07 16:34) @project(Features)
