@@ -1,6 +1,6 @@
 import { db } from "@/database/drizzle.config";
-import { UpdateUserSchema, UserTable, userTable } from "./user.model.drizzle";
-import { and, desc, eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
+import { UpdateUserSchema, userTable } from "./user.model.drizzle";
 
 class UserRepo {
   getDangerousUser(email: string) {
