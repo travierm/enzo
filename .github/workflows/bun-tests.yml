@@ -28,6 +28,8 @@ jobs:
           POSTGRES_USER: postgres # Optional: Specify the user (default is postgres)
           POSTGRES_PASSWORD: secret
           POSTGRES_DB: enzo # Specifies the name of the database to be automatically created
+        ports:
+          - 5432:5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
