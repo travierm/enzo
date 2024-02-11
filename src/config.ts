@@ -1,6 +1,6 @@
 export const CONFIG = {
   redis: {
-    url: "redis://localhost:6379/1",
+    url: process.env.REDIS_URL,
   },
   session: {
     cookieName: "auth_session_id",
