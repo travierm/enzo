@@ -1,3 +1,4 @@
+import { CONFIG } from "@/config";
 import { AlertMessage } from "@/core/alertMessage";
 import { logger } from "@/logger";
 import { RequestVariables } from "@/requestVariables";
@@ -33,7 +34,11 @@ export function pushAlertMessage(
     }
 
     messages.push(alertMessage);
-    return $alertMessageStore.set(cacheKey(sessionId), messages, 10 * 60); // 10 minutes
+    return $alertMessageStore.set(
+      cacheKey(sessionId),
+      messages,
+      CONFIG.session.alertMessageExpiresAfterMinutes * 60
+    );
   });
 }
 
