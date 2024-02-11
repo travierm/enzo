@@ -1,13 +1,17 @@
 Current Tasks:
-    ☐ On Every request check if a session_id is set in a cookie
-        ☐ add anon sesssion id if not
-    ☐ Alert Messages
-        ☐ Users will need a sessionId even when not authed
-        ☐ store flash messages in redis
-
-    ☐ Form Errors
-        ☐ 
-    ☐ Request logging like monolog context worked in PHP ( maybe switch from pino )
+    ✔ On Every request check if a session_id is set in a cookie @done(24-02-10 22:35)
+        ✔ add anon sesssion id if not @done(24-02-10 22:35)
+    ✔ Alert Messages @done(24-02-10 22:36)
+        ✔ Users will need a sessionId even when not authed @done(24-02-10 22:36)
+        ✔ store flash messages in redis @done(24-02-10 22:36)
+    ☐ Fix Test suite
+    ☐ Add tests
+        ☐ anon sessions
+        ☐ alert messages
+    ☐ Admin Pages
+        ☐ Create User
+        ☐ List Users
+    ☐ Hydration of Preact Components
 
 Features:
     ☐ Copy some techniques from https://github.com/mikestefanello/pagoda like the idea of a defined container with types that gets passed around with the context
