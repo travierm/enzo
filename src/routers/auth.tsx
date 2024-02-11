@@ -1,7 +1,7 @@
 import { renderComponent, validateForm } from "@/core";
-import { createAlert } from "@/core/alertMessage";
 import { Login } from "@/pages/Login";
 import { RequestVariables } from "@/requestVariables";
+import { createAlert } from "@/services/alertMessages.service";
 import { handleAuth, handleLogout } from "@/services/auth.service";
 import { Hono } from "hono";
 import { render } from "preact";
@@ -31,12 +31,12 @@ app.post("/login", async (c) => {
   try {
     await handleAuth(c, body.data.email, body.data.password);
   } catch (e) {
-    createAlert(c, {
+    await createAlert(c, {
       type: "error",
       message: "Invalid email or password",
     });
 
-    return renderComponent(c, <Login />);
+    return c.redirect("/login");
   }
 
   return c.redirect("/");

@@ -7,6 +7,7 @@ import { BodyData } from "hono/utils/body";
 import { htmlParser } from "./htmlParser";
 import { AlertMessage } from "./alertMessage";
 import { RequestVariables } from "@/requestVariables";
+import { getAlertMessages } from "@/services/alertMessages.service";
 
 // let indexFunction: (children: VNode) => VNode = (children) => {
 //   return <div>{children}</div>;
@@ -66,7 +67,7 @@ export function applyAlertMessages(
   );
 }
 
-export function renderComponent(
+export async function renderComponent(
   c: Context<{ Variables: RequestVariables }>,
   component: VNode
 ) {
@@ -74,8 +75,10 @@ export function renderComponent(
 
   // apply reqest context to component
   let componentWithContext = applyContext(c, component);
+
+  const alertMessages = await getAlertMessages(c.get("sessionId") ?? "");
   componentWithContext = applyAlertMessages(
-    c.get("alertMessages") ?? [],
+    alertMessages,
     componentWithContext
   );
 

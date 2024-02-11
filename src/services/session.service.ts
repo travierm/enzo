@@ -20,10 +20,14 @@ export async function createSession(user: UserTableSafe) {
   await $sessionStore.set(
     session.id,
     session,
-    CONFIG.sesssion.sessionExpiresAfterHours * 3600 * 1000
+    CONFIG.sesssion.sessionExpiresAfterHours * 3600
   );
 
   return session;
+}
+
+export function generateSessionId() {
+  return crypto.randomUUID();
 }
 
 export function deleteSessionCookie(c: Context) {
@@ -34,8 +38,8 @@ export function getSessionCookie(c: Context) {
   return getCookie(c, CONFIG.sesssion.cookieName);
 }
 
-export function setSessionCookie(c: Context, session: Session) {
-  return setCookie(c, CONFIG.sesssion.cookieName, session.id, {
+export function setSessionCookie(c: Context, sessionId: string) {
+  return setCookie(c, CONFIG.sesssion.cookieName, sessionId, {
     httpOnly: true,
   });
 }

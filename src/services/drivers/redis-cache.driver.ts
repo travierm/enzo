@@ -3,17 +3,17 @@ import { ICacheService } from "./driver-interfaces";
 
 export class RedisCache<T> implements ICacheService<T> {
   async get(id: string) {
-    const session = await $redis.get(id);
+    const value = await $redis.get(id);
 
-    if (!session) {
+    if (!value) {
       return null;
     }
 
-    return JSON.parse(session);
+    return JSON.parse(value);
   }
 
-  async set(key: string, session: T, ttl: number = 0) {
-    $redis.set(key, JSON.stringify(session), {
+  async set(key: string, value: T, ttl: number = 0) {
+    $redis.set(key, JSON.stringify(value), {
       EX: ttl,
     });
   }

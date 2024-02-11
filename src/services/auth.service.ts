@@ -25,7 +25,7 @@ export async function handleAuth(c: Context, email: string, password: string) {
   }
 
   const session = await createSession(user);
-  setSessionCookie(c, session);
+  setSessionCookie(c, session.id);
 
   c.set("user", user);
   c.set("isAuthed", true);

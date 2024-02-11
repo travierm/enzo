@@ -6,6 +6,7 @@ import { secureHeaders } from "hono/secure-headers";
 import "./core/compressionStream";
 import { requestTimingLogger } from "./core/requestTimingLogger";
 import { logger } from "./logger";
+import { anonSessions } from "./middleware/anonSessions";
 import { authGuard } from "./middleware/authGuard";
 import { RequestVariables } from "./requestVariables";
 import router from "./routers";
@@ -23,6 +24,7 @@ app.use(
 );
 
 app.use("*", secureHeaders());
+app.use("*", anonSessions());
 app.use("*", authGuard());
 app.use("*", compress());
 app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
