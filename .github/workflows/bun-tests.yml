@@ -9,9 +9,39 @@ jobs:
   bun-tests:
     name: bun-tests
     runs-on: ubuntu-latest
+    services:
+      # Label used to access the service container
+      redis:
+        # Docker Hub image
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: postgres # Optional: Specify the user (default is postgres)
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: enzo # Specifies the name of the database to be automatically created
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
-      - run: cp .env.example .env
+      - run: cp .env.ci .env
       - run: bun install
+      - run: bun run migrate:latest
       - run: bun test --coverage

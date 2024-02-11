@@ -26,6 +26,6 @@ export const anonSessions = (): MiddlewareHandler<{
     setSessionCookie(c, anonSessionId);
     c.set("sessionId", anonSessionId);
 
-    return c.redirect("/login");
+    return next();
   };
 };
