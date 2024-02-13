@@ -1,7 +1,7 @@
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/core/Button";
-import { Heading } from "@/components/core/CoreHeading";
 import { FormInput } from "@/components/core/FormInput";
+import { Heading } from "@/components/core/Heading";
 
 type Props = {};
 
