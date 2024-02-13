@@ -45,7 +45,34 @@ bun dev
 ```
 
 ## Example Code
+```tsx
+app.post("/login", async (c) => {
+  const body = await validateForm(
+    c,
+    z.object({
+      email: z.string(),
+      password: z.string(),
+    })
+  );
 
+  if (!body.success) {
+    return c.redirect("/login");
+  }
+
+  try {
+    await handleAuth(c, body.data.email, body.data.password);
+  } catch (e) {
+    await createAlert(c, {
+      type: "error",
+      message: "Invalid email or password",
+    });
+
+    return c.redirect("/login");
+  }
+
+  return c.redirect("/");
+});
+```
 
 ### Cavets
 
