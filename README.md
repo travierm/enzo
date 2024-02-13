@@ -1,5 +1,18 @@
 # Enzo
-Server side app framework running on bun with HTMX
+Enzo is a cutting-edge web application framework designed to blend the best of both worlds: server-side rendering and the developer-friendly JSX templating. By shifting the majority of your application logic to the server-side, Enzo simplifies development workflows, reducing the complexity often introduced by client-side libraries such as React. Our goal is to retain the simplicity and component-based architecture of JSX, enhancing server-side development without sacrificing the power of modern web applications.
+
+## The Power of HTMX for Interactivity
+One of the hallmarks of modern web applications is their interactive and dynamic user interfaces. While React excels in managing UI updates through state changes, it encapsulates a complexity that can be daunting. Enzo introduces HTMX as the linchpin for interactivity, simplifying the way dynamic content is delivered and updated.
+
+HTMX operates on a straightforward principle: it makes requests to the backend in response to user interactions (like button clicks or input changes) and seamlessly integrates the returned HTML into the current page's DOM. This approach not only simplifies development but also maintains the interactivity and responsiveness users expect, all without the overhead of traditional client-side frameworks.
+
+## Ultra-Fast Performance with Bun
+Speed is of the essence in web application performance. Enzo leverages Bun, a modern JavaScript runtime, to ensure your server-side logic executes swiftly. Bun optimizes request handling and provides an efficient TypeScript compilation process, making your development cycle faster and more productive. With Bun, Enzo offers a robust solution that meets the demands of high-performance web applications.
+
+### Current Features
+- File Router for components in `/src/pages`
+- Form Alert Message system driven by the session
+- Automatic Wrapping/Unwrapping of page components from the index.html
 
 ### Tech Stack
 - [Hono](https://hono.dev) for routing
@@ -34,91 +47,32 @@ bun dev
 ## Example Code
 
 ```ts
-// file: pages/Dashboard.router.tsx
-
-app.post("/dashboard/expense", async (c) => {
-  const result = await validateForm(
+app.post("/login", async (c) => {
+  const body = await validateForm(
     c,
     z.object({
-      name: z.string(),
-      amount: z.string(),
+      email: z.string(),
+      password: z.string(),
     })
   );
 
-  if (result.success) {
-    const { name, amount } = result.data;
-
-    await createRecord({
-      name,
-      amount: Number(amount),
-      type: "expense",
-    });
+  if (!body.success) {
+    return c.redirect("/login");
   }
 
-  return getDashboard(c);
+  try {
+    await handleAuth(c, body.data.email, body.data.password);
+  } catch (e) {
+    await createAlert(c, {
+      type: "error",
+      message: "Invalid email or password",
+    });
+
+    return c.redirect("/login");
+  }
+
+  return c.redirect("/");
 });
-```
-
-
-```tsx
-// file: pages/Dashboard.controller.tsx
-
-export async function getDashboard(c: Context) {
-  const expenses = transformRecords(await getRecordsByType("expense"));
-  const income = transformRecords(await getRecordsByType("income"));
-  const currentBalance = await getCurrentBalance();
-
-  return render(
-    c,
-    <Dashboard
-      currentBalance={currentBalance}
-      income={income}
-      expenses={expenses}
-    />
-  );
-}
-```
-
-
-```tsx
-// file: pages/Dashboard.tsx
-
-type Props = {
-  alertMessage?: AlertMessage;
-  income: TransformedRecord[];
-  expenses: TransformedRecord[];
-  currentBalance: number;
-};
-
-export function Dashboard(props: Props) {
-  return (
-    <Layout id="dashboard-root">
-      <div class="flex items-center">
-        <CoreHeading size="2xl">Dashboard</CoreHeading>
-      </div>
-
-      <div class="grid grid-cols-4 gap-4 mx-4">
-        <div>
-          <ExpensesTable expenses={props.expenses} />
-        </div>
-
-        <div>
-          <IncomeTable income={props.income} />
-        </div>
-
-        <div>
-          <AccountBalance currentBalance={props.currentBalance} />
-          <Stats
-            currentBalance={props.currentBalance}
-            income={props.income}
-            expenses={props.expenses}
-          />
-        </div>
-      </div>
-    </Layout>
-  );
-}
-
 ```
 
 ### Cavets
