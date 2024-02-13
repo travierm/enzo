@@ -1,13 +1,15 @@
 # Enzo
-Enzo is a cutting-edge web application framework designed to blend the best of both worlds: server-side rendering and the developer-friendly JSX templating. By shifting the majority of your application logic to the server-side, Enzo simplifies development workflows, reducing the complexity often introduced by client-side libraries such as React. Our goal is to retain the simplicity and component-based architecture of JSX, enhancing server-side development without sacrificing the power of modern web applications.
+Enzo is a web application framework that mixes server side rendering with JSX templating. 
 
-## The Power of HTMX for Interactivity
-One of the hallmarks of modern web applications is their interactive and dynamic user interfaces. While React excels in managing UI updates through state changes, it encapsulates a complexity that can be daunting. Enzo introduces HTMX as the linchpin for interactivity, simplifying the way dynamic content is delivered and updated.
+Moving most of your logic from the frontend to the backend reduces a lot of complexity introduced by libraries like React. The problem is most server side templates engines can't match the developer friendliness of JSX and its clean way of seperating UI into components.
 
-HTMX operates on a straightforward principle: it makes requests to the server in response to user interactions and swaps out the returned HTML into the current page's DOM. This approach not only simplifies development but also maintains the interactivity and responsiveness users expect, all without the overhead of traditional client-side frameworks.
+So we're taking the best parts of React and using them exclusively on the server. But what about all the great interactivity that React gives us? This is where HTMX comes in.
 
-## Ultra-Fast Performance with Bun
-Speed is of the essence in web application performance. Enzo leverages Bun, a modern JavaScript runtime, to ensure your server-side logic executes swiftly. Bun optimizes request handling and provides an efficient TypeScript compilation process, making your development cycle faster and more productive. With Bun, Enzo offers a robust solution that meets the demands of high-performance web applications.
+React at a high level updates the dom based on state changes. The dom updating can be a bit of a blackbox that works great but isn't easy to understand or optimize for. HTMX works on a much simpler idea. When user interactions happen that require DOM updates, we fetch HTML from the server and replace DOM on the frontend. No diffing, no shadow dom. A predicatable system for creating interactive UI's. 
+
+Using this new paradigm we're reducing complexity while keeping the developer friendliness of JSX and its clean way of seperating UI into components.
+
+The last thing we need is an ultra fast runtime to make all this server side logic run as fast as possible. There is where Bun comes in. Bun will keep request times down and make working with and compiling typescript code a breeze.
 
 ### Current Features
 - File Router for components in `/src/pages`
@@ -46,34 +48,6 @@ bun dev
 
 ## Example Code
 
-```ts
-app.post("/login", async (c) => {
-  const body = await validateForm(
-    c,
-    z.object({
-      email: z.string(),
-      password: z.string(),
-    })
-  );
-
-  if (!body.success) {
-    return c.redirect("/login");
-  }
-
-  try {
-    await handleAuth(c, body.data.email, body.data.password);
-  } catch (e) {
-    await createAlert(c, {
-      type: "error",
-      message: "Invalid email or password",
-    });
-
-    return c.redirect("/login");
-  }
-
-  return c.redirect("/");
-});
-```
 
 ### Cavets
 
