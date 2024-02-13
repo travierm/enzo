@@ -4,7 +4,7 @@ Enzo is a cutting-edge web application framework designed to blend the best of b
 ## The Power of HTMX for Interactivity
 One of the hallmarks of modern web applications is their interactive and dynamic user interfaces. While React excels in managing UI updates through state changes, it encapsulates a complexity that can be daunting. Enzo introduces HTMX as the linchpin for interactivity, simplifying the way dynamic content is delivered and updated.
 
-HTMX operates on a straightforward principle: it makes requests to the backend in response to user interactions (like button clicks or input changes) and seamlessly integrates the returned HTML into the current page's DOM. This approach not only simplifies development but also maintains the interactivity and responsiveness users expect, all without the overhead of traditional client-side frameworks.
+HTMX operates on a straightforward principle: it makes requests to the server in response to user interactions and swaps out the returned HTML into the current page's DOM. This approach not only simplifies development but also maintains the interactivity and responsiveness users expect, all without the overhead of traditional client-side frameworks.
 
 ## Ultra-Fast Performance with Bun
 Speed is of the essence in web application performance. Enzo leverages Bun, a modern JavaScript runtime, to ensure your server-side logic executes swiftly. Bun optimizes request handling and provides an efficient TypeScript compilation process, making your development cycle faster and more productive. With Bun, Enzo offers a robust solution that meets the demands of high-performance web applications.
