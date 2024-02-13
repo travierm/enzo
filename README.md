@@ -5,9 +5,7 @@ Moving most of your logic from the frontend to the backend reduces a lot of comp
 
 So we're taking the best parts of React and using them exclusively on the server. But what about all the great interactivity that React gives us? This is where HTMX comes in.
 
-React at a high level updates the dom based on state changes. The dom updating can be a bit of a blackbox that works great but isn't easy to understand or optimize for. HTMX works on a much simpler idea. When user interactions happen that require DOM updates, we fetch HTML from the server and replace DOM on the frontend. No diffing, no shadow dom. A predicatable system for creating interactive UI's. 
-
-Using this new paradigm we're reducing complexity while keeping the developer friendliness of JSX and its clean way of seperating UI into components.
+React at a high level updates the dom based on state changes. The dom updating can be a bit of a blackbox that works great but isn't easy to understand or optimize for. HTMX works on a much simpler idea. When user interactions happen that require DOM updates, we fetch HTML from the server and replace DOM on the frontend. No diffing, no shadow dom. A predicatable system for creating interactive UI's.
 
 The last thing we need is an ultra fast runtime to make all this server side logic run as fast as possible. There is where Bun comes in. Bun will keep request times down and make working with and compiling typescript code a breeze.
 
