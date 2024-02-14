@@ -15,7 +15,7 @@ export function requestTimingLogger(
     const endTime = process.hrtime(startTime);
     const elapsedTimeInMs = endTime[0] * 1000 + endTime[1] / 1e6;
     options.logFn(
-      `Route ${ctx.req.routePath} execution time: ${elapsedTimeInMs} ms`
+      `Route ${ctx.req.path} execution time: ${elapsedTimeInMs} ms`
     );
   };
 }
