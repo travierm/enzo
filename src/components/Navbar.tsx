@@ -32,8 +32,8 @@ function NavbarAuthLink(props: Props) {
 
 function NavbarPageLinks() {
   const links = [
-    { href: "/users", text: "All Users" },
-    { href: "/user/create-user", text: "Create User" },
+    { href: "/user", text: "All Users" },
+    { href: "/user/create", text: "Create User" },
   ];
 
   return (
