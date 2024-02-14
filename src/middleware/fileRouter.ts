@@ -1,6 +1,7 @@
 import { renderComponent } from "@/core";
 import { RequestVariables } from "@/requestVariables";
 import { MiddlewareHandler } from "hono";
+import { createElement } from "preact";
 
 const router = new Bun.FileSystemRouter({
   style: "nextjs",
@@ -17,23 +18,29 @@ async function fetchPageComponent(filePath: string) {
   }
 
   const page = await import(filePath);
-  for (const exportName in page) {
-    if (page.hasOwnProperty(exportName)) {
-      pageCache[filePath] = page[exportName];
-      return page[exportName];
-    }
-  }
+  return page.default;
 }
 
 export const fileRouter = (): MiddlewareHandler<{
   Variables: RequestVariables;
 }> => {
   return async (c, next) => {
+    if (c.req.method === "POST") {
+      return next();
+    }
+
     const routeMatch = router.match(c.req.path);
+
+    // @ts-ignore
+    c.req.param = function (key: string) {
+      return routeMatch?.params[key];
+    };
 
     if (routeMatch) {
       const pageComponent = await fetchPageComponent(routeMatch.filePath);
-      return renderComponent(c, pageComponent());
+
+      const element = createElement(pageComponent, {});
+      return renderComponent(c, element);
     }
 
     return next();

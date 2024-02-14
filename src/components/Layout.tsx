@@ -14,16 +14,10 @@ export function Layout({ id = "", ...props }: Props) {
   const isAuthed = context?.get("isAuthed");
 
   return (
-    <RequestContext.Consumer>
-      {(context) => {
-        return (
-          <div class="h-full">
-            <Navbar isAuthed={isAuthed} />
+    <div class="h-full">
+      <Navbar isAuthed={isAuthed} />
 
-            {props.children}
-          </div>
-        );
-      }}
-    </RequestContext.Consumer>
+      {props.children}
+    </div>
   );
 }

@@ -5,7 +5,7 @@ import { Heading } from "@/components/core/Heading";
 
 type Props = {};
 
-export function CreateUser(props: Props) {
+export default function CreateUser(props: Props) {
   return (
     <Layout>
       <div class="flex items-center justify-center">
