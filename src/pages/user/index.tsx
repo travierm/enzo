@@ -1,15 +1,15 @@
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/core/Button";
-import { Heading } from "@/components/core/CoreHeading";
 import { FormInput } from "@/components/core/FormInput";
+import { Heading } from "@/components/core/Heading";
 
 type Props = {};
 
-export function CreateUser(props: Props) {
+export default function CreateUser(props: Props) {
   return (
     <Layout>
       <div class="flex items-center justify-center">
-        <Heading size="2xl">Create User</Heading>
+        <Heading size="2xl">User Index</Heading>
       </div>
 
       <div class="flex flex-col items-center justify-center">

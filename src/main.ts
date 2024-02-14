@@ -8,6 +8,7 @@ import { requestTimingLogger } from "./core/requestTimingLogger";
 import { logger } from "./logger";
 import { anonSessions } from "./middleware/anonSessions";
 import { authGuard } from "./middleware/authGuard";
+import { fileRouter } from "./middleware/fileRouter";
 import { RequestVariables } from "./requestVariables";
 import router from "./routers";
 
@@ -27,12 +28,18 @@ app.use("*", secureHeaders());
 app.use("*", anonSessions());
 app.use("*", authGuard());
 app.use("*", compress());
+
+app.use("/public/*", (c, next) => {
+  c.res.headers.set("Cache-Control", "public, max-age=31536000");
+  return next();
+});
 app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
 app.use("/public/app.js", serveStatic({ path: "./public/app.js" }));
 app.use("/public/favicon.ico", serveStatic({ path: "./public/favicon.ico" }));
 
 // register routers/index
 app.route("/", router);
+app.use("*", fileRouter());
 
 app.onError((err, c) => {
   if (process.env.NODE_ENV === "development") {

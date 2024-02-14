@@ -1,13 +1,4 @@
 Current Tasks:
-    ✔ On Every request check if a session_id is set in a cookie @done(24-02-10 22:35)
-        ✔ add anon sesssion id if not @done(24-02-10 22:35)
-    ✔ Alert Messages @done(24-02-10 22:36)
-        ✔ Users will need a sessionId even when not authed @done(24-02-10 22:36)
-        ✔ store flash messages in redis @done(24-02-10 22:36)
-    ☐ Fix Test suite
-    ☐ Add tests
-        ☐ anon sessions
-        ☐ alert messages
     ☐ Admin Pages
         ☐ Create User
         ☐ List Users
@@ -22,6 +13,15 @@ Todo:
     ☐ Live Input Validation    
 
 Archive:
+  ✔ On Every request check if a session_id is set in a cookie @done(24-02-10 22:35) @project(Current Tasks)
+  ✔ add anon sesssion id if not @done(24-02-10 22:35) @project(Current Tasks)
+  ✔ Alert Messages @done(24-02-10 22:36) @project(Current Tasks)
+  ✔ Users will need a sessionId even when not authed @done(24-02-10 22:36) @project(Current Tasks)
+  ✔ store flash messages in redis @done(24-02-10 22:36) @project(Current Tasks)
+  ✔ Fix Test suite @done(24-02-12 22:36) @project(Current Tasks)
+  ✔ Add tests @done(24-02-12 22:36) @project(Current Tasks)
+  ✔ anon sessions @done(24-02-12 22:36) @project(Current Tasks)
+  ✔ alert messages @done(24-02-12 22:36) @project(Current Tasks)
   ✔ When hx-request: true in header then only return component in render() @done(23-12-24 21:01)
   ✔ File Router @done(24-02-09 17:16)
   ✔ Catch errors when building and display on website @done(24-02-09 17:16)

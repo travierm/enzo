@@ -4,7 +4,7 @@ import { Heading } from "../components/core/Heading";
 import { Layout } from "../components/Layout";
 import { AlertHandler } from "@/components/core/AlertHandler";
 
-export function Login() {
+export default function Login() {
   return (
     <Layout>
       <div class="flex items-center justify-center">

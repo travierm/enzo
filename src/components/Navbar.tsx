@@ -1,3 +1,5 @@
+import { LinkDropdown } from "./core/LinkDropdown";
+
 type Props = {
   isAuthed: boolean;
 };
@@ -29,12 +31,20 @@ function NavbarAuthLink(props: Props) {
 }
 
 function NavbarPageLinks() {
+  const links = [
+    { href: "/user", text: "All Users" },
+    { href: "/user/create", text: "Create User" },
+  ];
+
   return (
     <>
       <a href="/" class="mr-4">
         Home
       </a>
-      <a href="/blog">Blog</a>
+      <a href="/blog" class="mr-4">
+        Blog
+      </a>
+      <LinkDropdown text="Users" links={links} />
     </>
   );
 }

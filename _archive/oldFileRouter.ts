@@ -1,7 +1,7 @@
-import path from "path";
-import { readdir } from "node:fs/promises";
-import { Hono } from "hono";
 import { renderComponent } from "@/core";
+import { Hono } from "hono";
+import { readdir } from "node:fs/promises";
+import path from "path";
 
 type FileRouterConfig = {
   routesPath: string;

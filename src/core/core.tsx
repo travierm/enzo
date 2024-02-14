@@ -75,7 +75,6 @@ export async function renderComponent(
 
   // apply reqest context to component
   let componentWithContext = applyContext(c, component);
-
   const alertMessages = await getAlertMessages(c.get("sessionId") ?? "");
   componentWithContext = applyAlertMessages(
     alertMessages,
