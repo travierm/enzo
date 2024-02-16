@@ -14,8 +14,9 @@
     "noEmit": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "composite": true,
+    "composite": false,
     "moduleDetection": "force",
+    "incremental": false,
     //"jsxImportSource": "hono/jsx",
     //"jsx": "react-jsx", // support JSX
     "allowJs": true, // allow importing `.js` from `.ts`
@@ -27,7 +28,6 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
-    "declaration": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
