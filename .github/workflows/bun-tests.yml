@@ -45,3 +45,4 @@ jobs:
       - run: bun install
       - run: bun run migrate:latest
       - run: bun test --coverage
+      - run: bun typecheck

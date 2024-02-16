@@ -3,9 +3,7 @@ import { Button } from "@/components/core/Button";
 import { FormInput } from "@/components/core/FormInput";
 import { Heading } from "@/components/core/Heading";
 
-type Props = {};
-
-export default function CreateUser(props: Props) {
+export default function CreateUser() {
   return (
     <Layout>
       <div class="flex items-center justify-center">

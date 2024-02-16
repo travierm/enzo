@@ -1,5 +1,5 @@
 import prettier from "prettier";
-import type { Context, MiddlewareHandler } from "hono";
+import type { Context } from "hono";
 import { ZodSchema, z } from "zod";
 import { VNode, createContext } from "preact";
 import renderToString from "preact-render-to-string";
@@ -97,16 +97,6 @@ export async function renderComponent(
 
   return c.html(stringComponent);
 }
-
-export const renderComponentMiddleware: MiddlewareHandler<{
-  Variables: {
-    renderComponent: (component: VNode) => Response | Promise<Response>;
-  };
-}> = async (c, next) => {
-  c.set("renderComponent", (component) => renderComponent(c, component));
-
-  return next();
-};
 
 export async function validateForm<T extends ZodSchema>(
   c: Context,

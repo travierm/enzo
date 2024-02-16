@@ -24,10 +24,10 @@ app.use(
   })
 );
 
-app.use("*", secureHeaders());
-app.use("*", anonSessions());
-app.use("*", authGuard());
-app.use("*", compress());
+app.use(secureHeaders());
+app.use(anonSessions());
+app.use(authGuard());
+app.use(compress());
 
 app.use("/public/*", (c, next) => {
   c.res.headers.set("Cache-Control", "public, max-age=31536000");

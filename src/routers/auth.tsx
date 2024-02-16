@@ -1,10 +1,8 @@
-import { renderComponent, validateForm } from "@/core";
-import { Login } from "@/pages/Login";
+import { validateForm } from "@/core";
 import { RequestVariables } from "@/requestVariables";
 import { createAlert } from "@/services/alertMessages.service";
 import { handleAuth, handleLogout } from "@/services/auth.service";
 import { Hono } from "hono";
-import { render } from "preact";
 import { z } from "zod";
 
 const app = new Hono<{ Variables: RequestVariables }>();
