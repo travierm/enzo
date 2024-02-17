@@ -9,21 +9,19 @@ function isClientSide(): boolean {
 }
 
 export function hydrateComponent<T>(component: FunctionalComponent<T>) {
-  const formatName = component.name.replace(/([a-z])([A-Z])/g, "$1-$2");
-  const root = document?.querySelectorAll(formatName);
+  const roots = document?.querySelectorAll(`[data-props]`);
 
-  root.forEach((el) => {
+  roots.forEach((el) => {
+    // Assume the component's root has the required data-props attribute
+    const propsJson = el.getAttribute("data-props");
     let propData = {};
-    const jsonScriptElement = el.querySelector(
-      'script[type="application/json"]'
-    );
 
-    if (jsonScriptElement) {
-      propData = JSON.parse(jsonScriptElement.innerHTML);
-      jsonScriptElement.remove();
+    if (propsJson) {
+      propData = JSON.parse(propsJson);
+
+      //el.removeAttribute("data-props");
     }
 
-    el.innerHTML = "";
     render(h(component, propData as Attributes & T), el);
   });
 }
@@ -35,14 +33,17 @@ export function applyHydration<T>(component: (props: T) => VNode) {
     return component;
   }
 
-  // A wrapper component that handles both server-side and client-side logic
+  // A wrapper component for server-side logic
   return (props: T) => {
-    return h(formatName, {}, [
-      h("script", {
-        type: "application/json",
-        dangerouslySetInnerHTML: { __html: JSON.stringify(props) },
-      }),
-      h(component, props as Attributes & T),
-    ]);
+    const propsJson = JSON.stringify(props);
+    const escapedPropsJson = propsJson.replace(/</g, "\\u003c");
+
+    return h(
+      formatName as any,
+      {
+        "data-props": escapedPropsJson,
+      },
+      [h(component, props as Attributes & T)]
+    );
   };
 }
