@@ -8,8 +8,6 @@ export function hydrateComponent<T>(component: FunctionalComponent<T>) {
   const formatName = component.name.replace(/([a-z])([A-Z])/g, "$1-$2");
   const root = document?.querySelectorAll(formatName);
 
-  console.log(formatName);
-
   root.forEach((el) => {
     let propData = {};
     const jsonScriptElement = el.querySelector(
