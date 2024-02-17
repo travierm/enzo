@@ -1,17 +1,14 @@
-import { h, ComponentFactory, render } from "preact";
+import { Attributes, FunctionalComponent, h, render, VNode } from "preact";
 
 function isClientSide(): boolean {
   return typeof window !== "undefined";
 }
 
-export function hydrateComponent(
-  uniqueName: string,
-  component: ComponentFactory
-) {
-  const formatName = uniqueName.replace(/([a-z])([A-Z])/g, "$1-$2");
-  const elementName = `component-${formatName.toLowerCase()}`;
+export function hydrateComponent<T>(component: FunctionalComponent<T>) {
+  const formatName = component.name.replace(/([a-z])([A-Z])/g, "$1-$2");
+  const root = document?.querySelectorAll(formatName);
 
-  const root = document?.querySelectorAll(elementName);
+  console.log(formatName);
 
   root.forEach((el) => {
     let propData = {};
@@ -25,31 +22,25 @@ export function hydrateComponent(
     }
 
     el.innerHTML = "";
-
-    const newElement = h(component, propData);
-    render(newElement, el);
+    render(h(component, propData as Attributes & T), el);
   });
-
-  //return hydrate(h(component, JSON.parse(data?.innerHTML ?? "")), root);
 }
 
-export function applyHydration(
-  uniqueName: string,
-  component: ComponentFactory
-) {
-  const formatName = uniqueName.replace(/([a-z])([A-Z])/g, "$1-$2");
-  const elementName = `component-${formatName.toLowerCase()}`;
+export function applyHydration<T>(component: (props: T) => VNode) {
+  const formatName = component.name.replace(/([a-z])([A-Z])/g, "$1-$2");
 
   if (isClientSide()) {
     return component;
   }
 
-  return (props: any) =>
-    h(elementName, {}, [
+  // A wrapper component that handles both server-side and client-side logic
+  return (props: T) => {
+    return h(formatName, {}, [
       h("script", {
         type: "application/json",
         dangerouslySetInnerHTML: { __html: JSON.stringify(props) },
       }),
-      h(component, {}),
+      h(component, props as Attributes & T),
     ]);
+  };
 }

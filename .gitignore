@@ -4,6 +4,7 @@
 # Logs
 
 public/*.css
+public/*.js
 
 logs
 _.log

@@ -7,8 +7,6 @@ type Props = {
 
 const CounterComponent = (props: Props) => {
   const [count, setCount] = useState(0);
-
-  console.log("my props", props);
   return (
     <div>
       <h1>{props.name}</h1>
@@ -18,4 +16,4 @@ const CounterComponent = (props: Props) => {
   );
 };
 
-export const Counter = applyHydration("Counter", CounterComponent);
+export const Counter = applyHydration(CounterComponent);
