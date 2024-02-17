@@ -1,7 +1,7 @@
 # Enzo
-Enzo is a web application framework that focuses heavily on server side rendering through JSX templating. We use Preact as a server side JSX render engine and also give you the ability to write Preact components on the frontend through Hydration.
+Enzo is a web application framework that focuses heavily on server side rendering through JSX templating. We use Preact as a server side JSX engine and also give you the ability to use Preact components on the frontend through Hydration.
 
-To avoid page refreshes and add interactivty we lean on HTMX to handle updating the DOM as users interact with your application.
+To avoid page refreshes and add interactivity we lean on HTMX to handle updating the DOM as users interact with your application.
 
 ## Philosophy
 
