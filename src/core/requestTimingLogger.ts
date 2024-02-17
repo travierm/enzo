@@ -9,13 +9,11 @@ export function requestTimingLogger(
     logFn: console.log,
   }
 ): MiddlewareHandler {
-  return async (ctx, next) => {
+  return async (c, next) => {
     const startTime = process.hrtime();
     await next();
     const endTime = process.hrtime(startTime);
     const elapsedTimeInMs = endTime[0] * 1000 + endTime[1] / 1e6;
-    options.logFn(
-      `Route ${ctx.req.path} execution time: ${elapsedTimeInMs} ms`
-    );
+    options.logFn(`Route ${c.req.path} execution time: ${elapsedTimeInMs} ms`);
   };
 }

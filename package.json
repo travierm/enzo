@@ -8,7 +8,7 @@
     "dev-inspect": "concurrently \"bun run --inspect --watch src/main.ts\" \"bun run tailwind:dev\"",
     "tailwind": "bunx tailwindcss -i ./assets/css/app.css -o ./public/app.css",
     "tailwind:dev": "bunx tailwindcss -i ./assets/css/app.css -o ./public/app.css --watch",
-    "client:build": "bun build ./src/client/index.tsx --outdir ./public --watch",
+    "client:build": "bun build ./src/client/app.tsx --outdir ./public --watch",
     "migrate:create": "npx drizzle-kit generate:pg --config=src/database/drizzle.config.ts",
     "migrate:latest": "npx drizzle-kit push:pg --config=src/database/drizzle.config.ts",
     "migrate:down": "npx drizzle-kit drop --config=src/database/drizzle.config.ts",
