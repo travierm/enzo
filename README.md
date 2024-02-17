@@ -1,5 +1,9 @@
 # Enzo
-Enzo is a web application framework that mixes server side rendering with JSX templating. 
+Enzo is a web application framework that focuses heavily on server side rendering through JSX templating. We use Preact as a server side JSX render engine and also give you the ability to write Preact components on the frontend through Hydration.
+
+To avoid page refreshes and add interactivty we lean on HTMX to handle updating the DOM as users interact with your application.
+
+## Philosophy
 
 Moving most of your logic from the frontend to the backend reduces a lot of complexity introduced by libraries like React. The problem is most server side templates engines can't match the developer friendliness of JSX and its clean way of seperating UI into components.
 
@@ -71,6 +75,63 @@ app.post("/login", async (c) => {
   }
 
   return c.redirect("/");
+});
+```
+
+## Client Side Hydration
+
+Create a component and let Enzo know you will need it hydrated
+```tsx
+import { applyHydration } from "@/core/applyHydration";
+import { useState } from "preact/hooks";
+
+type Props = {
+  name: string;
+};
+
+const CounterComponent = (props: Props) => {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <h1>{props.name}</h1>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+};
+
+export const Counter = applyHydration(CounterComponent);
+```
+
+Add you client side component to your server side page
+
+Note: You will be limited to passing props that can be parsed via JSON.parse on the client side.
+Functions for instance can not be passed in as a prop.
+```tsx
+export default function Blog() {
+  return (
+    <Layout>
+      <div class="flex items-center justify-center">
+        <h1 class="text-2xl mt-4">Blog Page</h1>
+
+        <Counter name="My Counter" />
+        <Counter name="My Counter2" />
+      </div>
+    </Layout>
+  );
+}
+```
+
+Tell your client to hydrate the component
+```ts
+import { Counter } from "./Counter";
+import { hydrateComponent } from "@/core/applyHydration";
+
+hydrateComponent(Counter);
+
+document.addEventListener("htmx:afterSwap", () => {
+  // hydrate components after htmx swaps
+  hydrateComponent(Counter);
 });
 ```
 
