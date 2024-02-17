@@ -1,7 +1,11 @@
 import { Attributes, FunctionalComponent, h, render, VNode } from "preact";
 
 function isClientSide(): boolean {
-  return typeof window !== "undefined";
+  return (
+    typeof window !== "undefined" &&
+    typeof document !== "undefined" &&
+    typeof globalThis.window !== "undefined"
+  );
 }
 
 export function hydrateComponent<T>(component: FunctionalComponent<T>) {
