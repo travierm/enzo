@@ -1,13 +1,13 @@
 import prettier from "prettier";
 import type { Context } from "hono";
 import { ZodSchema, z } from "zod";
-import { VNode, createContext } from "preact";
-import renderToString from "preact-render-to-string";
 import { BodyData } from "hono/utils/body";
 import { htmlParser } from "./htmlParser";
 import { AlertMessage } from "./alertMessage";
 import { RequestVariables } from "@/requestVariables";
 import { getAlertMessages } from "@/services/alertMessages.service";
+import { Child, FC, createContext } from "hono/jsx";
+import { raw } from "hono/html";
 
 // let indexFunction: (children: VNode) => VNode = (children) => {
 //   return <div>{children}</div>;
@@ -31,7 +31,7 @@ function AlertMessagesProvider({
   children,
 }: {
   data: AlertMessage[];
-  children: VNode;
+  children: Child;
 }) {
   return (
     <AlertMessagesContext.Provider value={data}>
@@ -45,20 +45,20 @@ function RequestProvider({
   children,
 }: {
   data: Context;
-  children: VNode;
+  children: Child;
 }) {
   return (
     <RequestContext.Provider value={data}>{children}</RequestContext.Provider>
   );
 }
 
-export function applyContext(c: Context, component: VNode) {
+export function applyContext(c: Context, component: Child) {
   return <RequestProvider data={c}>{component}</RequestProvider>;
 }
 
 export function applyAlertMessages(
   alertMessages: AlertMessage[],
-  component: VNode
+  component: FC
 ) {
   return (
     <AlertMessagesProvider data={alertMessages}>
@@ -69,7 +69,7 @@ export function applyAlertMessages(
 
 export async function renderComponent(
   c: Context<{ Variables: RequestVariables }>,
-  component: VNode
+  component: FC | Child
 ) {
   const isHxRequest = c.req.header("Hx-Request");
 
@@ -83,8 +83,8 @@ export async function renderComponent(
 
   // append component to index.html unless hx request header is present
   const stringComponent = isHxRequest
-    ? renderToString(componentWithContext)
-    : htmlParser.injectContent(renderToString(componentWithContext));
+    ? raw(componentWithContext)
+    : htmlParser.injectContent(raw(componentWithContext));
 
   // pretty print html in development
   if (process.env.PRETTIER_HTML === "true") {

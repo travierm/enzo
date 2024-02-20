@@ -1,8 +1,8 @@
-import { VNode } from "preact";
+import { FC } from "hono/jsx";
 
 type Props = {
   className?: string;
-  children: VNode | string;
+  children: FC | string;
   size?: "2xl" | "xl" | "lg" | "md" | "sm" | "xs";
   onClick?: (event: MouseEvent) => void;
 };

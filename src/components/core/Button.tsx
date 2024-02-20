@@ -1,7 +1,7 @@
-import { VNode } from "preact";
+import { FC } from "hono/jsx";
 
 type Props = {
-  children: VNode | string;
+  children: FC | string;
   color?: "blue" | "red" | "green" | "yellow" | "gray";
   className?: string;
   onClick?: (event: MouseEvent) => void;

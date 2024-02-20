@@ -1,14 +1,12 @@
 import { Navbar } from "./Navbar";
-import { VNode } from "preact";
 import { RequestContext } from "@/core";
-import { useContext } from "preact/hooks";
+import { PropsWithChildren, useContext } from "hono/jsx";
 
 type Props = {
   id?: string;
-  children: VNode | VNode[];
 };
 
-export function Layout({ id = "", ...props }: Props) {
+export function Layout({ children }: PropsWithChildren<Props>) {
   const context = useContext(RequestContext);
 
   const isAuthed = context?.get("isAuthed");
@@ -17,7 +15,7 @@ export function Layout({ id = "", ...props }: Props) {
     <div class="h-full">
       <Navbar isAuthed={isAuthed} />
 
-      {props.children}
+      {children}
     </div>
   );
 }

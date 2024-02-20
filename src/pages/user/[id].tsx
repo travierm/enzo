@@ -1,8 +1,8 @@
 import { Layout } from "@/components/Layout";
 import { RequestContext } from "@/core";
-import { useContext } from "preact/hooks";
+import { FC, useContext } from "hono/jsx";
 
-export default function UserById() {
+export const UserById: FC = () => {
   const context = useContext(RequestContext);
   const id = context?.req.param("id") ?? "";
 
@@ -13,4 +13,4 @@ export default function UserById() {
       </div>
     </Layout>
   );
-}
+};

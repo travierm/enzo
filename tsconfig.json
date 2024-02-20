@@ -27,7 +27,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
+    "jsxImportSource": "hono/jsx",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {

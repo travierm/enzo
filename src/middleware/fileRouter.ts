@@ -1,7 +1,6 @@
 import { renderComponent } from "@/core";
 import { RequestVariables } from "@/requestVariables";
 import { MiddlewareHandler } from "hono";
-import { createElement } from "preact";
 
 const router = new Bun.FileSystemRouter({
   style: "nextjs",
@@ -39,8 +38,7 @@ export const fileRouter = (): MiddlewareHandler<{
     if (routeMatch) {
       const pageComponent = await fetchPageComponent(routeMatch.filePath);
 
-      const element = createElement(pageComponent, {});
-      return renderComponent(c, element);
+      return renderComponent(c, pageComponent());
     }
 
     return next();
