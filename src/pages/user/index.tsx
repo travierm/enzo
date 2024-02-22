@@ -1,6 +1,6 @@
 import { Layout } from "@/components/Layout";
 import { Heading } from "@/components/core/Heading";
-import { useLoader } from "@/core";
+import { useLoaderData } from "@/core";
 import { userRepo } from "@/database/models/user/user.repo.drizzle";
 
 export async function loader() {
@@ -12,7 +12,7 @@ export async function loader() {
 }
 
 export function Index() {
-  let data = useLoader<typeof loader>();
+  let data = useLoaderData<typeof loader>();
 
   return (
     <Layout>

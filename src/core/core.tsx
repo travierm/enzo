@@ -10,16 +10,6 @@ import { RequestVariables } from "@/requestVariables";
 import { getAlertMessages } from "@/services/alertMessages.service";
 import { useContext } from "preact/hooks";
 
-// let indexFunction: (children: VNode) => VNode = (children) => {
-//   return <div>{children}</div>;
-// };
-
-// let indexFunction: (children: VNode) => VNode | null = null;
-
-// export function setIndexComponent(func: (children: VNode) => VNode) {
-//   indexFunction = func;
-// }
-
 export async function setIndexHTML(filePath: string) {
   htmlParser.parse(filePath);
 }
@@ -27,46 +17,10 @@ export async function setIndexHTML(filePath: string) {
 export const AlertMessagesContext = createContext<AlertMessage[]>([]);
 export const RequestContext = createContext<Context | null>(null);
 
-function LoaderContextProvider({
-  data,
-  children,
-}: {
-  data: any;
-  children: VNode;
-}) {
-  return (
-    <LoaderContext.Provider value={data}>{children}</LoaderContext.Provider>
-  );
-}
-
-function AlertMessagesProvider({
-  data,
-  children,
-}: {
-  data: AlertMessage[];
-  children: VNode;
-}) {
-  return (
-    <AlertMessagesContext.Provider value={data}>
-      {children}
-    </AlertMessagesContext.Provider>
-  );
-}
-
-function RequestProvider({
-  data,
-  children,
-}: {
-  data: Context;
-  children: VNode;
-}) {
-  return (
-    <RequestContext.Provider value={data}>{children}</RequestContext.Provider>
-  );
-}
-
 export function applyContext(c: Context, component: VNode) {
-  return <RequestProvider data={c}>{component}</RequestProvider>;
+  return (
+    <RequestContext.Provider value={c}>{component}</RequestContext.Provider>
+  );
 }
 
 export function applyAlertMessages(
@@ -74,9 +28,9 @@ export function applyAlertMessages(
   component: VNode
 ) {
   return (
-    <AlertMessagesProvider data={alertMessages}>
+    <AlertMessagesContext.Provider value={alertMessages}>
       {component}
-    </AlertMessagesProvider>
+    </AlertMessagesContext.Provider>
   );
 }
 
@@ -130,11 +84,13 @@ export const LoaderContext = createContext<any | null>(null);
 
 export function applyLoaderContext<T>(loaderData: T, component: VNode) {
   return (
-    <LoaderContextProvider data={loaderData}>{component}</LoaderContextProvider>
+    <LoaderContext.Provider value={loaderData}>
+      {component}
+    </LoaderContext.Provider>
   );
 }
 
-export function useLoader<T extends () => Promise<any>>() {
+export function useLoaderData<T extends () => Promise<any>>() {
   const data = useContext(LoaderContext);
   if (data === null) {
     //throw new Error("useLoader must be used within a LoaderContext.Provider");
