@@ -31,7 +31,13 @@ async function importPageComponent(filePath: string): Promise<PageComponent> {
 
   let template = null;
   let loaderFunc = null;
+  let hasDefaultExport = false;
+
   for (const exportName in page) {
+    if (exportName == "default") {
+      hasDefaultExport = true;
+    }
+
     if (page.hasOwnProperty(exportName) && exportName == "loader") {
       loaderFunc = page[exportName];
       continue;
@@ -46,8 +52,14 @@ async function importPageComponent(filePath: string): Promise<PageComponent> {
     }
   }
 
+  if (!template && !hasDefaultExport) {
+    throw new Error(
+      `export named ${componentName} not found in ${filePath}. No default export found either`
+    );
+  }
+
   if (!template) {
-    throw new Error("No component found in file");
+    template = page.default;
   }
 
   return {

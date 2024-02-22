@@ -96,7 +96,6 @@ export async function renderComponent(
   );
 
   if (loader) {
-    console.log("applied loader");
     const loaderData = await loader();
     componentWithContext = applyLoaderContext(loaderData, componentWithContext);
   }
@@ -137,8 +136,6 @@ export function applyLoaderContext<T>(loaderData: T, component: VNode) {
 
 export function useLoader<T extends () => Promise<any>>() {
   const data = useContext(LoaderContext);
-  console.log(data);
-
   if (data === null) {
     //throw new Error("useLoader must be used within a LoaderContext.Provider");
   }
