@@ -8,6 +8,7 @@ import { htmlParser } from "./htmlParser";
 import { AlertMessage } from "./alertMessage";
 import { RequestVariables } from "@/requestVariables";
 import { getAlertMessages } from "@/services/alertMessages.service";
+import { useContext } from "preact/hooks";
 
 // let indexFunction: (children: VNode) => VNode = (children) => {
 //   return <div>{children}</div>;
@@ -25,6 +26,18 @@ export async function setIndexHTML(filePath: string) {
 
 export const AlertMessagesContext = createContext<AlertMessage[]>([]);
 export const RequestContext = createContext<Context | null>(null);
+
+function LoaderContextProvider({
+  data,
+  children,
+}: {
+  data: any;
+  children: VNode;
+}) {
+  return (
+    <LoaderContext.Provider value={data}>{children}</LoaderContext.Provider>
+  );
+}
 
 function AlertMessagesProvider({
   data,
@@ -69,7 +82,8 @@ export function applyAlertMessages(
 
 export async function renderComponent(
   c: Context<{ Variables: RequestVariables }>,
-  component: VNode
+  component: VNode,
+  loader?: <T>() => Promise<T>
 ) {
   const isHxRequest = c.req.header("Hx-Request");
 
@@ -80,6 +94,12 @@ export async function renderComponent(
     alertMessages,
     componentWithContext
   );
+
+  if (loader) {
+    console.log("applied loader");
+    const loaderData = await loader();
+    componentWithContext = applyLoaderContext(loaderData, componentWithContext);
+  }
 
   // append component to index.html unless hx request header is present
   const stringComponent = isHxRequest
@@ -105,4 +125,22 @@ export async function validateForm<T extends ZodSchema>(
   const body = await c.req.parseBody();
 
   return schema.safeParseAsync(body);
+}
+
+export const LoaderContext = createContext<any | null>(null);
+
+export function applyLoaderContext<T>(loaderData: T, component: VNode) {
+  return (
+    <LoaderContextProvider data={loaderData}>{component}</LoaderContextProvider>
+  );
+}
+
+export function useLoader<T extends () => Promise<any>>() {
+  const data = useContext(LoaderContext);
+  console.log(data);
+
+  if (data === null) {
+    //throw new Error("useLoader must be used within a LoaderContext.Provider");
+  }
+  return data as Awaited<ReturnType<T>>;
 }
