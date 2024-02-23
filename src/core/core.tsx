@@ -93,7 +93,7 @@ export function applyLoaderContext<T>(loaderData: T, component: VNode) {
 export function useLoaderData<T extends () => Promise<any>>() {
   const data = useContext(LoaderContext);
   if (data === null) {
-    //throw new Error("useLoader must be used within a LoaderContext.Provider");
+    throw new Error("useLoader must be used within a LoaderContext.Provider");
   }
   return data as Awaited<ReturnType<T>>;
 }

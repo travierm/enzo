@@ -1,5 +1,4 @@
 import { Layout } from "@/components/Layout";
-import { Heading } from "@/components/core/Heading";
 import { useLoaderData } from "@/core";
 import { userRepo } from "@/database/models/user/user.repo.drizzle";
 
