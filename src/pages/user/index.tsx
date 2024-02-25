@@ -1,23 +1,41 @@
 import { Layout } from "@/components/Layout";
-import { Button } from "@/components/core/Button";
-import { FormInput } from "@/components/core/FormInput";
-import { Heading } from "@/components/core/Heading";
+import { useLoaderData } from "@/core";
+import { userRepo } from "@/database/models/user/user.repo.drizzle";
 
-export default function CreateUser() {
+export async function loader() {
+  const users = await userRepo.listUsers();
+
+  return {
+    users,
+  };
+}
+
+export function Index() {
+  let data = useLoaderData<typeof loader>();
+
   return (
     <Layout>
-      <div class="flex items-center justify-center">
-        <Heading size="2xl">User Index</Heading>
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Email</th>
+          </tr>
+        </thead>
 
-      <div class="flex flex-col items-center justify-center">
-        <form action="/user/create" method="POST">
-          <FormInput label="Email" name="email" />
-          <FormInput label="Password" name="password" type="password" />
-
-          <Button className="mt-2">Create User</Button>
-        </form>
-      </div>
+        <tbody>
+          {data.users.map((user) => {
+            return (
+              <tr>
+                <td>{user.id}</td>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </Layout>
   );
 }

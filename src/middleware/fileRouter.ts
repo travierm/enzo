@@ -1,7 +1,7 @@
 import { renderComponent } from "@/core";
 import { RequestVariables } from "@/requestVariables";
 import { MiddlewareHandler } from "hono";
-import { createElement } from "preact";
+import { FunctionComponent, createElement } from "preact";
 
 const router = new Bun.FileSystemRouter({
   style: "nextjs",
@@ -12,13 +12,60 @@ const router = new Bun.FileSystemRouter({
 
 let pageCache: Record<string, any> = {};
 
-async function fetchPageComponent(filePath: string) {
+type PageComponent = {
+  loader: <T>() => Promise<T>;
+  template: FunctionComponent;
+};
+
+async function importPageComponent(filePath: string): Promise<PageComponent> {
   if (pageCache[filePath]) {
     return pageCache[filePath];
   }
 
+  const componentName = filePath.split("/").pop()?.split(".")[0];
+  if (!componentName) {
+    throw new Error("No component name found in file path");
+  }
+
   const page = await import(filePath);
-  return page.default;
+
+  let template = null;
+  let loaderFunc = null;
+  let hasDefaultExport = false;
+
+  for (const exportName in page) {
+    if (exportName == "default") {
+      hasDefaultExport = true;
+    }
+
+    if (page.hasOwnProperty(exportName) && exportName == "loader") {
+      loaderFunc = page[exportName];
+      continue;
+    }
+
+    if (
+      page.hasOwnProperty(exportName) &&
+      exportName.toLowerCase() == componentName?.toLowerCase()
+    ) {
+      template = page[exportName];
+      continue;
+    }
+  }
+
+  if (!template && !hasDefaultExport) {
+    throw new Error(
+      `export named ${componentName} not found in ${filePath}. No default export found either`
+    );
+  }
+
+  if (!template) {
+    template = page.default;
+  }
+
+  return {
+    loader: loaderFunc,
+    template: template,
+  };
 }
 
 export const fileRouter = (): MiddlewareHandler<{
@@ -37,10 +84,9 @@ export const fileRouter = (): MiddlewareHandler<{
     };
 
     if (routeMatch) {
-      const pageComponent = await fetchPageComponent(routeMatch.filePath);
-
-      const element = createElement(pageComponent, {});
-      return renderComponent(c, element);
+      const pageComponent = await importPageComponent(routeMatch.filePath);
+      const element = createElement(pageComponent.template, {});
+      return renderComponent(c, element, pageComponent.loader);
     }
 
     return next();
