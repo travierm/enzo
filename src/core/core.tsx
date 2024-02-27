@@ -5,9 +5,7 @@ import { VNode, createContext, Context as PreactContext } from "preact";
 import renderToString from "preact-render-to-string";
 import { BodyData } from "hono/utils/body";
 import { htmlParser } from "./htmlParser";
-import { AlertMessage } from "./alertMessage";
 import { RequestVariables } from "@/requestVariables";
-import { getAlertMessages } from "@/services/alertMessages.service";
 import { useContext } from "preact/hooks";
 
 export async function setIndexHTML(filePath: string) {
