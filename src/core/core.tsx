@@ -1,7 +1,7 @@
 import prettier from "prettier";
 import type { Context } from "hono";
 import { ZodSchema, z } from "zod";
-import { VNode, createContext } from "preact";
+import { VNode, createContext, Context as PreactContext } from "preact";
 import renderToString from "preact-render-to-string";
 import { BodyData } from "hono/utils/body";
 import { htmlParser } from "./htmlParser";
@@ -14,24 +14,25 @@ export async function setIndexHTML(filePath: string) {
   htmlParser.parse(filePath);
 }
 
-export const AlertMessagesContext = createContext<AlertMessage[]>([]);
 export const RequestContext = createContext<Context | null>(null);
+export const LoaderContext = createContext<any | null>(null);
 
-export function applyContext(c: Context, component: VNode) {
-  return (
-    <RequestContext.Provider value={c}>{component}</RequestContext.Provider>
-  );
+type ComponentMiddlewareFunc = (
+  arg0: VNode,
+  arg1: Context
+) => VNode | Promise<VNode>;
+
+let componentMiddlware: ComponentMiddlewareFunc[] = [];
+export function renderComponentMiddleware(func: ComponentMiddlewareFunc) {
+  componentMiddlware.push(func);
 }
 
-export function applyAlertMessages(
-  alertMessages: AlertMessage[],
+export function applyContext<T>(
+  context: PreactContext<T>,
+  contextData: T,
   component: VNode
 ) {
-  return (
-    <AlertMessagesContext.Provider value={alertMessages}>
-      {component}
-    </AlertMessagesContext.Provider>
-  );
+  return <context.Provider value={contextData}>{component}</context.Provider>;
 }
 
 export async function renderComponent(
@@ -42,16 +43,20 @@ export async function renderComponent(
   const isHxRequest = c.req.header("Hx-Request");
 
   // apply reqest context to component
-  let componentWithContext = applyContext(c, component);
-  const alertMessages = await getAlertMessages(c.get("sessionId") ?? "");
-  componentWithContext = applyAlertMessages(
-    alertMessages,
-    componentWithContext
-  );
+  let componentWithContext = applyContext(RequestContext, c, component);
+
+  // apply component middleware
+  for (const middleware of componentMiddlware) {
+    componentWithContext = await middleware(componentWithContext, c);
+  }
 
   if (loader) {
     const loaderData = await loader();
-    componentWithContext = applyLoaderContext(loaderData, componentWithContext);
+    componentWithContext = applyContext(
+      LoaderContext,
+      loaderData,
+      componentWithContext
+    );
   }
 
   // append component to index.html unless hx request header is present
@@ -78,16 +83,6 @@ export async function validateForm<T extends ZodSchema>(
   const body = await c.req.parseBody();
 
   return schema.safeParseAsync(body);
-}
-
-export const LoaderContext = createContext<any | null>(null);
-
-export function applyLoaderContext<T>(loaderData: T, component: VNode) {
-  return (
-    <LoaderContext.Provider value={loaderData}>
-      {component}
-    </LoaderContext.Provider>
-  );
 }
 
 export function useLoaderData<T extends () => Promise<any>>() {

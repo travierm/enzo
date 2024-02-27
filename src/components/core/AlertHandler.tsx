@@ -1,4 +1,4 @@
-import { AlertMessagesContext } from "@/core";
+import { AlertMessagesContext } from "@/main";
 import { Alert } from "./Alert";
 import { useContext } from "preact/hooks";
 import { VNode } from "preact";

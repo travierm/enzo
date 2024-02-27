@@ -3,6 +3,10 @@ Current Tasks:
         ☐ Create User
         ☐ List Users
     ✔ Hydration of Preact Components @done(24-02-17 00:45)
+    ☐ createHandler for POST/PATCH type of requests
+        ☐ store handlers when file routes are loaded
+        ☐ This requires rewriting file router to pre-load routes instead of dynamically loading them
+    ☐ Can context creation/data passing be refactored?
     ☐ Next.js allows a default layout to be used. Should we do something similar instead having to wrap every page in a layout component?
 
 Todo:

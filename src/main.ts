@@ -1,8 +1,10 @@
-import { setIndexHTML } from "@/core";
+import { applyContext, renderComponentMiddleware, setIndexHTML } from "@/core";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { compress } from "hono/compress";
 import { secureHeaders } from "hono/secure-headers";
+import { createContext } from "preact";
+import { AlertMessage } from "./core/alertMessage";
 import "./core/compressionStream";
 import { requestTimingLogger } from "./core/requestTimingLogger";
 import { logger } from "./logger";
@@ -11,11 +13,20 @@ import { authGuard } from "./middleware/authGuard";
 import { fileRouter } from "./middleware/fileRouter";
 import { RequestVariables } from "./requestVariables";
 import router from "./routers";
+import { getAlertMessages } from "./services/alertMessages.service";
 
 // Used to wrap around pages
 setIndexHTML("./public/index.html");
 
 const app = new Hono<{ Variables: RequestVariables }>();
+
+export const AlertMessagesContext = createContext<AlertMessage[]>([]);
+
+renderComponentMiddleware(async function (component, c) {
+  const alertMessages = await getAlertMessages(c.get("sessionId") ?? "");
+
+  return applyContext(AlertMessagesContext, alertMessages, component);
+});
 
 app.use(
   "*",
