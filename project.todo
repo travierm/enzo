@@ -6,7 +6,7 @@ Current Tasks:
     ☐ createHandler for POST/PATCH type of requests
         ☐ store handlers when file routes are loaded
         ☐ This requires rewriting file router to pre-load routes instead of dynamically loading them
-    ☐ Can context creation/data passing be refactored?
+    ✔ Can context creation/data passing be refactored? @done(24-02-27 19:13)
     ☐ Next.js allows a default layout to be used. Should we do something similar instead having to wrap every page in a layout component?
 
 Todo:

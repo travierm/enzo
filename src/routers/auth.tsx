@@ -1,4 +1,4 @@
-import { validateForm } from "@/core";
+import { validateForm } from "enzo-core";
 import { RequestVariables } from "@/requestVariables";
 import { createAlert } from "@/services/alertMessages.service";
 import { handleAuth, handleLogout } from "@/services/auth.service";

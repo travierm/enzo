@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import authRoutes from "./auth";
-import { renderComponent } from "@/core";
+import { renderComponent } from "enzo-core";
 import Home from "@/pages/Home";
 import { RequestVariables } from "@/requestVariables";
 

@@ -1,5 +1,5 @@
 import { Layout } from "@/components/Layout";
-import { RequestContext } from "@/core";
+import { RequestContext } from "enzo-core";
 import { useContext } from "preact/hooks";
 
 export default function UserById() {

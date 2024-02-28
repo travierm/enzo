@@ -33,6 +33,7 @@
     "@types/web": "^0.0.99",
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
+    "enzo-core": "latest",
     "flowbite": "^2.2.1",
     "hono": "4.0.3",
     "pg": "^8.11.3",

@@ -1,5 +1,5 @@
 import { Layout } from "@/components/Layout";
-import { useLoaderData } from "@/core";
+import { useLoaderData } from "enzo-core";
 import { userRepo } from "@/database/models/user/user.repo.drizzle";
 
 export async function loader() {
