@@ -10,7 +10,7 @@ import { authGuard } from "./middleware/authGuard";
 import { RequestVariables } from "./requestVariables";
 import router from "./routers";
 
-// Used to wrap around pages
+// Used to wrap around components
 setIndexHTML("./public/index.html");
 
 const app = new Hono<{ Variables: RequestVariables }>();
