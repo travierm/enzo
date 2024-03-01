@@ -1,6 +1,6 @@
 import { Navbar } from "./Navbar";
 import { VNode } from "preact";
-import { RequestContext } from "@/core";
+import { RequestContext } from "enzo-core";
 import { useContext } from "preact/hooks";
 
 type Props = {

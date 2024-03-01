@@ -1,18 +1,16 @@
-import { setIndexHTML } from "@/core";
+import { fileRouter, requestTimingLogger, setIndexHTML } from "enzo-core";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { compress } from "hono/compress";
 import { secureHeaders } from "hono/secure-headers";
 import "./core/compressionStream";
-import { requestTimingLogger } from "./core/requestTimingLogger";
 import { logger } from "./logger";
 import { anonSessions } from "./middleware/anonSessions";
 import { authGuard } from "./middleware/authGuard";
-import { fileRouter } from "./middleware/fileRouter";
 import { RequestVariables } from "./requestVariables";
 import router from "./routers";
 
-// Used to wrap around pages
+// Used to wrap around components
 setIndexHTML("./public/index.html");
 
 const app = new Hono<{ Variables: RequestVariables }>();
@@ -33,6 +31,7 @@ app.use("/public/*", (c, next) => {
   c.res.headers.set("Cache-Control", "public, max-age=31536000");
   return next();
 });
+
 app.use("/public/app.css", serveStatic({ path: "./public/app.css" }));
 app.use("/public/app.js", serveStatic({ path: "./public/app.js" }));
 app.use("/public/favicon.ico", serveStatic({ path: "./public/favicon.ico" }));
