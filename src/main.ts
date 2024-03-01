@@ -1,36 +1,19 @@
-import {
-  AlertMessage,
-  applyContext,
-  fileRouter,
-  renderComponentMiddleware,
-  requestTimingLogger,
-  setIndexHTML,
-} from "enzo-core";
+import { fileRouter, requestTimingLogger, setIndexHTML } from "enzo-core";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { compress } from "hono/compress";
 import { secureHeaders } from "hono/secure-headers";
-import { createContext } from "preact";
 import "./core/compressionStream";
 import { logger } from "./logger";
 import { anonSessions } from "./middleware/anonSessions";
 import { authGuard } from "./middleware/authGuard";
 import { RequestVariables } from "./requestVariables";
 import router from "./routers";
-import { getAlertMessages } from "./services/alertMessages.service";
 
 // Used to wrap around pages
 setIndexHTML("./public/index.html");
 
 const app = new Hono<{ Variables: RequestVariables }>();
-
-export const AlertMessagesContext = createContext<AlertMessage[]>([]);
-
-renderComponentMiddleware(async function (component, c) {
-  const alertMessages = await getAlertMessages(c.get("sessionId") ?? "");
-
-  return applyContext(AlertMessagesContext, alertMessages, component);
-});
 
 app.use(
   "*",

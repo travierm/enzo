@@ -1,10 +1,25 @@
 import { CONFIG } from "@/config";
-import { AlertMessage } from "@/core/alertMessage";
 import { logger } from "@/logger";
 import { RequestVariables } from "@/requestVariables";
+import { applyContext, renderComponentMiddleware } from "enzo-core";
 import { Context } from "hono";
+import { createContext } from "preact";
 import { ICacheService } from "./drivers/driver-interfaces";
 import { RedisCache } from "./drivers/redis-cache.driver";
+
+export const AlertMessagesContext = createContext<AlertMessage[]>([]);
+
+renderComponentMiddleware(async function (component, c) {
+  const alertMessages = await getAlertMessages(c.get("sessionId") ?? "");
+
+  return applyContext(AlertMessagesContext, alertMessages, component);
+});
+
+export type AlertMessage = {
+  type: "error" | "success" | "warning" | "info";
+  message?: string;
+  listItems?: string[];
+};
 
 function cacheKey(sessionId: string) {
   return `alertMessages:${sessionId}`;
